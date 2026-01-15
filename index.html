@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+        <title>ENGLISHJIBI CLASSES | English & Grammar Coaching</title>
+        <link rel="icon" type="image/png" href="/img/icon.png">
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet">
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Lucide Icons - Optimized Loading -->
+        <script src="https://unpkg.com/lucide@latest" defer></script>
+
+        <!-- Tailwind Config -->
+        <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            base: 'var(--bg-base)',       
+                            card: 'var(--bg-card)',       
+                            muted: 'var(--bg-muted)',     
+                            text: 'var(--text-main)',     
+                            'text-muted': 'var(--text-muted)', 
+                            border: 'var(--border-color)', 
+                            emerald: '#10b981',           
+                            indigo: '#4f46e5',
+                            amber: '#f59e0b',             
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+
+        <style>
+        /* PROFESSIONAL UI ANIMATIONS & COLOR REFINEMENT */
+        :root {
+            /* Palette - Light Mode Refined for Contrast */
+            --bg-base: #F8FAFC;         
+            --bg-card: #FFFFFF;         
+            --bg-muted: #F1F5F9;        
+            --text-main: #0F172A; /* Slate 900 for sharp text */      
+            --text-muted: #475569; /* Slate 600 for readable subtext */     
+            --border-color: rgba(15, 23, 42, 0.12); /* Slightly darker border for light mode visibility */
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            
+            /* Animation Variables */
+            --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+            
+            --sat: env(safe-area-inset-top);
+            --sab: env(safe-area-inset-bottom);
+            --sal: env(safe-area-inset-left);
+            --sar: env(safe-area-inset-right);
+        }
+
+        .dark {
+            /* Palette - Dark Mode Preserved */
+            --bg-base: #0b1220;         
+            --bg-card: #111827;         
+            --bg-muted: #0f1623;        
+            --text-main: #F8FAFC;       
+            --text-muted: #94A3B8;      
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(11, 18, 32, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            transition: background-color 0.5s var(--ease-premium), color 0.5s var(--ease-premium);
+            overflow-x: hidden;
+            min-height: 100dvh;
+            padding-left: var(--sal);
+            padding-right: var(--sar);
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* --- ICON FALLBACK SAFETY (Task 3) --- */
+        /* Prevents layout shifts before icons load */
+        i[data-lucide] {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            min-width: 16px;
+            min-height: 16px;
+        }
+        
+        /* --- MOTION UTILITIES --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s var(--ease-premium), transform 0.8s var(--ease-premium);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hover-lift {
+            transition: transform 0.4s var(--ease-premium), box-shadow 0.4s var(--ease-premium), border-color 0.3s ease, background-color 0.3s ease;
+            will-change: transform, box-shadow;
+        }
+        @media (hover: hover) {
+            .hover-lift:hover {
+                transform: translateY(-6px);
+            }
+        }
+
+        .btn-press {
+            transition: transform 0.1s ease-out, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-press:active {
+            transform: scale(0.97);
+        }
+
+        .page-transition { 
+            animation: fadeInPage 0.5s var(--ease-premium) forwards; 
+        }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- COMPONENTS --- */
+        .glass-nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s var(--ease-premium);
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            /* Soft gradient for light mode depth */
+            background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+            border: 1px solid var(--border-color);
+            /* Stronger shadow for light mode visibility */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .glass-card {
+            background: linear-gradient(145deg, rgba(17, 24, 39, 0.8) 0%, rgba(11, 18, 32, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(79, 70, 229, 0.3); /* Stronger Indigo hover in light mode */
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+        }
+        .dark .glass-card:hover {
+            background: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Founder Card Specific - Gold Accent */
+        .founder-card {
+            border-top: 4px solid #f59e0b;
+        }
+        .dark .founder-card {
+            border-top: 4px solid #d97706;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); /* Indigo to Cyan */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 5s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Section Title Gradient Accent for Light Mode */
+        .title-accent-light {
+            background: linear-gradient(135deg, #0F172A 0%, #4338ca 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .title-accent-light {
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            color: #F8FAFC;
+        }
+
+        .section-gradient {
+            background: linear-gradient(to bottom, var(--bg-base), var(--bg-muted));
+        }
+
+        .theme-icon {
+            transition: transform 0.5s var(--ease-premium), opacity 0.3s ease;
+        }
+        .theme-btn:hover .theme-icon {
+            transform: rotate(15deg);
+        }
+
+        #lightbox, #success-modal, #gallery-lightbox {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transform: scaleY(0);
+            opacity: 0;
+            pointer-events: none; 
+        }
+        #mobile-menu.open {
+            transform: scaleY(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.4s var(--ease-premium), opacity 0.4s ease;
+        }
+        .modal-open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Form styling */
+        input, textarea, select {
+            background-color: var(--bg-muted);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+        .dark input, .dark textarea, .dark select {
+            background-color: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); 
+            background-color: var(--bg-card);
+            transform: translateY(-1px);
+        }
+        
+        option { background-color: var(--bg-card); color: var(--text-main); }
+        .safe-pb { padding-bottom: calc(1rem + var(--sab)); }
+        .safe-pt { padding-top: calc(1rem + var(--sat)); }
+        
+        /* Hide scrollbar for category filter */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Gallery specific */
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+    </head>
+    <body class="antialiased">
+
+        <!-- Navigation -->
+        <div
+            class="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 sm:pt-6 pb-2 transition-all pointer-events-none">
+            <nav
+                class="glass-nav w-full max-w-6xl rounded-full px-4 sm:px-6 py-3 flex items-center justify-between pointer-events-auto">
+
+                <!-- Logo -->
+                <a href="#home" onclick="navigateTo('home')"
+                    class="flex items-center gap-2 sm:gap-3 group cursor-pointer shrink-0">
+                    <img src="/icon.png" alt="Englishjibi Logo"
+                        class="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-md">
+                    <div>
+                        <h1
+                            class="text-base sm:text-lg font-bold font-heading text-slate-900 dark:text-brand-text tracking-tight leading-none transition-colors">ENGLISHJIBI</h1>
+                        <p
+                            class="text-[9px] sm:text-[10px] text-indigo-600 font-semibold tracking-widest uppercase leading-none mt-0.5">CLASSES</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-4 lg:gap-8">
+                    <a href="#home" onclick="navigateTo('home')"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">Home</a>
+                    <a href="#about" onclick="navigateTo('about')"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">About</a>
+                    <a href="#gallery" onclick="navigateTo('gallery')"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">Gallery</a>
+                    <a href="#courses" onclick="navigateTo('courses')"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">Courses</a>
+                    <a href="practice.html"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">Practice
+                        Set</a>
+                    <a href="#contact" onclick="navigateTo('contact')"
+                        class="nav-item text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text font-medium tracking-wide text-[14px] lg:text-[15px] transition-colors relative group py-2">Contact</a>
+                </div>
+
+                <!-- CTA & Theme Toggle -->
+                <div class="hidden md:flex items-center gap-3 lg:gap-4">
+                    <button onclick="toggleTheme()"
+                        class="theme-btn p-2 rounded-full text-slate-600 dark:text-brand-text-muted hover:bg-brand-muted transition-colors border border-transparent hover:border-brand-border"
+                        aria-label="Toggle Theme">
+                        <div class="theme-icon">
+                            <i data-lucide="moon"
+                                class="w-5 h-5 hidden dark:block"></i>
+                            <i data-lucide="sun"
+                                class="w-5 h-5 block dark:hidden text-amber-500"></i>
+                        </div>
+                    </button>
+
+                    <a href="tel:+918328922917"
+                        class="group flex items-center gap-2 px-3 lg:px-4 py-2 rounded-full border border-brand-border hover:border-emerald-500/50 bg-brand-muted hover:bg-brand-card transition-all font-medium tracking-wide text-[13px] lg:text-[14px] text-slate-900 dark:text-brand-text btn-press">
+                        <div
+                            class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span
+                            class="group-hover:text-emerald-600 transition-colors whitespace-nowrap">+91
+                            83289 22917</span>
+                    </a>
+
+                    <a href="#admission" onclick="navigateTo('admission')"
+                        class="bg-gradient-to-r from-indigo-600 to-blue-600 hover:to-indigo-500 text-white px-4 lg:px-6 py-2.5 rounded-full font-semibold tracking-wide shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5 cursor-pointer text-[14px] lg:text-[15px] whitespace-nowrap btn-press">
+                        Enroll Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="md:hidden p-2 text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text focus:outline-none transition-transform active:scale-90"
+                    aria-label="Toggle Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="fixed top-20 sm:top-24 left-4 right-4 z-40 glass-nav rounded-3xl shadow-2xl p-2 md:hidden origin-top mt-[env(safe-area-inset-top)] bg-white/95 dark:bg-[#0b1220]/95 transition-all duration-300 ease-out">
+            <div class="flex flex-col space-y-1">
+                <a href="#home" onclick="navigateTo('home')"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">Home</a>
+                <a href="#about" onclick="navigateTo('about')"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">About</a>
+                <a href="#gallery" onclick="navigateTo('gallery')"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">Gallery</a>
+                <a href="#courses" onclick="navigateTo('courses')"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">Courses</a>
+                <a href="practice.html"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">Practice
+                    Set</a>
+                <a href="#contact" onclick="navigateTo('contact')"
+                    class="text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors">Contact</a>
+
+                <div class="h-px bg-brand-border my-2 mx-2"></div>
+
+                <button onclick="toggleTheme()"
+                    class="flex items-center gap-2 text-slate-600 dark:text-brand-text-muted font-medium tracking-wide text-[15px] hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors w-full text-left">
+                    <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="sun"
+                        class="w-4 h-4 block dark:hidden text-amber-500"></i>
+                    <span>Toggle Theme</span>
+                </button>
+
+                <a href="tel:+918328922917"
+                    class="flex items-center justify-center gap-2 text-brand-text font-medium tracking-wide text-[15px] hover:bg-brand-muted px-4 py-3 rounded-xl transition-colors btn-press">
+                    <i data-lucide="phone" class="w-4 h-4 text-emerald-600"></i>
+                    Call Now
+                </a>
+                <a href="#admission" onclick="navigateTo('admission')"
+                    class="bg-indigo-600 text-white text-center py-3 rounded-xl font-bold tracking-wide text-[15px] mx-2 mb-1 shadow-lg shadow-indigo-600/20 btn-press">Enroll
+                    Now</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="pt-24 sm:pt-28 safe-pb">
+
+            <!-- ================= HOME PAGE ================= -->
+            <div id="home-page" class="page-view block">
+                <!-- HERO SECTION -->
+                <div
+                    class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20 grid lg:grid-cols-12 gap-12 items-center z-10">
+                    <div
+                        class="lg:col-span-6 flex flex-col justify-center text-center lg:text-left">
+                        <div
+                            class="flex justify-center lg:justify-start reveal-on-scroll">
+                            <span
+                                class="inline-block w-fit px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold tracking-wider uppercase mb-6 border border-indigo-200 dark:border-indigo-600/20 hover:bg-indigo-200 dark:hover:bg-indigo-600/20 transition-colors cursor-default">
+                                English & Grammar Coaching Center
+                            </span>
+                        </div>
+                        <h1
+                            class="reveal-on-scroll text-4xl xs:text-5xl lg:text-6xl font-heading font-extrabold text-slate-900 dark:text-brand-text leading-[1.12] mb-6"
+                            style="transition-delay: 100ms;">
+                            Shape Your Future at <span
+                                class="text-gradient block sm:inline">ENGLISHJIBI
+                                Classes</span>
+                        </h1>
+                        <p
+                            class="reveal-on-scroll text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal mb-8 sm:mb-10 max-w-2xl mx-auto lg:mx-0"
+                            style="transition-delay: 200ms;">
+                            Build strong grammar, confident communication, and
+                            clear writing skills with expert guidance in a
+                            supportive learning environment. Specialized
+                            coaching for Classes 2 to 10.
+                        </p>
+
+                        <div
+                            class="reveal-on-scroll flex flex-col xs:flex-row gap-4 justify-center lg:justify-start"
+                            style="transition-delay: 300ms;">
+                            <a href="#admission"
+                                onclick="navigateTo('admission')"
+                                class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3.5 rounded-full text-[15px] font-bold shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2 cursor-pointer transition-transform hover:-translate-y-1 w-full xs:w-auto min-w-[160px] btn-press">
+                                Enroll Now <i data-lucide="arrow-right"
+                                    class="w-5 h-5"></i>
+                            </a>
+                            <a href="#courses" onclick="navigateTo('courses')"
+                                class="border border-brand-border text-slate-700 dark:text-brand-text-muted hover:border-indigo-600 hover:text-indigo-600 px-6 py-3.5 rounded-full text-[15px] font-semibold tracking-wide flex items-center justify-center gap-2 cursor-pointer transition-colors w-full xs:w-auto min-w-[160px] btn-press">
+                                <i data-lucide="book-open" class="w-5 h-5"></i>
+                                View Courses
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Hero Image -->
+                    <div
+                        class="reveal-on-scroll lg:col-span-6 relative mt-8 lg:mt-0"
+                        style="transition-delay: 400ms;">
+                        <div
+                            class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-emerald-400 rounded-2xl blur opacity-30 animate-pulse-slow"></div>
+
+                        <div
+                            class="relative w-full mx-auto max-w-[580px] hover-lift">
+                            <div
+                                class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-brand-border">
+                                <img
+                                    src="/img/childrens.png"
+                                    alt="Students Learning English"
+                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                            </div>
+
+                            <!-- Floating Badge -->
+                            <div
+                                class="absolute -bottom-6 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-[-2.5rem] z-20 glass-card bg-white dark:bg-brand-base/95 backdrop-blur-xl p-4 rounded-2xl border border-brand-border shadow-2xl flex items-center gap-4 w-[90%] sm:w-auto min-w-[240px] animate-fade-in"
+                                style="animation-delay: 800ms; opacity: 0;">
+                                <div class="flex -space-x-3 shrink-0">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-indigo-500 border-2 border-brand-base flex items-center justify-center text-white text-[11px] font-bold">A</div>
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-500 border-2 border-brand-base flex items-center justify-center text-white text-[11px] font-bold">B</div>
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-amber-500 border-2 border-brand-base flex items-center justify-center text-white text-[11px] font-bold">C</div>
+                                </div>
+                                <div class="flex flex-col justify-center">
+                                    <div
+                                        class="flex text-amber-400 gap-0.5 mb-0.5">
+                                        <i data-lucide="star"
+                                            class="w-3.5 h-3.5 fill-current"></i>
+                                        <i data-lucide="star"
+                                            class="w-3.5 h-3.5 fill-current"></i>
+                                        <i data-lucide="star"
+                                            class="w-3.5 h-3.5 fill-current"></i>
+                                        <i data-lucide="star"
+                                            class="w-3.5 h-3.5 fill-current"></i>
+                                        <i data-lucide="star"
+                                            class="w-3.5 h-3.5 fill-current"></i>
+                                    </div>
+                                    <span
+                                        class="text-xs text-brand-text-muted font-medium tracking-wide whitespace-nowrap">Excellence
+                                        in Grammar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <section
+                    class="py-12 sm:py-16 section-gradient border-y border-brand-border mt-8 lg:mt-0">
+                    <div
+                        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center"
+                        id="stats-container">
+                        <!-- JS Injected -->
+                    </div>
+                </section>
+
+                <!-- YouTube Integration Section -->
+                <section class="py-16 bg-brand-card">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div
+                            class="flex flex-col md:flex-row md:items-center justify-between mb-12 reveal-on-scroll">
+                            <div>
+                                <span
+                                    class="text-red-600 font-bold uppercase tracking-wider text-xs mb-2 block"><i
+                                        data-lucide="youtube"
+                                        class="inline w-4 h-4 mr-1"></i> Rango
+                                    Classes</span>
+                                <h2
+                                    class="text-2xl md:text-4xl font-heading font-bold title-accent-light">Learning
+                                    Videos from ENGLISHJIBI</h2>
+                            </div>
+                            <a
+                                href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ"
+                                target="_blank"
+                                class="mt-4 md:mt-0 inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors btn-press">
+                                View Channel <i data-lucide="external-link"
+                                    class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                            id="youtube-videos-grid">
+                            <!-- JS Injected Placeholders -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Courses Preview -->
+                <section
+                    class="py-16 sm:py-24 section-gradient border-y border-brand-border relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-96 h-96 bg-indigo-600/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+                    <div
+                        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div
+                            class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 reveal-on-scroll">
+                            <div class="text-center md:text-left">
+                                <span
+                                    class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-indigo-200 dark:border-indigo-600/20">Our
+                                    Programs</span>
+                                <h2
+                                    class="text-[28px] sm:text-[36px] font-heading font-bold title-accent-light mb-4">Courses
+                                    We Offer</h2>
+                                <p
+                                    class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-xl mx-auto md:mx-0">Comprehensive
+                                    English & Grammar programs for Classes 2 to
+                                    10.</p>
+                            </div>
+                            <div class="flex justify-center md:justify-end">
+                                <a href="#courses"
+                                    onclick="navigateTo('courses')"
+                                    class="mt-6 md:mt-0 px-6 py-3 rounded-full border border-brand-border text-slate-700 dark:text-brand-text-muted hover:border-indigo-600 hover:text-indigo-600 font-semibold tracking-wide transition-colors flex items-center gap-2 btn-press">
+                                    View All Classes <i
+                                        data-lucide="arrow-right"
+                                        class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                            id="home-courses-grid">
+                            <!-- JS Injected -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- YouTube Learning Programs Section -->
+                <section
+                    class="py-16 sm:py-24 bg-brand-base border-t border-brand-border">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-12 reveal-on-scroll">
+                            <span
+                                class="inline-block px-4 py-2 bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-red-200 dark:border-red-800">Free
+                                Video Lessons</span>
+                            <h2
+                                class="text-3xl sm:text-4xl font-heading font-bold title-accent-light mb-4">YouTube
+                                Learning Programs</h2>
+                            <p
+                                class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-2xl mx-auto">
+                                Learn English Grammar & Communication from our
+                                structured video courses. Expert-guided video
+                                lessons designed for Classes 2 to 10.
+                            </p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-8 mb-12">
+                            <!-- Course 1 -->
+                            <a href="https://youtu.be/8MB9JF3GhOE"
+                                target="_blank"
+                                class="group glass-card rounded-2xl overflow-hidden hover-lift flex flex-col h-full reveal-on-scroll">
+                                <!-- Thumbnail Container -->
+                                <div
+                                    class="relative w-full aspect-video overflow-hidden bg-black/5">
+                                    <img
+                                        src="https://i9.ytimg.com/vi/8MB9JF3GhOE/maxresdefault.jpg?v=6957e8e0&sqp=COixoMsG&rs=AOn4CLBo9FDrHSy-85PwJ02FNw7kEEg-Og"
+                                        alt="Conditional Sentences: Complete Masterclass"
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    <!-- Play Overlay -->
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                                            <i data-lucide="play"
+                                                class="w-5 h-5 fill-current ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <!-- Duration/Lesson Badge -->
+                                    <div
+                                        class="absolute bottom-3 right-3 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded">
+                                        Course · 4 lessons
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="p-5 flex flex-col flex-1">
+                                    <h3
+                                        class="text-lg font-bold text-slate-900 dark:text-white leading-tight mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                        Conditional Sentences: Complete
+                                        Masterclass
+                                    </h3>
+                                    <p
+                                        class="text-sm text-slate-500 dark:text-slate-400 font-medium mb-4">
+                                        Instructor: Chiranjibi Sir
+                                    </p>
+                                    <div class="mt-auto">
+                                        <span
+                                            class="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                                            View Full Course <i
+                                                data-lucide="arrow-right"
+                                                class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Course 2 -->
+                            <a href="https://youtu.be/mI4gZ2qY7wE"
+                                target="_blank"
+                                class="group glass-card rounded-2xl overflow-hidden hover-lift flex flex-col h-full reveal-on-scroll"
+                                style="transition-delay: 200ms;">
+                                <!-- Thumbnail Container -->
+                                <div
+                                    class="relative w-full aspect-video overflow-hidden bg-black/5">
+                                    <img
+                                        src="https://i9.ytimg.com/vi/mI4gZ2qY7wE/maxresdefault.jpg?v=69424e98&sqp=CJS0oMsG&rs=AOn4CLArcQ5zXscXqRt-1yYTRR1KpMR_Ow"
+                                        alt="Complete Verb Course: Basic to Advanced"
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    <!-- Play Overlay -->
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                                            <i data-lucide="play"
+                                                class="w-5 h-5 fill-current ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <!-- Duration/Lesson Badge -->
+                                    <div
+                                        class="absolute bottom-3 right-3 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded">
+                                        Course · 3 lessons
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="p-5 flex flex-col flex-1">
+                                    <h3
+                                        class="text-lg font-bold text-slate-900 dark:text-white leading-tight mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                        Complete Verb Course: Basic to Advanced
+                                    </h3>
+                                    <p
+                                        class="text-sm text-slate-500 dark:text-slate-400 font-medium mb-4">
+                                        Instructor: Chiranjibi Sir
+                                    </p>
+                                    <div class="mt-auto">
+                                        <span
+                                            class="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
+                                            View Full Course <i
+                                                data-lucide="arrow-right"
+                                                class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div
+                            class="flex flex-col sm:flex-row justify-center gap-4 reveal-on-scroll">
+                            <a
+                                href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ"
+                                target="_blank"
+                                class="flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold transition-transform hover:-translate-y-0.5 shadow-lg shadow-red-600/20 btn-press">
+                                <i data-lucide="youtube" class="w-5 h-5"></i>
+                                Visit YouTube Channel
+                            </a>
+                            <a href="#admission"
+                                onclick="navigateTo('admission')"
+                                class="flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-brand-border text-brand-text hover:border-indigo-600 hover:text-indigo-600 font-semibold transition-colors btn-press">
+                                Enroll for Offline Classes <i
+                                    data-lucide="arrow-right"
+                                    class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NEW SECTION: COMMUNITY -->
+                <section
+                    class="py-16 sm:py-24 bg-brand-base border-t border-brand-border">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-12 reveal-on-scroll">
+                            <span
+                                class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-indigo-200 dark:border-indigo-600/20">Community</span>
+                            <h2
+                                class="text-3xl sm:text-4xl font-heading font-bold title-accent-light mb-4">Join
+                                Our Learning Community</h2>
+                            <p
+                                class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-2xl mx-auto">
+                                Stay connected with ENGLISHJIBI Classes for free
+                                learning resources, updates, and practice
+                                materials.
+                            </p>
+                        </div>
+
+                        <div
+                            class="grid md:grid-cols-3 gap-6 reveal-on-scroll"
+                            style="transition-delay: 200ms;">
+                            <!-- Telegram -->
+                            <a href="https://t.me/englishwithchiranjibisir"
+                                target="_blank"
+                                class="group glass-card p-6 rounded-2xl border-t-4 border-t-[#0088cc] hover-lift text-center flex flex-col items-center h-full">
+                                <div
+                                    class="w-16 h-16 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] mb-4 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="send"
+                                        class="w-8 h-8 -ml-1 mt-1"></i>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 dark:text-white mb-2">Telegram
+                                    Group</h3>
+                                <p
+                                    class="text-sm text-brand-text-muted mb-4">Get
+                                    free PDFs, grammar notes, question papers &
+                                    weekly tests</p>
+                                <span
+                                    class="mt-auto text-[#0088cc] font-semibold text-sm flex items-center gap-2">Join
+                                    Now <i data-lucide="external-link"
+                                        class="w-4 h-4"></i></span>
+                            </a>
+
+                            <!-- Facebook -->
+                            <a
+                                href="https://www.facebook.com/Englishwithchiranjibisir"
+                                target="_blank"
+                                class="group glass-card p-6 rounded-2xl border-t-4 border-t-[#1877f2] hover-lift text-center flex flex-col items-center h-full">
+                                <div
+                                    class="w-16 h-16 rounded-full bg-[#1877f2]/10 flex items-center justify-center text-[#1877f2] mb-4 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="facebook"
+                                        class="w-8 h-8"></i>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 dark:text-white mb-2">Facebook
+                                    Page</h3>
+                                <p
+                                    class="text-sm text-brand-text-muted mb-4">Follow
+                                    us for daily updates, live sessions, and
+                                    announcements.</p>
+                                <span
+                                    class="mt-auto text-[#1877f2] font-semibold text-sm flex items-center gap-2">Follow
+                                    Page <i data-lucide="external-link"
+                                        class="w-4 h-4"></i></span>
+                            </a>
+
+                            <!-- Instagram -->
+                            <a href="https://www.instagram.com/chiranjibi4848"
+                                target="_blank"
+                                class="group glass-card p-6 rounded-2xl border-t-4 border-t-pink-500 hover-lift text-center flex flex-col items-center h-full">
+                                <div
+                                    class="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-600 mb-4 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="instagram"
+                                        class="w-8 h-8"></i>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 dark:text-white mb-2">Instagram</h3>
+                                <p
+                                    class="text-sm text-brand-text-muted mb-4">Check
+                                    out our latest reels, student success
+                                    stories, and tips.</p>
+                                <span
+                                    class="mt-auto text-pink-600 font-semibold text-sm flex items-center gap-2">Follow
+                                    Us <i data-lucide="external-link"
+                                        class="w-4 h-4"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA -->
+                <section
+                    class="py-16 sm:py-24 bg-brand-base border-t border-brand-border">
+                    <div
+                        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal-on-scroll">
+                        <h2
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold title-accent-light mb-6">Ready
+                            to Master English?</h2>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal mb-8 max-w-2xl mx-auto">Take
+                            the first step towards academic excellence. Enroll
+                            now at ENGLISHJIBI Classes.</p>
+                        <div
+                            class="flex flex-col xs:flex-row gap-4 justify-center">
+                            <a href="#admission"
+                                onclick="navigateTo('admission')"
+                                class="bg-gradient-to-r from-indigo-600 to-blue-600 hover:to-indigo-600 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold tracking-wide shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5 btn-press">
+                                Enroll Now <i data-lucide="arrow-right"
+                                    class="w-5 h-5"></i>
+                            </a>
+                            <a href="#contact" onclick="navigateTo('contact')"
+                                class="border border-brand-border text-slate-700 dark:text-brand-text-muted hover:border-brand-text hover:text-brand-text px-8 py-4 rounded-full text-base sm:text-lg font-semibold tracking-wide transition-colors btn-press">Get
+                                in Touch</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= ABOUT PAGE ================= -->
+            <div id="about-page" class="page-view hidden">
+                <section
+                    class="py-16 sm:py-24 section-gradient relative overflow-hidden text-center">
+                    <div class="absolute inset-0 z-0">
+                        <div
+                            class="absolute top-20 left-10 w-72 h-72 bg-indigo-500/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+                    </div>
+                    <div
+                        class="relative max-w-7xl mx-auto px-4 z-10 reveal-on-scroll">
+                        <span
+                            class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-200 dark:border-indigo-600/20 font-sans">About
+                            Us</span>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold title-accent-light mb-6">ENGLISHJIBI
+                            CLASSES</h1>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-3xl mx-auto font-sans">
+                            We are a dedicated English & Grammar Coaching Center
+                            providing quality offline education for students
+                            from Class 2 to Class 10.
+                        </p>
+                    </div>
+                </section>
+
+                <section
+                    class="py-16 sm:py-24 bg-brand-base border-y border-brand-border">
+                    <div
+                        class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
+                        <div class="reveal-on-scroll">
+                            <span
+                                class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-indigo-200 dark:border-indigo-600/20 font-sans">Our
+                                Mission</span>
+                            <h2
+                                class="text-[28px] sm:text-[36px] font-heading font-bold title-accent-light mb-6">Building
+                                Strong Foundations</h2>
+                            <p
+                                class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal mb-6 font-sans">
+                                Our mission is to empower young minds with the
+                                power of language. We focus on grammar
+                                precision, vocabulary building, and confident
+                                communication to ensure academic success in
+                                school and beyond.
+                            </p>
+                            <div
+                                class="glass-card rounded-2xl p-6 border-l-4 border-indigo-600 hover-lift">
+                                <i data-lucide="quote"
+                                    class="w-8 h-8 text-indigo-600 mb-4"></i>
+                                <p
+                                    class="text-brand-text-muted italic text-lg font-normal font-sans">"Language is the dress of thought. We help students dress their thoughts with clarity and confidence."</p>
+                                <p
+                                    class="text-indigo-600 mt-4 font-bold text-sm font-sans">—
+                                    ENGLISHJIBI Faculty</p>
+                            </div>
+                        </div>
+                        <div class="relative reveal-on-scroll"
+                            style="transition-delay: 200ms;">
+                            <div
+                                class="absolute -inset-2 bg-indigo-500/20 rounded-2xl blur-lg"></div>
+                            <img
+                                src="/img/publishedbook.png"
+                                class="relative rounded-2xl shadow-2xl w-full border border-brand-border hover:scale-[1.02] transition-transform duration-500"
+                                alt="Classroom">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 1: MEET THE FOUNDER (Updated) -->
+                <section
+                    class="py-20 sm:py-24 bg-brand-card border-b border-brand-border">
+                    <div class="max-w-5xl mx-auto px-4 reveal-on-scroll">
+                        <div
+                            class="glass-card founder-card p-8 md:p-12 rounded-3xl relative overflow-hidden border border-brand-border shadow-xl">
+                            <!-- Decorative accent -->
+                            <div
+                                class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-amber-500/10 to-indigo-500/10 rounded-full blur-[60px]"></div>
+
+                            <div
+                                class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+                                <!-- Image for Founder -->
+                                <div
+                                    class="shrink-0 flex flex-col items-center">
+                                    <img
+                                        src="/img/founder-chiranjibi-sir.jpg"
+                                        alt="Chiranjibi Sir"
+                                        class="w-32 h-32 md:w-48 md:h-56 object-cover rounded-full md:rounded-2xl shadow-2xl border-4 border-white dark:border-slate-700 relative z-10">
+                                    <div
+                                        class="mt-6 flex justify-center space-x-1.5">
+                                        <div
+                                            class="w-2 h-2 rounded-full bg-amber-500"></div>
+                                        <div
+                                            class="w-2 h-2 rounded-full bg-amber-400"></div>
+                                        <div
+                                            class="w-2 h-2 rounded-full bg-amber-300"></div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center md:text-left flex-1">
+                                    <span
+                                        class="inline-block px-4 py-1.5 bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-amber-200 dark:border-amber-700 shadow-sm">Founder
+                                        & Lead Educator</span>
+                                    <h2
+                                        class="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">CHIRANJIBI
+                                        SIR</h2>
+
+                                    <div
+                                        class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                                        <span
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-sm font-semibold border border-emerald-100 dark:border-emerald-800">
+                                            <i data-lucide="clock"
+                                                class="w-3.5 h-3.5"></i> 14+
+                                            Years Experience
+                                        </span>
+                                        <span
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-semibold border border-indigo-100 dark:border-indigo-800">
+                                            <i data-lucide="book-open"
+                                                class="w-3.5 h-3.5"></i> English
+                                            Grammar Specialist
+                                        </span>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <p
+                                            class="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
+                                            “CHIRANJIBI SIR founded ENGLISHJIBI
+                                            Classes over 14 years ago with a
+                                            vision to strengthen students’
+                                            command over English grammar and
+                                            communication. With deep classroom
+                                            experience and a student-focused
+                                            teaching approach, he has guided
+                                            learners from Classes 2 to 10 to
+                                            achieve clarity, confidence, and
+                                            academic excellence.”
+                                        </p>
+                                        <p
+                                            class="text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal italic border-l-2 border-amber-500 pl-4">
+                                            His teaching emphasizes strong
+                                            grammatical foundations, practical
+                                            usage, and individual attention.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2: OUR TEAM (Updated UI) -->
+                <section
+                    class="py-16 sm:py-24 bg-slate-50 dark:bg-brand-base border-t border-brand-border">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <div class="text-center mb-16 reveal-on-scroll">
+                            <span
+                                class="inline-block px-4 py-2 bg-slate-200/50 text-slate-700 dark:bg-slate-800 dark:text-slate-300 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-slate-300 dark:border-slate-700">Core
+                                Team</span>
+                            <h2
+                                class="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white">Our
+                                Team</h2>
+                        </div>
+
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-on-scroll"
+                            style="transition-delay: 200ms;">
+
+                            <!-- Member 1: Manager (Indigo Accent) -->
+                            <div
+                                class="group relative bg-white dark:bg-slate-800/50 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 border-t-4 border-t-indigo-600 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <img src="/img/team-subham.jpg"
+                                        alt="Subham K. Mallick"
+                                        class="w-16 h-16 rounded-full object-cover border-2 border-indigo-100 dark:border-indigo-800 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                    <div>
+                                        <h3
+                                            class="font-bold text-slate-900 dark:text-white text-lg">Subham
+                                            K. Mallick</h3>
+                                        <span
+                                            class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 mt-1">Manager
+                                            & Digital Ops</span>
+                                    </div>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                                    Responsible for complete digital operations
+                                    including website design, online systems,
+                                    branding, and technical management.
+                                </p>
+                            </div>
+
+                            <!-- Member 2: Assistant (Emerald Accent) -->
+                            <div
+                                class="group relative bg-white dark:bg-slate-800/50 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 border-t-4 border-t-emerald-500 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <img src="/img/team-ram-krishna.jpg"
+                                        alt="Ram Krishna"
+                                        class="w-16 h-16 rounded-full object-cover border-2 border-emerald-100 dark:border-emerald-800 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                    <div>
+                                        <h3
+                                            class="font-bold text-slate-900 dark:text-white text-lg">Ram
+                                            Krishna</h3>
+                                        <span
+                                            class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 mt-1">Management
+                                            Assistant</span>
+                                    </div>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                                    Supports academic coordination, student
+                                    management, and day-to-day operational
+                                    activities.
+                                </p>
+                            </div>
+
+                            <!-- Member 3: Staff (Slate Accent - Subtler) -->
+                            <div
+                                class="group relative bg-white dark:bg-slate-800/50 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 border-t-4 border-t-slate-400 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <img src="/img/team-isan.jpg"
+                                        alt="Isan"
+                                        class="w-16 h-16 rounded-full object-cover border-2 border-slate-200 dark:border-slate-600 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                    <div>
+                                        <h3
+                                            class="font-bold text-slate-900 dark:text-white text-lg">Isan</h3>
+                                        <span
+                                            class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 mt-1">Staff
+                                            Member</span>
+                                    </div>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                                    Assists in classroom support, student
+                                    handling, and routine operational work.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= GALLERY PAGE ================= -->
+            <div id="gallery-page" class="page-view hidden">
+                <section
+                    class="py-16 sm:py-24 section-gradient relative overflow-hidden text-center">
+                    <div class="absolute inset-0 z-0">
+                        <div
+                            class="absolute top-20 left-10 w-72 h-72 bg-indigo-500/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+                    </div>
+                    <div
+                        class="relative max-w-7xl mx-auto px-4 z-10 reveal-on-scroll">
+                        <span
+                            class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-200 dark:border-indigo-600/20 font-sans">Our
+                            Moments</span>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold title-accent-light mb-6">Classroom
+                            Gallery</h1>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-3xl mx-auto font-sans">
+                            Moments from teaching, learning, and student
+                            interaction at ENGLISHJIBI Classes.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="py-16 bg-brand-base">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <!-- Filters -->
+                        <div
+                            class="flex justify-center flex-wrap gap-2 mb-12 reveal-on-scroll">
+                            <div
+                                class="glass-card p-1 rounded-xl flex flex-wrap justify-center gap-1 w-full sm:w-auto bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-brand-border/50">
+                                <button onclick="filterGallery('all')"
+                                    class="gallery-filter-btn px-4 py-2 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all flex items-center gap-2 grow sm:grow-0 justify-center bg-brand-emerald text-white shadow-md"
+                                    data-filter="all">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-camera w-4 h-4"><path
+                                            d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle
+                                            cx="12" cy="13"
+                                            r="3"></circle></svg>
+                                    All
+                                </button>
+                                <button onclick="filterGallery('classroom')"
+                                    class="gallery-filter-btn px-4 py-2 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all flex items-center gap-2 grow sm:grow-0 justify-center text-slate-600 dark:text-slate-400 hover:text-brand-text hover:bg-black/5 dark:hover:bg-white/5"
+                                    data-filter="classroom">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-users w-4 h-4"><path
+                                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path
+                                            d="M16 3.128a4 4 0 0 1 0 7.744"></path><path
+                                            d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle
+                                            cx="9" cy="7" r="4"></circle></svg>
+                                    Classrooms
+                                </button>
+                                <button onclick="filterGallery('activities')"
+                                    class="gallery-filter-btn px-4 py-2 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all flex items-center gap-2 grow sm:grow-0 justify-center text-slate-600 dark:text-slate-400 hover:text-brand-text hover:bg-black/5 dark:hover:bg-white/5"
+                                    data-filter="activities">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-calendar w-4 h-4"><path
+                                            d="M8 2v4"></path><path
+                                            d="M16 2v4"></path><rect width="18"
+                                            height="18" x="3" y="4"
+                                            rx="2"></rect><path
+                                            d="M3 10h18"></path></svg>
+                                    Activities
+                                </button>
+                                <button onclick="filterGallery('results')"
+                                    class="gallery-filter-btn px-4 py-2 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all flex items-center gap-2 grow sm:grow-0 justify-center text-slate-600 dark:text-slate-400 hover:text-brand-text hover:bg-black/5 dark:hover:bg-white/5"
+                                    data-filter="results">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-trophy w-4 h-4"><path
+                                            d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path><path
+                                            d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path><path
+                                            d="M18 9h1.5a1 1 0 0 0 0-5H18"></path><path
+                                            d="M4 22h16"></path><path
+                                            d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path
+                                            d="M6 9H4.5a1 1 0 0 1 0-5H6"></path></svg>
+                                    Results
+                                </button>
+                                <button onclick="filterGallery('events')"
+                                    class="gallery-filter-btn px-4 py-2 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all flex items-center gap-2 grow sm:grow-0 justify-center text-slate-600 dark:text-slate-400 hover:text-brand-text hover:bg-black/5 dark:hover:bg-white/5"
+                                    data-filter="events">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-play w-4 h-4"><path
+                                            d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg>
+                                    Events
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Grid -->
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-on-scroll"
+                            id="gallery-grid">
+
+                            <!-- Category: CLASSROOM -->
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="classroom"
+                                onclick="openLightbox('gallery/classroom/classroom-1.jpg')">
+                                <img src="gallery/classroom/classroom-1.jpg"
+                                    loading="lazy" alt="Smart Classroom"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Smart
+                                        Classroom</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Digitally
+                                        equipped learning</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="classroom"
+                                onclick="openLightbox('gallery/classroom/classroom-2.jpg')">
+                                <img src="gallery/classroom/classroom-2.jpg"
+                                    loading="lazy" alt="Study Session"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Study
+                                        Session</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Focused
+                                        learning environment</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="classroom"
+                                onclick="openLightbox('gallery/classroom/classroom-3.jpg')">
+                                <img src="gallery/classroom/classroom-3.jpg"
+                                    loading="lazy" alt="Group Discussion"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Group
+                                        Discussion</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Collaborative
+                                        practice</p>
+                                </div>
+                            </div>
+
+                            <!-- Category: ACTIVITIES -->
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="activities"
+                                onclick="openLightbox('gallery/activities/activities-1.jpg')">
+                                <img src="gallery/activities/activities-1.jpg"
+                                    loading="lazy" alt="Student Presentation"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Student
+                                        Presentation</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Building
+                                        confidence</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="activities"
+                                onclick="openLightbox('gallery/activities/activities-2.jpg')">
+                                <img src="gallery/activities/activities-2.jpg"
+                                    loading="lazy" alt="Quiz Competition"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Quiz
+                                        Competition</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Engaging
+                                        minds</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="activities"
+                                onclick="openLightbox('gallery/activities/activities-3.jpg')">
+                                <img src="gallery/activities/activities-3.jpg"
+                                    loading="lazy" alt="Creative Writing"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Creative
+                                        Writing</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Expressing
+                                        thoughts</p>
+                                </div>
+                            </div>
+
+                            <!-- Category: RESULTS -->
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="results"
+                                onclick="openLightbox('gallery/results/results-1.jpg')">
+                                <img src="gallery/results/results-1.jpg"
+                                    loading="lazy" alt="Top Performers"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Top
+                                        Performers</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Academic
+                                        excellence</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="results"
+                                onclick="openLightbox('gallery/results/results-2.jpg')">
+                                <img src="gallery/results/results-2.jpg"
+                                    loading="lazy" alt="Award Ceremony"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Award
+                                        Ceremony</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Celebrating
+                                        success</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="results"
+                                onclick="openLightbox('gallery/results/results-3.jpg')">
+                                <img src="gallery/results/results-3.jpg"
+                                    loading="lazy" alt="Merit Certificates"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Merit
+                                        Certificates</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Hard
+                                        work rewarded</p>
+                                </div>
+                            </div>
+
+                            <!-- Category: EVENTS -->
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="events"
+                                onclick="openLightbox('gallery/events/events-1.jpg')">
+                                <img src="gallery/events/events-1.jpg"
+                                    loading="lazy" alt="Annual Function"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Annual
+                                        Function</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Grand
+                                        celebration</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="events"
+                                onclick="openLightbox('gallery/events/events-2.jpg')">
+                                <img src="gallery/events/events-2.jpg"
+                                    loading="lazy" alt="Cultural Fest"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Cultural
+                                        Fest</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Talent
+                                        showcase</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="gallery-item group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-xl transition-all"
+                                data-cat="events"
+                                onclick="openLightbox('gallery/events/events-3.jpg')">
+                                <img src="gallery/events/events-3.jpg"
+                                    loading="lazy" alt="Workshops"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                                    <h3
+                                        class="text-white font-bold font-heading text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Workshops</h3>
+                                    <p
+                                        class="text-gray-300 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-normal">Interactive
+                                        sessions</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= COURSES PAGE ================= -->
+            <div id="courses-page" class="page-view hidden">
+                <section
+                    class="py-16 sm:py-24 section-gradient relative overflow-hidden text-center">
+                    <div class="absolute inset-0 z-0">
+                        <div
+                            class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+                    </div>
+                    <div
+                        class="relative max-w-4xl mx-auto px-4 z-10 reveal-on-scroll">
+                        <span
+                            class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">Our
+                            Programs</span>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold title-accent-light mb-6">Classes
+                            2 to 10</h1>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal">
+                            Structured English courses designed to build grammar
+                            mastery and communication skills.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="py-12 sm:py-16 bg-brand-base">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <!-- Filters -->
+                        <div
+                            class="flex justify-center flex-wrap gap-2 mb-12 font-sans overflow-x-auto no-scrollbar pb-2 reveal-on-scroll">
+                            <button onclick="filterCourses('all')"
+                                class="course-filter-btn px-6 py-2.5 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all bg-indigo-600 text-white whitespace-nowrap btn-press"
+                                data-cat="all">All Classes</button>
+                            <button onclick="filterCourses('primary')"
+                                class="course-filter-btn px-6 py-2.5 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted whitespace-nowrap btn-press"
+                                data-cat="primary">Primary (2-5)</button>
+                            <button onclick="filterCourses('middle')"
+                                class="course-filter-btn px-6 py-2.5 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted whitespace-nowrap btn-press"
+                                data-cat="middle">Middle (6-8)</button>
+                            <button onclick="filterCourses('high')"
+                                class="course-filter-btn px-6 py-2.5 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all text-slate-600 dark:text-brand-text-muted hover:text-slate-900 dark:hover:text-brand-text hover:bg-brand-muted whitespace-nowrap btn-press"
+                                data-cat="high">High School (9-10)</button>
+                        </div>
+
+                        <!-- Course Grid -->
+                        <div class="space-y-6" id="courses-list-container">
+                            <!-- JS Injected -->
+                        </div>
+
+                        <!-- Featured Playlists Section -->
+                        <div class="mt-20 pt-12 border-t border-brand-border">
+                            <h2
+                                class="text-2xl font-bold font-heading title-accent-light mb-6 flex items-center gap-2"><i
+                                    data-lucide="play-circle"
+                                    class="text-red-500"></i> Featured
+                                Playlists</h2>
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Playlist 1 -->
+                                <div
+                                    class="glass-card rounded-xl overflow-hidden hover-lift group">
+                                    <div
+                                        class="relative aspect-video bg-gray-900">
+                                        <img
+                                            src="https://i9.ytimg.com/vi/hYdlA_lmw3g/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLBec2VWmdXRghoYNv84dowQ9YyPxw"
+                                            class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center">
+                                            <i data-lucide="play-circle"
+                                                class="w-12 h-12 text-white fill-red-600 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <h3
+                                            class="font-bold text-brand-text mb-1">Singular
+                                            vs Plural Verb – Quick Rules</h3>
+                                        <p
+                                            class="text-sm text-brand-text-muted mb-3">Essential
+                                            grammar rules for beginners.</p>
+                                        <a
+                                            href="https://youtu.be/hYdlA_lmw3g"
+                                            target="_blank"
+                                            class="text-xs font-bold text-red-600 uppercase tracking-wide">Watch
+                                            on YouTube &rarr;</a>
+                                    </div>
+                                </div>
+                                <!-- Playlist 2 -->
+                                <div
+                                    class="glass-card rounded-xl overflow-hidden hover-lift group">
+                                    <div
+                                        class="relative aspect-video bg-gray-900">
+                                        <img
+                                            src="https://i9.ytimg.com/vi/F7nxRx2H_sA/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLB5kqzlHEBCokNF2Grgx38tG3ePcw"
+                                            class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center">
+                                            <i data-lucide="play-circle"
+                                                class="w-12 h-12 text-white fill-red-600 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <h3
+                                            class="font-bold text-brand-text mb-1">Subject–Verb
+                                            Agreement – Practice Series</h3>
+                                        <p
+                                            class="text-sm text-brand-text-muted mb-3">Improve
+                                            your pronunciation and fluency.</p>
+                                        <a
+                                            href="https://youtu.be/F7nxRx2H_sA"
+                                            target="_blank"
+                                            class="text-xs font-bold text-red-600 uppercase tracking-wide">Watch
+                                            on YouTube &rarr;</a>
+                                    </div>
+                                </div>
+                                <!-- Playlist 3 -->
+                                <div
+                                    class="glass-card rounded-xl overflow-hidden hover-lift group">
+                                    <div
+                                        class="relative aspect-video bg-gray-900">
+                                        <img
+                                            src="https://i9.ytimg.com/vi/gl2-HffHdlU/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLDHhvhluEWO9CWlXGplOvgXCg9CaQ"
+                                            class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center">
+                                            <i data-lucide="play-circle"
+                                                class="w-12 h-12 text-white fill-red-600 group-hover:scale-110 transition-transform"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <h3
+                                            class="font-bold text-brand-text mb-1">Main
+                                            Verb vs Helping Verb –
+                                            Explained</h3>
+                                        <p
+                                            class="text-sm text-brand-text-muted mb-3">Strategies
+                                            to score high in English exams.</p>
+                                        <a
+                                            href="https://youtu.be/gl2-HffHdlU"
+                                            target="_blank"
+                                            class="text-xs font-bold text-red-600 uppercase tracking-wide">Watch
+                                            on YouTube &rarr;</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= ADMISSION PAGE ================= -->
+            <div id="admission-page" class="page-view hidden">
+                <section
+                    class="py-16 sm:py-24 section-gradient relative overflow-hidden">
+                    <div
+                        class="relative max-w-7xl mx-auto px-4 text-center z-10 reveal-on-scroll">
+                        <span
+                            class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-200 dark:border-indigo-600/20 font-sans">Admission
+                            Open</span>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold title-accent-light mb-6">Begin
+                            Your Journey</h1>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-3xl mx-auto font-sans">
+                            Fill out the enquiry form below for classes 2 to 10.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="py-12 sm:py-24 bg-brand-base">
+                    <div
+                        class="max-w-7xl mx-auto px-4 grid lg:grid-cols-3 gap-12">
+                        <!-- Form -->
+                        <div class="lg:col-span-2 reveal-on-scroll">
+                            <div
+                                class="glass-card rounded-2xl overflow-hidden shadow-xl hover-lift">
+                                <div
+                                    class="bg-brand-card dark:bg-[#0f1623] p-6 border-b border-brand-border">
+                                    <h2
+                                        class="text-[24px] sm:text-[28px] font-bold font-heading text-brand-text flex items-center gap-3">
+                                        <i data-lucide="file-text"
+                                            class="w-8 h-8 text-indigo-600"></i>
+                                        Admission Enquiry
+                                    </h2>
+                                </div>
+                                <div class="p-4 sm:p-8">
+                                    <form id="admission-form"
+                                        onsubmit="handleFormSubmit(event, 'admission')"
+                                        class="space-y-6 font-sans">
+                                        <!-- Student Details -->
+                                        <div class="space-y-4">
+                                            <h3
+                                                class="text-lg font-semibold text-brand-text flex items-center gap-2"><i
+                                                    data-lucide="user"
+                                                    class="text-indigo-600"></i>
+                                                Student Details</h3>
+                                            <div
+                                                class="grid md:grid-cols-2 gap-6">
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-brand-text-muted">Student
+                                                        Name *</label>
+                                                    <input type="text" required
+                                                        placeholder="Full Name"
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors">
+                                                </div>
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-brand-text-muted">Parent
+                                                        Name *</label>
+                                                    <input type="text" required
+                                                        placeholder="Parent Name"
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Contact -->
+                                        <div class="space-y-4">
+                                            <h3
+                                                class="text-lg font-semibold text-brand-text flex items-center gap-2"><i
+                                                    data-lucide="phone"
+                                                    class="text-indigo-600"></i>
+                                                Contact Details</h3>
+                                            <div
+                                                class="grid md:grid-cols-2 gap-6">
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-brand-text-muted">Phone
+                                                        Number *</label>
+                                                    <input type="tel" required
+                                                        placeholder="+91..."
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors">
+                                                </div>
+                                                <div class="space-y-2">
+                                                    <label
+                                                        class="block text-sm font-medium text-brand-text-muted">Email</label>
+                                                    <input type="email"
+                                                        placeholder="email@example.com"
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Academic -->
+                                        <div class="space-y-4">
+                                            <h3
+                                                class="text-lg font-semibold text-brand-text flex items-center gap-2"><i
+                                                    data-lucide="book-open"
+                                                    class="text-indigo-600"></i>
+                                                Academic Details</h3>
+                                            <div class="space-y-2">
+                                                <label
+                                                    class="block text-sm font-medium text-brand-text-muted">Current
+                                                    Class *</label>
+                                                <select
+                                                    class="w-full p-3 rounded-lg text-[15px] font-normal appearance-none focus:bg-brand-card transition-colors">
+                                                    <option>Class
+                                                        2</option><option>Class
+                                                        3</option><option>Class
+                                                        4</option>
+                                                    <option>Class
+                                                        5</option><option>Class
+                                                        6</option><option>Class
+                                                        7</option>
+                                                    <option>Class
+                                                        8</option><option>Class
+                                                        9</option><option>Class
+                                                        10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit"
+                                            class="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold tracking-wide hover:bg-indigo-500 transition-colors flex items-center justify-center gap-2 btn-press">Submit
+                                            Enquiry <i data-lucide="arrow-right"
+                                                class="w-5 h-5"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="space-y-6 reveal-on-scroll"
+                            style="transition-delay: 200ms;">
+                            <div
+                                class="glass-card p-6 rounded-xl border-t-4 border-indigo-600 hover-lift">
+                                <h3
+                                    class="text-xl font-heading font-bold text-brand-text mb-4 flex items-center gap-2"><i
+                                        data-lucide="check-circle"
+                                        class="text-indigo-600"></i> Why Apply
+                                    Now?</h3>
+                                <ul class="space-y-4 text-brand-text-muted">
+                                    <li class="flex items-center gap-3"><div
+                                            class="w-6 h-6 bg-indigo-600/10 rounded-full flex items-center justify-center text-indigo-600 text-xs shrink-0"><i
+                                                data-lucide="check"
+                                                class="w-4 h-4"></i></div>
+                                        Expert Guidance</li>
+                                    <li class="flex items-center gap-3"><div
+                                            class="w-6 h-6 bg-indigo-600/10 rounded-full flex items-center justify-center text-indigo-600 text-xs shrink-0"><i
+                                                data-lucide="check"
+                                                class="w-4 h-4"></i></div> Small
+                                        Batch Size</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= CONTACT PAGE ================= -->
+            <div id="contact-page" class="page-view hidden">
+                <section
+                    class="py-16 sm:py-24 section-gradient text-center relative overflow-hidden">
+                    <div class="absolute inset-0 z-0">
+                        <div
+                            class="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[100px] animate-pulse-slow"></div>
+                    </div>
+                    <div
+                        class="max-w-4xl mx-auto px-4 relative z-10 reveal-on-scroll">
+                        <span
+                            class="inline-block px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-200 dark:border-indigo-600/20 font-sans">Get
+                            In Touch</span>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold title-accent-light mb-6">Contact
+                            Us</h1>
+                        <p
+                            class="text-[16px] sm:text-[18px] text-brand-text-muted leading-relaxed font-normal max-w-3xl mx-auto font-sans">
+                            Reach out to ENGLISHJIBI Classes for any queries.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="py-16 bg-brand-base">
+                    <div
+                        class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll"
+                        style="transition-delay: 200ms;">
+                        <div
+                            class="glass-card p-6 rounded-2xl text-center hover-lift">
+                            <div
+                                class="w-14 h-14 mx-auto bg-indigo-500/10 text-indigo-500 rounded-xl flex items-center justify-center mb-4"><i
+                                    data-lucide="phone"
+                                    class="w-7 h-7"></i></div>
+                            <h3
+                                class="font-bold text-brand-text mb-2">Phone</h3>
+                            <p
+                                class="text-brand-text-muted text-sm font-normal">+91
+                                83289 22917</p>
+                            <p
+                                class="text-brand-text-muted text-sm font-normal">+91
+                                77358 12335</p>
+                        </div>
+                        <div
+                            class="glass-card p-6 rounded-2xl text-center hover-lift">
+                            <div
+                                class="w-14 h-14 mx-auto bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center justify-center mb-4"><i
+                                    data-lucide="message-circle"
+                                    class="w-7 h-7"></i></div>
+                            <h3
+                                class="font-bold text-brand-text mb-2">WhatsApp</h3>
+                            <p
+                                class="text-brand-text-muted text-sm font-normal">+91
+                                83289 22917</p>
+                        </div>
+                        <div
+                            class="glass-card p-6 rounded-2xl text-center hover-lift">
+                            <div
+                                class="w-14 h-14 mx-auto bg-purple-500/10 text-purple-500 rounded-xl flex items-center justify-center mb-4"><i
+                                    data-lucide="mail"
+                                    class="w-7 h-7"></i></div>
+                            <h3
+                                class="font-bold text-brand-text mb-2">Email</h3>
+                            <p
+                                class="text-brand-text-muted text-sm font-normal">rangoclasses@gmail.com</p>
+                        </div>
+                        <div
+                            class="glass-card p-6 rounded-2xl text-center hover-lift">
+                            <div
+                                class="w-14 h-14 mx-auto bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center mb-4"><i
+                                    data-lucide="map-pin"
+                                    class="w-7 h-7"></i></div>
+                            <h3
+                                class="font-bold text-brand-text mb-2">Address</h3>
+                            <p
+                                class="text-brand-text-muted text-sm font-normal">Duplex
+                                37, Sailashree Vihar<br>Bhubaneswar, 751021</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section
+                    class="py-16 sm:py-24 bg-brand-card border-t border-brand-border">
+                    <div
+                        class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12">
+                        <!-- Message Form -->
+                        <div
+                            class="glass-card rounded-2xl overflow-hidden shadow-xl reveal-on-scroll hover-lift">
+                            <div
+                                class="bg-brand-muted dark:bg-gray-800 p-6 border-b border-brand-border">
+                                <h2
+                                    class="text-[24px] sm:text-[28px] font-bold font-heading text-brand-text flex items-center gap-3"><i
+                                        data-lucide="send"
+                                        class="text-indigo-600"></i> Send
+                                    Message</h2>
+                            </div>
+                            <div class="p-4 sm:p-8">
+                                <form
+                                    onsubmit="handleFormSubmit(event, 'contact')"
+                                    class="space-y-5">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div class="space-y-2"><label
+                                                class="block text-sm font-medium text-brand-text-muted">Name
+                                                *</label><input type="text"
+                                                required
+                                                class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors"></div>
+                                        <div class="space-y-2"><label
+                                                class="block text-sm font-medium text-brand-text-muted">Phone
+                                                *</label><input type="tel"
+                                                required
+                                                class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors"></div>
+                                    </div>
+                                    <div class="space-y-2"><label
+                                            class="block text-sm font-medium text-brand-text-muted">Message
+                                            *</label><textarea rows="4" required
+                                            class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors"></textarea></div>
+                                    <button type="submit"
+                                        class="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold tracking-wide hover:bg-indigo-500 transition-colors btn-press">Send
+                                        Message</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Map Section -->
+                        <div class="space-y-6 reveal-on-scroll"
+                            style="transition-delay: 200ms;">
+                            <div
+                                class="bg-brand-muted dark:bg-gray-800 rounded-2xl overflow-hidden h-96 shadow-lg border border-brand-border relative hover-lift">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d556.1310160957923!2d85.81121701176977!3d20.333824995980752!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19095622268813%3A0xd382407a2643ee76!2sEnglish%20grammar%20and%20spoken%20center!5e0!3m2!1sen!2sin!4v1768433911944!5m2!1sen!2sin"
+                                    width="100%" height="100%" style="border:0;"
+                                    allowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <div
+                                    class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur p-4 rounded-xl shadow-lg border border-brand-border">
+                                    <h4
+                                        class="font-bold text-brand-text text-sm">ENGLISHJIBI
+                                        Classes</h4>
+                                    <p
+                                        class="text-xs text-brand-text-muted mt-1">Duplex
+                                        37, Sailashree Vihar, Bhubaneswar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer
+            class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-10 h-10 rounded bg-indigo-600 flex items-center justify-center text-white font-bold font-heading">E</div>
+                            <div>
+                                <h3
+                                    class="text-xl font-bold font-heading text-white">ENGLISHJIBI</h3>
+                                <p
+                                    class="text-xs text-indigo-400 font-semibold tracking-widest uppercase">CLASSES</p>
+                            </div>
+                        </div>
+                        <p class="text-sm leading-relaxed font-normal">English &
+                            Grammar Coaching Center providing expert guidance
+                            for Class 2 to Class 10.</p>
+                    </div>
+
+                    <div>
+                        <h4
+                            class="text-lg font-heading font-bold text-white mb-6">Quick
+                            Links</h4>
+                        <ul class="space-y-3 text-sm font-normal">
+                            <li><a href="#home" onclick="navigateTo('home')"
+                                    class="hover:text-white transition-colors block w-fit">Home</a></li>
+                            <li><a href="#about" onclick="navigateTo('about')"
+                                    class="hover:text-white transition-colors block w-fit">About</a></li>
+                            <li><a href="#gallery"
+                                    onclick="navigateTo('gallery')"
+                                    class="hover:text-white transition-colors block w-fit">Gallery</a></li>
+                            <li><a href="#courses"
+                                    onclick="navigateTo('courses')"
+                                    class="hover:text-white transition-colors block w-fit">Courses</a></li>
+                            <li><a href="#admission"
+                                    onclick="navigateTo('admission')"
+                                    class="hover:text-white transition-colors block w-fit">Admission</a></li>
+                            <li><a href="#contact"
+                                    onclick="navigateTo('contact')"
+                                    class="hover:text-white transition-colors block w-fit">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4
+                            class="text-lg font-heading font-bold text-white mb-6">Contact
+                            Us</h4>
+                        <ul class="space-y-4 text-sm font-normal">
+                            <li class="flex items-start gap-3"><i
+                                    data-lucide="map-pin"
+                                    class="w-5 h-5 text-indigo-500 mt-1 shrink-0"></i>
+                                Duplex 37, Sailashree Vihar<br>Bhubaneswar,
+                                Odisha – 751021</li>
+                            <li class="flex items-center gap-3"><i
+                                    data-lucide="phone"
+                                    class="w-5 h-5 text-indigo-500 shrink-0"></i>
+                                +91 83289 22917</li>
+                            <li class="flex items-center gap-3"><i
+                                    data-lucide="mail"
+                                    class="w-5 h-5 text-indigo-500 shrink-0"></i>
+                                rangoclasses@gmail.com</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4
+                            class="text-lg font-heading font-bold text-white mb-6">Community</h4>
+                        <div class="space-y-4">
+                            <!-- YouTube -->
+                            <a
+                                href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ"
+                                target="_blank"
+                                class="flex items-center gap-3 text-sm font-normal text-slate-400 hover:text-white transition-colors group">
+                                <i data-lucide="youtube"
+                                    class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform shrink-0"></i>
+                                <span>YouTube Channel</span>
+                            </a>
+                            <!-- Telegram -->
+                            <a href="https://t.me/englishwithchiranjibisir"
+                                target="_blank"
+                                class="flex items-center gap-3 text-sm font-normal text-slate-400 hover:text-white transition-colors group">
+                                <div
+                                    class="w-5 h-5 flex items-center justify-center rounded-full bg-[#0088cc] group-hover:scale-110 transition-transform shrink-0">
+                                    <i data-lucide="send"
+                                        class="w-3 h-3 text-white -ml-0.5 mt-0.5"></i>
+                                </div>
+                                <span>Telegram Group</span>
+                            </a>
+                            <!-- Facebook -->
+                            <a
+                                href="https://www.facebook.com/Englishwithchiranjibisir"
+                                target="_blank"
+                                class="flex items-center gap-3 text-sm font-normal text-slate-400 hover:text-white transition-colors group">
+                                <i data-lucide="facebook"
+                                    class="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform shrink-0"></i>
+                                <span>Facebook Page</span>
+                            </a>
+                            <!-- Instagram -->
+                            <a href="https://www.instagram.com/chiranjibi4848"
+                                target="_blank"
+                                class="flex items-center gap-3 text-sm font-normal text-slate-400 hover:text-white transition-colors group">
+                                <i data-lucide="instagram"
+                                    class="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform shrink-0"></i>
+                                <span>Instagram</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-white/5 pt-6 text-center text-sm">
+                    © 2024–2026 ENGLISHJIBI CLASSES · Web Design by
+                    <span class="font-semibold text-indigo-400">Subham Kumar
+                        Mallick</span>
+                </div>
+
+            </div>
+        </footer>
+
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/918328922917" target="_blank"
+            class="fixed bottom-6 right-6 z-50 group safe-pb hover:scale-110 transition-transform duration-300">
+            <span
+                class="absolute right-14 top-2 bg-white text-gray-900 text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden sm:block shadow-lg">Chat
+                with us!</span>
+            <div class="relative">
+                <div
+                    class="absolute inset-0 bg-emerald-500 rounded-full animate-ping opacity-25"></div>
+                <div
+                    class="relative w-12 h-12 sm:w-14 sm:h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/40">
+                    <i data-lucide="message-circle"
+                        class="w-6 h-6 sm:w-7 sm:h-7 text-white fill-current"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- Success Modal -->
+        <div id="success-modal"
+            class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div
+                class="modal-content glass-card bg-brand-card p-6 sm:p-8 md:p-12 text-center max-w-lg w-full mx-auto rounded-3xl border border-indigo-600/20 shadow-2xl shadow-indigo-600/10">
+                <div
+                    class="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-indigo-600/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
+                    <i data-lucide="check-circle"
+                        class="w-8 h-8 sm:w-10 sm:h-10 text-indigo-600"></i>
+                </div>
+                <h2
+                    class="text-2xl md:text-3xl font-bold font-heading text-brand-text mb-4">Message
+                    Sent!</h2>
+                <p
+                    class="text-brand-text-muted mb-8 font-normal text-sm sm:text-base">Thank
+                    you for contacting ENGLISHJIBI Classes! We'll get back to
+                    you shortly.</p>
+                <button
+                    onclick="document.getElementById('success-modal').classList.remove('modal-open'); setTimeout(() => document.getElementById('success-modal').classList.add('hidden'), 300);"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-3 rounded-full font-semibold tracking-wide transition-colors w-full btn-press">Close</button>
+            </div>
+        </div>
+
+        <!-- Gallery Lightbox Modal -->
+        <div id="gallery-lightbox"
+            class="fixed inset-0 z-[70] bg-black/90 hidden flex items-center justify-center p-4 opacity-0">
+            <button onclick="closeLightbox()"
+                class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-[80]">
+                <i data-lucide="x" class="w-10 h-10"></i>
+            </button>
+            <div
+                class="relative w-full max-w-5xl h-full flex items-center justify-center"
+                onclick="event.stopPropagation()">
+                <img id="lightbox-img" src alt="Enlarged gallery image"
+                    class="max-w-full max-h-[85vh] rounded-lg shadow-2xl transform scale-95 transition-transform duration-300 object-contain">
+            </div>
+        </div>
+
+        <!-- Application Logic -->
+        <script>
+        // --- DATA ---
+        
+        // Updated ENGLISHJIBI CLASSES Course Structure
+        const coursesData = [
+            // PRIMARY (2-5) - Consolidated Entry to Maintain "Classes 2-10" Promise
+            { 
+                id: 1, 
+                cat: "primary", 
+                name: "Junior Foundation (Classes 2–3)", 
+                tagline: "Early English Mastery", 
+                time: "Regular Batches", 
+                batch: "15-20 Students", 
+                desc: "Building a strong base in grammar, phonics, reading, and sentence formation for young learners.", 
+                subs: ["Phonics", "Basic Grammar", "Reading", "Vocabulary"], 
+                icon: "sprout", 
+                color: "cyan", 
+                popular: false 
+            },
+
+            // MIDDLE SCHOOL (6-8)
+            { 
+                id: 2, 
+                cat: "middle", 
+                name: "Class 6–7 Foundation English", 
+                tagline: "Group A", 
+                time: "3 Slots x 30 Mins", 
+                batch: "15-20 Students", 
+                desc: "Strong foundation in grammar, vocabulary, and spoken English for middle school students.", 
+                subs: ["Basic Grammar", "Vocabulary", "Oral Test", "GD", "Passage/Poem Test"], 
+                icon: "layers", 
+                color: "emerald", 
+                popular: true 
+            },
+            { 
+                id: 3, 
+                cat: "middle", 
+                name: "Class 7–8 Grammar & Communication", 
+                tagline: "Group C", 
+                time: "Regular Batches", 
+                batch: "15-20 Students", 
+                desc: "Focused on improving grammar accuracy, communication skills, and confidence.", 
+                subs: ["Intermediate Grammar", "GD", "Oral Test", "Writing Practice", "Vocab"], 
+                icon: "message-circle", 
+                color: "blue", 
+                popular: false 
+            },
+            { 
+                id: 4, 
+                cat: "middle", 
+                name: "Class 8 English Foundation", 
+                tagline: "Group D", 
+                time: "Regular Batches", 
+                batch: "15-20 Students", 
+                desc: "Exam-oriented English preparation with emphasis on accuracy and structure.", 
+                subs: ["Advanced Grammar", "Writing Skills", "Passage Practice", "Oral + GD"], 
+                icon: "book-open", 
+                color: "amber", 
+                popular: false 
+            },
+
+            // HIGH SCHOOL (9-10)
+            { 
+                id: 5, 
+                cat: "high", 
+                name: "Class 8–9 Board English", 
+                tagline: "Group E", 
+                time: "Regular Batches", 
+                batch: "15-20 Students", 
+                desc: "Board-pattern English training with structured writing and NCERT coverage.", 
+                subs: ["Grammar (Board)", "NCERT Literature", "Writing Skills", "Weekly Tests"], 
+                icon: "pen-tool", 
+                color: "orange", 
+                popular: true 
+            },
+            { 
+                id: 6, 
+                cat: "high", 
+                name: "Class 9 Communicative English", 
+                tagline: "Group G", 
+                time: "8:30 AM – 10:00 AM", 
+                batch: "15-20 Students", 
+                desc: "Communicative English with strong focus on literature, grammar, and creative expression.", 
+                subs: ["Comm. Literature", "NCERT Literature", "Grammar", "Creative Writing", "GD"], 
+                icon: "mic", 
+                color: "purple", 
+                popular: false 
+            },
+            { 
+                id: 7, 
+                cat: "high", 
+                name: "Class 10 Board English Excellence", 
+                tagline: "Group B", 
+                time: "Evening Batches", 
+                batch: "15-20 Students", 
+                desc: "Complete board-focused English course with grammar, literature, and writing mastery.", 
+                subs: ["NCERT Literature", "Grammar", "Writing", "Passage & Poem", "GD"], 
+                icon: "award", 
+                color: "red", 
+                popular: true 
+            }
+        ];
+
+        const youtubeVideos = [
+            { title: "Singular vs Plural Verb – Quick Rules", img: "https://i9.ytimg.com/vi/hYdlA_lmw3g/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLBec2VWmdXRghoYNv84dowQ9YyPxw", link: "#" },
+            { title: "Subject–Verb Agreement – Practice Series", img: "https://i9.ytimg.com/vi/F7nxRx2H_sA/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLB5kqzlHEBCokNF2Grgx38tG3ePcw", link: "#" },
+            { title: "Main Verb vs Helping Verb – Explained", img: "https://i9.ytimg.com/vi/gl2-HffHdlU/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLDHhvhluEWO9CWlXGplOvgXCg9CaQ", link: "#" }
+        ];
+
+        const statsData = [
+            { val: "Class 2-10", lbl: "Offline Classes", icon: "book-open" },
+            { val: "Expert", lbl: "Faculty", icon: "award" },
+            { val: "Personal", lbl: "Attention", icon: "users" },
+            { val: "Success", lbl: "Oriented", icon: "trending-up" }
+        ];
+
+        // --- RENDER FUNCTIONS ---
+
+        function getColorClasses(color) {
+            const map = {
+                cyan: { bg: "bg-cyan-600/10", text: "text-cyan-700 dark:text-cyan-400", accent: "bg-cyan-600", border: "border-cyan-600/20", badge: "bg-cyan-100 text-cyan-800 dark:bg-cyan-600/10 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800" },
+                emerald: { bg: "bg-emerald-600/10", text: "text-emerald-700 dark:text-emerald-400", accent: "bg-emerald-600", border: "border-emerald-600/20", badge: "bg-emerald-100 text-emerald-800 dark:bg-emerald-600/10 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" },
+                blue: { bg: "bg-indigo-600/10", text: "text-indigo-700 dark:text-indigo-400", accent: "bg-indigo-600", border: "border-indigo-600/20", badge: "bg-indigo-100 text-indigo-800 dark:bg-indigo-600/10 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800" },
+                amber: { bg: "bg-amber-600/10", text: "text-amber-700 dark:text-amber-400", accent: "bg-amber-600", border: "border-amber-600/20", badge: "bg-amber-100 text-amber-800 dark:bg-amber-600/10 dark:text-amber-300 border-amber-200 dark:border-amber-800" },
+                orange: { bg: "bg-orange-600/10", text: "text-orange-700 dark:text-orange-400", accent: "bg-orange-600", border: "border-orange-600/20", badge: "bg-orange-100 text-orange-800 dark:bg-orange-600/10 dark:text-orange-300 border-orange-200 dark:border-orange-800" },
+                purple: { bg: "bg-purple-600/10", text: "text-purple-700 dark:text-purple-400", accent: "bg-purple-600", border: "border-purple-600/20", badge: "bg-purple-100 text-purple-800 dark:bg-purple-600/10 dark:text-purple-300 border-purple-200 dark:border-purple-800" },
+                red: { bg: "bg-red-600/10", text: "text-red-700 dark:text-red-400", accent: "bg-red-600", border: "border-red-600/20", badge: "bg-red-100 text-red-800 dark:bg-red-600/10 dark:text-red-300 border-red-200 dark:border-red-800" }
+            };
+            return map[color] || map.blue;
+        }
+
+        // --- GALLERY LOGIC START ---
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.gallery-filter-btn');
+
+            // Update buttons active state
+            buttons.forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:text-brand-text', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+                    btn.classList.add('bg-brand-emerald', 'text-white', 'shadow-md');
+                } else {
+                    btn.classList.remove('bg-brand-emerald', 'text-white', 'shadow-md');
+                    btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:text-brand-text', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+                }
+            });
+
+            // Filter grid items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.cat === category) {
+                    item.classList.remove('hidden');
+                    // Add a small fade animation for smoother filtering
+                    item.classList.add('animate-fade-in');
+                    setTimeout(() => item.classList.remove('animate-fade-in'), 500); 
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            // Re-initialize icons just in case dynamic visibility affects them (rare but safe)
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        // --- GALLERY LOGIC END ---
+
+        function filterCourses(category, renderIcons = true) {
+            const container = document.getElementById('courses-list-container');
+            const filtered = category === 'all' ? coursesData : coursesData.filter(c => c.cat === category);
+            
+            document.querySelectorAll('.course-filter-btn').forEach(btn => {
+                const isActive = btn.dataset.cat === category;
+                btn.className = `course-filter-btn px-6 py-2.5 rounded-lg font-medium tracking-wide text-[14px] sm:text-[15px] transition-all duration-300 whitespace-nowrap btn-press ${isActive ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 shadow-sm ring-1 ring-indigo-500/20' : 'text-slate-600 dark:text-brand-text-muted hover:text-brand-text hover:bg-brand-muted border border-transparent'}`;
+            });
+
+            container.innerHTML = filtered.map((c, idx) => {
+                const colors = getColorClasses(c.color);
+                return `
+                <div class="glass-card rounded-3xl p-4 sm:p-6 hover:bg-brand-muted transition-all duration-300 group animate-slide-up hover-lift" style="animation-delay: ${idx * 0.08}s; animation-fill-mode: both;">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="relative w-full md:w-1/3 h-auto min-h-[12rem] rounded-2xl overflow-hidden shrink-0 border border-brand-border/50">
+                            <div class="${colors.bg} w-full h-full flex items-center justify-center absolute inset-0">
+                                <i data-lucide="${c.icon}" class="w-16 h-16 ${colors.text} opacity-80 group-hover:scale-110 transition-transform duration-500"></i>
+                            </div>
+                            <div class="relative h-full flex flex-col justify-between p-3">
+                                <div class="flex justify-end">
+                                    ${c.popular ? '<span class="bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 fill-current"></i> Popular</span>' : ''}
+                                </div>
+                                <div class="${colors.badge} text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1 shadow-sm w-fit border backdrop-blur-sm">
+                                    ${c.tagline}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 py-1">
+                            <h3 class="text-xl sm:text-2xl font-bold font-heading text-brand-text mb-2">${c.name}</h3>
+                            <p class="text-brand-text-muted mb-4 text-sm font-normal leading-relaxed">${c.desc}</p>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-brand-text-muted font-normal">
+                                <div class="bg-brand-muted p-3 rounded-lg border border-brand-border">
+                                    <div class="font-semibold flex items-center gap-2 mb-1 text-brand-text"><i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Timing</div>
+                                    ${c.time}
+                                </div>
+                                <div class="bg-brand-muted p-3 rounded-lg border border-brand-border">
+                                    <div class="font-semibold flex items-center gap-2 mb-1 text-brand-text"><i data-lucide="users" class="w-4 h-4 text-indigo-500"></i> Batch</div>
+                                    ${c.batch}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                ${c.subs.map(s => `<span class="text-xs font-medium px-3 py-1 rounded-full bg-brand-muted text-brand-text-muted border border-brand-border">${s}</span>`).join('')}
+                            </div>
+
+                            <div class="flex flex-wrap gap-3">
+                                <a href="#admission" onclick="navigateTo('admission')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide hover:bg-indigo-500 transition-colors shadow-md flex-grow text-center btn-press">Enroll Now</a>
+                                <a href="#contact" onclick="navigateTo('contact')" class="border border-brand-border text-brand-text px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide hover:bg-brand-muted transition-colors flex-grow text-center btn-press">Enquire</a>
+                                <button class="bg-red-50 text-red-600 border border-red-100 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors flex items-center gap-2 btn-press"><i data-lucide="file-text" class="w-4 h-4"></i> Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+            
+            if (renderIcons && typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function renderHomeCourses() {
+            const grid = document.getElementById('home-courses-grid');
+            // Show diverse mix: Group A, D, E, F
+            const featuredIds = [2, 4, 5, 7]; 
+            const featured = coursesData.filter(c => featuredIds.includes(c.id));
+            
+            grid.innerHTML = featured.map((c, idx) => {
+                const colors = getColorClasses(c.color);
+                return `
+                <div class="glass-card rounded-2xl p-6 hover:bg-brand-muted transition-all group hover-lift reveal-on-scroll" style="transition-delay: ${idx * 100}ms">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 ${colors.accent} rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="${c.icon}" class="w-6 h-6"></i>
+                        </div>
+                        ${c.popular ? '<span class="bg-amber-500 text-white text-xs px-2 py-1 rounded font-bold">Popular</span>' : ''}
+                    </div>
+                    <h3 class="text-xl font-bold font-heading text-brand-text mb-2 group-hover:text-indigo-600 transition-colors">${c.name}</h3>
+                    <p class="text-brand-text-muted text-sm mb-4 line-clamp-2 font-normal">${c.desc}</p>
+                    <a href="#courses" onclick="navigateTo('courses')" class="flex items-center gap-2 ${colors.text} font-bold text-sm group-hover:gap-3 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>`;
+            }).join('');
+        }
+        
+        function renderYoutubePlaceholders() {
+            const grid = document.getElementById('youtube-videos-grid');
+            grid.innerHTML = youtubeVideos.map(v => `
+                 <a href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ" target="_blank" class="group relative rounded-xl overflow-hidden aspect-video bg-gray-900 shadow-lg hover-lift">
+                     <img src="${v.img}" alt="${v.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity duration-300">
+                     <div class="absolute inset-0 flex items-center justify-center">
+                         <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-xl">
+                             <i data-lucide="play" class="w-5 h-5 fill-current ml-1"></i>
+                         </div>
+                     </div>
+                     <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                         <p class="text-white font-medium text-sm truncate">${v.title}</p>
+                         <p class="text-red-400 text-xs font-bold uppercase tracking-wide mt-1">Rango Classes</p>
+                     </div>
+                 </a>
+            `).join('');
+        }
+
+        function renderStaticSections() {
+            // Stats
+            document.getElementById('stats-container').innerHTML = statsData.map((s, idx) => `
+                <div class="p-2 sm:p-4 group reveal-on-scroll" style="transition-delay: ${idx * 100}ms">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto bg-indigo-600/10 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300 text-indigo-600">
+                        <i data-lucide="${s.icon}" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold font-heading text-brand-text mb-1">${s.val}</h3>
+                    <p class="text-brand-text-muted font-normal text-sm sm:text-base">${s.lbl}</p>
+                </div>
+            `).join('');
+        }
+
+        // SPA Navigation
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-view').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            const target = document.getElementById(`${pageId}-page`);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+                target.classList.add('page-transition');
+                window.scrollTo(0, 0);
+            }
+            document.getElementById('mobile-menu').classList.remove('open');
+        }
+
+        function handleFormSubmit(e, type) {
+            e.preventDefault();
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.add('modal-open');
+            e.target.reset();
+        }
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Lightbox Functions
+        function openLightbox(src) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.remove('hidden');
+            // Trigger reflow for transition
+            void lightbox.offsetWidth;
+            lightbox.classList.remove('opacity-0');
+            img.classList.remove('scale-95');
+            img.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+            lightbox.classList.add('opacity-0');
+            img.classList.remove('scale-100');
+            img.classList.add('scale-95');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                img.src = '';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function initAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1, 
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+                observer.observe(el);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('open');
+            });
+            
+            // Lightbox Event Listeners
+            document.getElementById('gallery-lightbox').addEventListener('click', (e) => {
+                if (e.target.id === 'gallery-lightbox') closeLightbox();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !document.getElementById('gallery-lightbox').classList.contains('hidden')) {
+                    closeLightbox();
+                }
+            });
+            
+            // Optimization: Batch HTML generation
+            renderStaticSections();
+            filterCourses('all', false); // Skip icon gen here
+            renderHomeCourses();
+            renderYoutubePlaceholders();
+            
+            // Run icon generation ONCE after batch update
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            
+            const hash = window.location.hash.slice(1) || 'home';
+            navigateTo(hash);
+
+            setTimeout(initAnimations, 100);
+        });
+    </script>
+    </body>
+</html>
