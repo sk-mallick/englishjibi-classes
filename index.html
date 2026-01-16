@@ -625,7 +625,7 @@
                                 <div
                                     class="relative w-full aspect-video overflow-hidden bg-black/5">
                                     <img
-                                        src="https://i9.ytimg.com/vi/8MB9JF3GhOE/maxresdefault.jpg?v=6957e8e0&sqp=COixoMsG&rs=AOn4CLBo9FDrHSy-85PwJ02FNw7kEEg-Og"
+                                        src="yt/img-1.png"
                                         alt="Conditional Sentences: Complete Masterclass"
                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                                     <!-- Play Overlay -->
@@ -675,7 +675,7 @@
                                 <div
                                     class="relative w-full aspect-video overflow-hidden bg-black/5">
                                     <img
-                                        src="https://i9.ytimg.com/vi/mI4gZ2qY7wE/maxresdefault.jpg?v=69424e98&sqp=CJS0oMsG&rs=AOn4CLArcQ5zXscXqRt-1yYTRR1KpMR_Ow"
+                                        src="yt/img-2.png"
                                         alt="Complete Verb Course: Basic to Advanced"
                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                                     <!-- Play Overlay -->
@@ -1498,8 +1498,9 @@
                                     class="glass-card rounded-xl overflow-hidden hover-lift group">
                                     <div
                                         class="relative aspect-video bg-gray-900">
+                                        <!-- Corrected: Relative path -->
                                         <img
-                                            src="https://i9.ytimg.com/vi/hYdlA_lmw3g/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLBec2VWmdXRghoYNv84dowQ9YyPxw"
+                                            src="yt/img-1.png"
                                             class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
                                         <div
                                             class="absolute inset-0 flex items-center justify-center">
@@ -1526,8 +1527,9 @@
                                     class="glass-card rounded-xl overflow-hidden hover-lift group">
                                     <div
                                         class="relative aspect-video bg-gray-900">
+                                        <!-- Corrected: Relative path -->
                                         <img
-                                            src="https://i9.ytimg.com/vi/F7nxRx2H_sA/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLB5kqzlHEBCokNF2Grgx38tG3ePcw"
+                                            src="yt/img-2.png"
                                             class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
                                         <div
                                             class="absolute inset-0 flex items-center justify-center">
@@ -1554,8 +1556,9 @@
                                     class="glass-card rounded-xl overflow-hidden hover-lift group">
                                     <div
                                         class="relative aspect-video bg-gray-900">
+                                        <!-- Corrected: Relative path -->
                                         <img
-                                            src="https://i9.ytimg.com/vi/gl2-HffHdlU/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLDHhvhluEWO9CWlXGplOvgXCg9CaQ"
+                                            src="yt/img-3.png"
                                             class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
                                         <div
                                             class="absolute inset-0 flex items-center justify-center">
@@ -2167,9 +2170,9 @@
         ];
 
         const youtubeVideos = [
-            { title: "Singular vs Plural Verb – Quick Rules", img: "https://i9.ytimg.com/vi/hYdlA_lmw3g/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLBec2VWmdXRghoYNv84dowQ9YyPxw", link: "#" },
-            { title: "Subject–Verb Agreement – Practice Series", img: "https://i9.ytimg.com/vi/F7nxRx2H_sA/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLB5kqzlHEBCokNF2Grgx38tG3ePcw", link: "#" },
-            { title: "Main Verb vs Helping Verb – Explained", img: "https://i9.ytimg.com/vi/gl2-HffHdlU/maxresdefault.jpg?time=1768434000000&sqp=CNDSoMsG&rs=AOn4CLDHhvhluEWO9CWlXGplOvgXCg9CaQ", link: "#" }
+            { title: "Singular vs Plural Verb – Quick Rules", img: "yt/img-1.png", link: "#" },
+            { title: "Subject–Verb Agreement – Practice Series", img: "yt/img-2.png", link: "#" },
+            { title: "Main Verb vs Helping Verb – Explained", img: "yt/img-3.png", link: "#" }
         ];
 
         const statsData = [
@@ -2377,6 +2380,33 @@
                 localStorage.setItem('theme', 'dark');
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Lightbox Functions
+        function openLightbox(src) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.remove('hidden');
+            // Trigger reflow for transition
+            void lightbox.offsetWidth;
+            lightbox.classList.remove('opacity-0');
+            img.classList.remove('scale-95');
+            img.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+            lightbox.classList.add('opacity-0');
+            img.classList.remove('scale-100');
+            img.classList.add('scale-95');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                img.src = '';
+                document.body.style.overflow = '';
+            }, 300);
         }
 
         function initAnimations() {
