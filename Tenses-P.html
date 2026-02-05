@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Syntax Practice - Classroom Edition</title>
+        <link rel="icon" type="image/png" href="icon.png">
+        
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Confetti Library -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+
+        <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+
+        <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020617; /* Slate 950 */
+            color: #ffffff; 
+        }
+        
+        /* Button Animations */
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* High Visibility Correct/Wrong Styles */
+        .correct {
+            background-color: #16a34a !important; /* Vivid Green */
+            border-color: #22c55e !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+        .correct .badge-default {
+             border-color: #ffffff !important;
+             color: #ffffff !important;
+        }
+
+        .wrong {
+            background-color: #dc2626 !important; /* Vivid Red */
+            border-color: #ef4444 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+        .wrong .badge-default {
+             border-color: #ffffff !important;
+             color: #ffffff !important;
+        }
+
+        /* Badge Styles inside buttons */
+        .badge-default {
+            background-color: #334155; 
+            color: #94a3b8; 
+            border: 1px solid #475569;
+        }
+        
+        .badge-active {
+            background-color: rgba(255,255,255,0.2) !important;
+            color: #ffffff !important;
+            border-color: transparent !important;
+        }
+
+        /* Menu Animation */
+        #teacher-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #teacher-menu.open {
+            transform: translateY(0);
+        }
+
+        /* Active Button State for Tools Menu */
+        .btn-active {
+            background-color: #16a34a !important;
+            border-color: #22c55e !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(22, 163, 74, 0.4) !important;
+        }
+
+        /* Effect Toggle Styles */
+        .effect-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Effect Toggle Off State (Red Slash) */
+        .slash-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 2px;
+            background-color: #ef4444; /* Red 500 */
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 2px rgba(0,0,0,0.8);
+            pointer-events: none;
+            display: none; /* Hidden by default */
+            z-index: 10;
+        }
+        
+        /* When disabled, show slash and dim opacity */
+        .effect-disabled .slash-line {
+            display: block;
+        }
+        .effect-disabled {
+            opacity: 0.7;
+            background-color: #1e293b !important; /* Darker slate when disabled */
+        }
+    </style>
+    </head>
+
+    <!-- Responsive Padding Top: Smaller on mobile (pt-[80px]), larger on desktop (pt-[120px]) -->
+    <body class="pb-20 min-h-screen flex flex-col pt-[85px] sm:pt-[120px]">
+
+        <!-- HEADER -->
+        <div class="fixed top-0 left-0 w-full z-50">
+            <!-- Header Container: Responsive padding -->
+            <header
+                class="bg-[#020617]/95 backdrop-blur-md shadow-2xl border-b border-slate-800 relative z-50">
+                <div
+                    class="w-full max-w-[98%] mx-auto px-3 py-2 sm:px-6 sm:py-3 flex justify-between items-center gap-2 sm:gap-4 flex-nowrap">
+
+                    <!-- Title Section -->
+                    <div
+                        class="flex items-stretch gap-2 sm:gap-4 self-center min-w-0">
+                        <div
+                            class="w-1 sm:w-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] self-stretch shrink-0"></div>
+
+                        <div class="flex flex-col justify-center min-w-0">
+                            <!-- Responsive Text Sizes: text-sm on mobile, text-2xl on desktop -->
+                            <h1
+                                class="text-sm xs:text-base sm:text-xl md:text-2xl font-black tracking-wide text-white uppercase leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+                                TIME & TENSE <span
+                                    class="text-blue-400 hidden xs:inline">PRACTICE</span>
+                            </h1>
+                            <p
+                                class="text-[9px] xs:text-[10px] sm:text-xs md:text-sm font-bold text-slate-400 tracking-[0.15em] mt-0.5 sm:mt-1 uppercase leading-tight truncate">
+                                By Chiranjibi Sir
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Controls -->
+                    <div
+                        class="flex items-center gap-1.5 xs:gap-2 sm:gap-3 shrink-0">
+
+                        <!-- SOUND TOGGLE (Responsive Size) -->
+                        <button onclick="toggleEffect('sound')" id="btn-sound"
+                            class="effect-btn group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-200"
+                            title="Toggle Sound">
+                            <span
+                                class="text-base xs:text-lg sm:text-xl">🔊</span>
+                            <div class="slash-line"></div>
+                        </button>
+
+                        <!-- CONFETTI TOGGLE (Responsive Size) -->
+                        <button onclick="toggleEffect('confetti')"
+                            id="btn-confetti"
+                            class="effect-btn group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-200"
+                            title="Toggle Confetti">
+                            <span
+                                class="text-base xs:text-lg sm:text-xl">🎉</span>
+                            <div class="slash-line"></div>
+                        </button>
+
+                        <!-- DIVIDER -->
+                        <div
+                            class="w-px h-6 sm:h-8 bg-slate-700 mx-0.5 sm:mx-1"></div>
+
+                        <!-- HOME BUTTON (Responsive Size) -->
+                        <a href="index.html"
+                            class="group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-400 hover:text-white"
+                            title="Go to Home">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 sm:h-5 sm:w-5" fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </a>
+
+                        <!-- TOOLS TOGGLE (Responsive Size & Text) -->
+                        <button onclick="toggleMenu()" id="menu-toggle-btn"
+                            class="group flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 xs:px-3 xs:py-2 sm:px-5 sm:py-2.5 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shrink-0 shadow-lg cursor-pointer">
+                            <span
+                                class="text-[10px] xs:text-xs sm:text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">TOOLS</span>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-3.5 w-3.5 sm:h-5 sm:w-5 text-slate-400 group-hover:text-blue-400"
+                                fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SLIDING MENU -->
+            <div id="teacher-menu"
+                class="absolute top-[100%] left-0 w-full bg-[#0f172a] border-b border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-40 py-4 px-3 md:py-8 md:px-6">
+                <!-- GRID SYSTEM: 2 Columns on Mobile, 3 on Desktop -->
+                <div
+                    class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
+
+                    <!-- SECTION 1: Standard Sets -->
+                    <div
+                        class="col-span-2 md:col-span-1 space-y-2 md:space-y-4">
+                        <h3
+                            class="text-purple-400 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">Select
+                            Set</h3>
+                        <!-- DYNAMIC BUTTON CONTAINER -->
+                        <div id="sets-container"
+                            class="grid grid-cols-5 md:grid-cols-4 gap-2 md:gap-3">
+                            <!-- JS will inject buttons here -->
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Filters -->
+                    <div class="col-span-1 space-y-2 md:space-y-4">
+                        <h3
+                            class="text-yellow-400 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">Filter</h3>
+
+                        <!-- Compact Flex on Mobile (h-10), Big Grid on Desktop -->
+                        <div
+                            class="flex md:grid md:grid-cols-2 gap-2 md:gap-4 h-10 md:h-auto">
+                            <button onclick="setMode('odd')" id="btn-odd"
+                                class="flex-1 md:py-8 bg-slate-800 border border-slate-700 text-slate-400 font-black rounded-lg md:rounded-xl hover:text-white hover:bg-slate-700 hover:border-indigo-500 flex items-center justify-center transition-all text-sm md:text-5xl">
+                                O
+                            </button>
+                            <button onclick="setMode('even')" id="btn-even"
+                                class="flex-1 md:py-8 bg-slate-800 border border-slate-700 text-slate-400 font-black rounded-lg md:rounded-xl hover:text-white hover:bg-slate-700 hover:border-indigo-500 flex items-center justify-center transition-all text-sm md:text-5xl">
+                                E
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Random -->
+                    <div class="col-span-1 space-y-2 md:space-y-4">
+                        <h3
+                            class="text-indigo-500 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">Random</h3>
+
+                        <div class="flex flex-col gap-2 md:gap-3">
+                            <div class="flex gap-2 h-10 md:h-auto">
+                                <div class="relative w-12 md:w-24 shrink-0">
+                                    <input type="number" id="random-count"
+                                        placeholder="10" value="10"
+                                        class="w-full h-full bg-slate-800 border border-slate-700 rounded-lg pl-1 pr-1 md:pl-3 md:pr-2 text-white font-bold focus:border-emerald-500 focus:outline-none text-center text-xs md:text-base">
+                                </div>
+                                <button onclick="generateRandom()"
+                                    id="btn-random"
+                                    class="flex-1 md:py-3 bg-emerald-900/10 hover:bg-emerald-600 border border-emerald-900 hover:border-emerald-500 text-emerald-500 hover:text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 text-xs md:text-base px-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4 md:h-5 md:w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    <span
+                                        class="hidden md:inline">GENERATE</span>
+                                    <span class="md:hidden">GENERATE</span>
+                                </button>
+                            </div>
+                            <p
+                                class="hidden md:block text-slate-500 text-[11px] leading-relaxed">Generates
+                                a unique test from the pool of 60 questions.
+                                Options are automatically shuffled.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main id="quiz-container"
+            class="w-full max-w-[98%] mx-auto px-4 space-y-4 flex-grow">
+            <!-- Questions injected here -->
+        </main>
+
+        <!-- JS LOGIC -->
+        <script>
+        // --- CONFIGURATION ---
+        // Change this number to automatically update how many questions appear in each set.
+        const QUESTIONS_PER_SET = 20; 
+
+        // FULL DATASET
+        const fullDB = [
+            { q: "What ________ you _______at the weekend?", options: ["does/does", "do/does", "does/do", "do/do"], answer: 3 },
+            { q: "What _____Dick and Tom like _____?", options: ["do/doing", "doing/doing", "do/do", "does/doing"], answer: 0 },
+            { q: "Do boys like ___jeans?", options: ["wear", "wearing", "to wear", "worn"], answer: 1 },
+            { q: "My classmates _____ on picnic every month.", options: ["went", "goes", "going", "go"], answer: 3 },
+            { q: "Mary ______ face every morning.", options: ["washes his", "wash my", "Washes her", "washes their"], answer: 2 },
+            { q: "I ___ cigarette, but my teacher _______ smoke.", options: ["don't/smokes", "smoke/doesn't", "smokes/smokes", "smoke/don't"], answer: 1 },
+            { q: "They ___ wash _____ car everyday.", options: ["don't/my", "don't/his", "don't/their", "don't/our"], answer: 2 },
+            { q: "My parents ________ eat meat.", options: ["don't", "aren't", "doesn't", "are"], answer: 0 },
+            { q: "Summer holidays ______ in June.", options: ["begins", "begin", "beginning", "began"], answer: 1 },
+            { q: "We _____ tennis on Monday evenings, but my little sister _____ on Sundays.", options: ["play/play", "plays/plays", "play/plays", "plays/play"], answer: 2 },
+            { q: "You ____ a lot of things in _______ free time.", options: ["do/our", "does/your", "do/my", "do/your"], answer: 3 },
+            { q: "My cat licks _______ tail every morning. But my dogs never lick _____ tails.", options: ["its/their", "its/its", "their/its", "*/*"], answer: 0 },
+            { q: "I like _______ football, but my brother doesn’t.", options: ["play", "played", "playing", "plays"], answer: 2 },
+            { q: "She likes ________TV. but her husband doesn’t.", options: ["watching", "to watch", "watches", "watched"], answer: 0 },
+            { q: "He sister doesn’t _________eating a hamburger.", options: ["like", "likes", "liking", "liked"], answer: 0 },
+            { q: "Do you like_________ in your free time?", options: ["read", "reads", "to read", "reading"], answer: 3 },
+            { q: "I like ________ but I________ like swimming.", options: ["sailing/don't", "sail/doesn't", "sail/don't", "sail/do"], answer: 0 },
+            { q: "Tom ________ her but she doesn’t like________.", options: ["like/her", "likes/him", "likes/he", "like/him"], answer: 1 },
+            { q: "Andrew buys a newspaper everyday. ________reads _________at home.", options: ["It/he", "Him/it", "He/it", "His/it"], answer: 2 },
+            { q: "Mike eats cheeseburgers because _________likes________.", options: ["he/their", "him/they", "he/them", "him/them"], answer: 2 },
+            { q: "What time is it? (3:45)", options: ["It is quarter past three.", "It is fifteen past four.", "It is quarter to four.", "It is fifteen to four."], answer: 2 },
+            { q: "It Is half past eight.", options: ["8:30", "7:30", "18:30", "17:30"], answer: 0 },
+            { q: "It is quarter past eight.", options: ["8:30", "7:30", "8:15", "17:15"], answer: 2 },
+            { q: "It is five to nine.", options: ["9:55", "9:35", "8:55", "9:05"], answer: 2 },
+            { q: "It is five past nine.", options: ["9:55", "9:35", "8:55", "9:05"], answer: 3 },
+            { q: "A friend of mine likes _________on picnic at weekends.", options: ["to go", "going", "goes", "go"], answer: 0 },
+            { q: "I _________ my teeth every morning.", options: ["brushing", "brush", "brushes", "to brush"], answer: 1 },
+            { q: "________ Kate live near jane?", options: ["Is", "Are", "Do", "Does"], answer: 3 },
+            { q: "His father ________ ,but Bill’s father __________ smoke.", options: ["smoke/don't", "smoke/doesn't", "smoke/don't", "smoke/isn't"], answer: 1 },
+            { q: "My father _______ driving.", options: ["doesn't likes", "don't likes", "doesn't like", "don't like"], answer: 2 },
+            { q: "She _________ a bus to university.", options: ["always takes", "always take", "takes always", "take always"], answer: 0 },
+            { q: "I _________ to a football match every Sunday but my father_________.", options: ["go/don't", "goes/doesn't", "go/doesn't", "goes/don't"], answer: 2 },
+            { q: "Every year millions of people__________ The London Museum.", options: ["visit", "go", "to have", "want"], answer: 0 },
+            { q: "The Buckingham palace _________ lots of rooms.", options: ["have", "has", "to have", "having"], answer: 1 },
+            { q: "Visitors_________ to India’s Independence Day from all over the world.", options: ["visit", "come", "leave", "goes"], answer: 1 },
+            { q: "I ________ English, Russian, and Romania, but I ________Chinese.", options: ["speak/don't speak", "speak/speak", "speaks/speaks", "speaks/don't speak"], answer: 0 },
+            { q: "Many foreigners in our country ________to the Golden Bazaar.", options: ["buy", "go shopping", "want", "come"], answer: 1 },
+            { q: "A: What ________ your ________? B: An architect.", options: ["do/do", "does/do", "are/do", "do/are"], answer: 0 },
+            { q: "A: What ________ your niece________? B: A nurse.", options: ["do/do", "does/is", "does/do", "is/do"], answer: 2 },
+            { q: "A: Where ________your parents_________? B: In the Ministry of Education.", options: ["do/do", "do/work", "are/work", "work/do"], answer: 1 },
+            { q: "A: ________languages do they speak? B: Just one.", options: ["What", "How many", "How", "Which"], answer: 1 },
+            { q: "A: Do you _________ Afghani? B: No.", options: ["speak/You don't", "speak/I don't", "speak/don't I", "speaks/don't speak"], answer: 1 },
+            { q: "A: _________does Margaret start work? B: At 7 in the morning", options: ["What time", "What kind", "What sort", "What about"], answer: 0 },
+            { q: "A: ________do your brothers like working in this factory? B: Because they earn much money.", options: ["What", "When", "Why", "Whom"], answer: 2 },
+            { q: "________he likes his job?", options: ["Does", "Do", "Is", "Are"], answer: 0 },
+            { q: "I________ an accountant.", options: ["do", "does", "am", "is"], answer: 2 },
+            { q: "__________New York exciting?", options: ["Are", "Do", "Does", "Is"], answer: 3 },
+            { q: "Where __________they live?", options: ["are", "do", "does", "is"], answer: 1 },
+            { q: "Why__________ you want to learn English?", options: ["do", "are", "...", "is"], answer: 0 },
+            { q: "We _________Algerians.", options: ["does", "are", "do", "am"], answer: 1 },
+            { q: "What ___________he do at weekends?", options: ["do", "is", "does", "are"], answer: 2 },
+            { q: "He plays football _________Friday mornings.", options: ["in", "on", "at", "of"], answer: 1 },
+            { q: "Do you relax _________weekends?", options: ["at", "on", "in", "by"], answer: 0 },
+            { q: "Where _________do you go_______ holiday?", options: ["at", "in", "of", "on"], answer: 3 },
+            { q: "I like________.", options: ["cooks", "cooking", "cook", "cooked"], answer: 1 },
+            { q: "She gets up early ________the morning.", options: ["on", "in", "at", "by"], answer: 1 },
+            { q: "She gets up early ________the weekdays.", options: ["at", "of", "on", "in"], answer: 2 },
+            { q: "He takes photos only __________spring.", options: ["in", "at", "on", "by"], answer: 0 },
+            { q: "He hates _________football __________television.", options: ["watching/on", "to watch/in", "watch/on", "watching/in"], answer: 0 },
+            { q: "They like _________very much.", options: ["sail", "sailed", "sailing", "sail"], answer: 2 },
+            { q: "My brother's birthday is _________March.", options: ["in", "on", "at", "to"], answer: 0 },
+            { q: "The train leaves Paris_________4 p.m.", options: ["in", "at", "on", "to"], answer: 1 },
+            { q: "Vancouver is very cold_________ winter.", options: ["at", "in", "on", "to"], answer: 1 },
+            { q: "She never ________meat.", options: ["eats", "eating", "eat", "to eat"], answer: 0 },
+            { q: "A: I'm sorry, I'm late. B:________Come and sit down.", options: ["Excuse me!", "Don't worry!", "What's the matter?", "Why are you late?"], answer: 1 },
+            { q: "A-_______your wife ________English? B-Yes, she does.", options: ["Do/speak", "Does/speaking", "Does/speak", "Do/speaking"], answer: 2 },
+            { q: "How many languages ________you_________? Three: English, German and Spanish.", options: ["does/speak", "do/speak", "do/speaking", "does/speaking"], answer: 1 },
+            { q: "Why ________you like________ in the hotel?", options: ["do/working", "do/work", "does/working", "does/work"], answer: 0 },
+            { q: "They never go out __________Friday evenings.", options: ["on", "in", "at", "by"], answer: 0 },
+            { q: "She loves __________to music.", options: ["listening", "to listen", "listens", "listen"], answer: 0 },
+            { q: "They often eat in a restaurant __________Tuesdays.", options: ["on", "In", "of", "at"], answer: 0 },
+            { q: "_________summer I play tennis ___________Sundays.", options: ["In/in", "At/on", "In/on", "At/in"], answer: 2 },
+            { q: "Do Mr. Adams and his daughter like going_________? No, they _______.", options: ["ski/don't", "skiing/don't", "skiing/do", "ski/does"], answer: 1 },
+            { q: "_______they ________a winter holiday? Yes, they do.", options: ["Do/wanting", "Does/want", "Do/want", "Does/wanting"], answer: 2 },
+            { q: "What time_________ you go to bed?", options: ["do", "does", "is", "have"], answer: 0 },
+            { q: "____________do you do your homework? After dinner.", options: ["Where", "What", "How", "When"], answer: 3 },
+            { q: "__________you go out on Friday evening? Yes, I do sometimes.", options: ["Do", "Where", "Are", "Does"], answer: 0 },
+            { q: "__________do you like your job? Because it's Interesting.", options: ["Why", "What", "How", "Where"], answer: 0 },
+            { q: "__________do you travel to school? By bus.", options: ["How", "What", "Why", "Where"], answer: 0 },
+            { q: "___________ ____________you live with? With my mother and sister.", options: ["What/do", "Who/do", "Where/does", "Who/does"], answer: 1 },
+            { q: "___________ do you __________on Sunday? I always relax.", options: ["How/doing", "What/do", "Where/does", "What/relax"], answer: 1 },
+            { q: "_________do you ________on holiday? To Rome or Paris.", options: ["Where/like", "How/relax", "Where/go", "Why/go"], answer: 2 }
+        ];
+
+        // STATE
+        let currentMode = 'set'; 
+        let activeQuestions = [];
+        let currentSet = 1;
+        
+        // EFFECTS
+        let soundEnabled = true;
+        let confettiEnabled = true;
+        
+        // AUDIO
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playTone(freq, type, duration) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playCorrectSound() {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            playTone(800, 'sine', 0.1); 
+            setTimeout(() => playTone(1200, 'sine', 0.2), 100);
+        }
+
+        function playWrongSound() {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle'; 
+            osc.frequency.setValueAtTime(300, audioCtx.currentTime); 
+            osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.4); 
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime); 
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); 
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+
+        function triggerConfetti() {
+            if (!confettiEnabled) return;
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function toggleEffect(type) {
+            if (type === 'sound') {
+                soundEnabled = !soundEnabled;
+                const btn = document.getElementById('btn-sound');
+                if(!soundEnabled) {
+                    btn.classList.add('effect-disabled');
+                } else {
+                    btn.classList.remove('effect-disabled');
+                }
+            } else if (type === 'confetti') {
+                confettiEnabled = !confettiEnabled;
+                const btn = document.getElementById('btn-confetti');
+                if(!confettiEnabled) {
+                    btn.classList.add('effect-disabled');
+                } else {
+                    btn.classList.remove('effect-disabled');
+                }
+            }
+        }
+
+        // 1. INITIALIZE & DYNAMIC SET GENERATION
+        function init() {
+            generateSetButtons();
+            selectSet(1);
+        }
+
+        // Generate buttons based on TOTAL DB size and QUESTIONS_PER_SET
+        function generateSetButtons() {
+            const container = document.getElementById('sets-container');
+            container.innerHTML = ''; // Clear current
+            
+            const totalSets = Math.ceil(fullDB.length / QUESTIONS_PER_SET);
+
+            for (let i = 1; i <= totalSets; i++) {
+                const btn = document.createElement('button');
+                btn.id = `btn-set-${i}`;
+                btn.onclick = () => selectSet(i);
+                
+                // Styling classes (same as previous hardcoded ones)
+                btn.className = "py-2 md:py-3 bg-slate-800 border border-slate-700 text-slate-400 font-bold rounded-lg hover:text-white hover:bg-slate-700 hover:border-slate-400 transition-all text-xs md:text-base";
+                
+                // Button Text
+                btn.innerHTML = `<span class="md:hidden">${i}</span><span class="hidden md:inline">Set ${i}</span>`;
+                
+                container.appendChild(btn);
+            }
+        }
+
+        // 2. TOGGLE MENU
+        function toggleMenu() {
+            document.getElementById('teacher-menu').classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.getElementById('teacher-menu').classList.remove('open');
+        }
+
+        // 3. SET HANDLER (Updated for Dynamic Range)
+        function selectSet(setNum) {
+            currentSet = setNum;
+            const start = (setNum - 1) * QUESTIONS_PER_SET;
+            const end = start + QUESTIONS_PER_SET;
+            
+            // Slice handles out-of-bounds end index gracefully
+            activeQuestions = fullDB.slice(start, end);
+            
+            currentMode = 'set';
+            updateButtonStyles();
+            renderQuiz();
+            closeMenu();
+        }
+
+        // 4. SPECIAL MODES
+        function setMode(mode) {
+            currentMode = mode;
+            if (mode === 'odd') {
+                activeQuestions = fullDB.filter((_, i) => (i + 1) % 2 !== 0);
+            } else if (mode === 'even') {
+                activeQuestions = fullDB.filter((_, i) => (i + 1) % 2 === 0);
+            }
+            updateButtonStyles();
+            renderQuiz();
+            closeMenu();
+        }
+
+        function generateRandom() {
+            const countInput = document.getElementById('random-count').value;
+            const count = parseInt(countInput) || 10; 
+            const shuffled = [...fullDB].sort(() => 0.5 - Math.random());
+            activeQuestions = shuffled.slice(0, count);
+            currentMode = 'random';
+            updateButtonStyles();
+            renderQuiz();
+            closeMenu();
+        }
+
+        function updateButtonStyles() {
+            // Clear all active states first
+            const allButtons = document.querySelectorAll('#sets-container button, #btn-odd, #btn-even, #btn-random');
+            allButtons.forEach(btn => btn.classList.remove('btn-active'));
+
+            if (currentMode === 'set') {
+                const btn = document.getElementById(`btn-set-${currentSet}`);
+                if (btn) btn.classList.add('btn-active');
+            } else if (currentMode === 'odd') {
+                document.getElementById('btn-odd').classList.add('btn-active');
+            } else if (currentMode === 'even') {
+                document.getElementById('btn-even').classList.add('btn-active');
+            } else if (currentMode === 'random') {
+                document.getElementById('btn-random').classList.add('btn-active');
+            }
+        }
+
+        // 5. SHUFFLE OPTIONS LOGIC
+        function getShuffledOptionsObj(questionItem) {
+            const correctText = questionItem.options[questionItem.answer];
+            let opts = questionItem.options.map((opt, i) => ({ text: opt, originalIndex: i }));
+            opts.sort(() => Math.random() - 0.5);
+            const newAnswerIndex = opts.findIndex(o => o.text === correctText);
+            return { shuffledOptions: opts.map(o => o.text), newAnswerIndex: newAnswerIndex };
+        }
+
+        // 6. RENDER
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            if (activeQuestions.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 text-slate-500">No questions found.</div>`;
+                return;
+            }
+
+            activeQuestions.forEach((item, index) => {
+                const displayNum = index + 1;
+                const { shuffledOptions, newAnswerIndex } = getShuffledOptionsObj(item);
+
+                const card = document.createElement('div');
+                card.className = "bg-[#1e293b] rounded-xl md:rounded-2xl shadow-2xl border-2 border-slate-700 overflow-hidden";
+                card.setAttribute('data-answered', 'false');
+
+                const header = document.createElement('div');
+                header.className = "bg-[#0f172a] px-4 py-3 md:px-6 md:py-4 border-b border-slate-700 flex gap-3 md:gap-4 items-start";
+                
+                header.innerHTML = `
+                    <span class="font-black text-blue-400 text-lg md:text-xl whitespace-nowrap mt-0.5 bg-blue-900/30 px-3 py-1 rounded-lg border border-blue-800 shadow-[0_0_10px_rgba(30,58,138,0.5)]">Q${displayNum}</span>
+                    <p class="text-white font-bold text-lg md:text-xl leading-relaxed tracking-wide pt-0.5">${item.q}</p>
+                `;
+
+                const optsDiv = document.createElement('div');
+                optsDiv.className = "p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4";
+
+                const letters = ['A', 'B', 'C', 'D'];
+                
+                shuffledOptions.forEach((optText, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = "option-btn w-full text-left px-4 py-3 md:px-5 md:py-4 rounded-lg md:rounded-xl border-2 border-slate-600 text-slate-100 font-bold text-base md:text-lg bg-slate-800 hover:bg-slate-700 hover:border-slate-500 focus:outline-none relative overflow-hidden group flex items-center shadow-lg";
+                    
+                    btn.innerHTML = `
+                        <span class="badge-default inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-black mr-3 transition-colors shrink-0 group-hover:border-slate-400">${letters[i]}</span>
+                        <span class="flex-1">${optText}</span>
+                    `;
+
+                    btn.onclick = () => checkAnswer(btn, i, newAnswerIndex, optsDiv);
+                    optsDiv.appendChild(btn);
+                });
+
+                card.appendChild(header);
+                card.appendChild(optsDiv);
+                container.appendChild(card);
+            });
+        }
+
+        // CLICK HANDLER
+        function checkAnswer(clickedBtn, selectedIndex, correctIndex, container) {
+            const allBtns = container.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('correct', 'wrong');
+                btn.classList.add('border-slate-600', 'bg-slate-800', 'text-slate-100');
+                
+                const badge = btn.querySelector('.badge-default, .badge-active');
+                if(badge) {
+                     badge.classList.remove('badge-active');
+                     badge.classList.add('badge-default');
+                     badge.style.borderColor = ""; 
+                     badge.style.color = "";
+                }
+            });
+
+            clickedBtn.classList.remove('border-slate-600', 'bg-slate-800', 'text-slate-100');
+
+            const badge = clickedBtn.querySelector('.badge-default');
+            if(badge) {
+                badge.classList.remove('badge-default');
+                badge.classList.add('badge-active');
+            }
+
+            if (selectedIndex === correctIndex) {
+                clickedBtn.classList.add('correct');
+                playCorrectSound();
+                triggerConfetti();
+            } else {
+                clickedBtn.classList.add('wrong');
+                playWrongSound();
+            }
+        }
+
+        // GLOBAL CLICK LISTENER
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('teacher-menu');
+            const toggleBtn = document.getElementById('menu-toggle-btn');
+            if (menu.classList.contains('open') && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        init();
+
+    </script>
+        <div
+            class="fixed bottom-3 w-full text-center pointer-events-none select-none z-0">
+            <p
+                class="text-slate-600 opacity-40 text-[10px] font-bold tracking-[0.2em] uppercase">Designed
+                by Subham Kumar Mallick</p>
+        </div>
+    </body>
+</html>
