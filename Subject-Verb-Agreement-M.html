@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Syntax Practice - Classroom Edition</title>
+        <link rel="icon" type="image/png" href="icon.png">
+        
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Confetti Library -->
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    screens: { 'xs': '375px' },
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    },
+                    animation: {
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        },
+                        pop: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+        <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020617; 
+            color: #ffffff; 
+        }
+
+        .quiz-columns {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        #teacher-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #teacher-menu.open { transform: translateY(0); }
+
+        .btn-active {
+            background-color: #16a34a !important;
+            border-color: #22c55e !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(22, 163, 74, 0.4) !important;
+        }
+
+        .effect-btn { position: relative; overflow: hidden; }
+        
+        .slash-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 2px;
+            background-color: #ef4444;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 2px rgba(0,0,0,0.8);
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+        
+        .effect-disabled .slash-line { display: block; }
+        .effect-disabled {
+            opacity: 0.7;
+            background-color: #1e293b !important;
+        }
+        
+        .sentence-blank {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom-width: 2px;
+            border-color: #64748b;
+            color: transparent;
+            text-align: center;
+            padding: 0 4px;
+            transition: all 0.3s ease;
+            font-weight: 800;
+        }
+        
+        .sentence-blank.filled {
+            color: #34d399;
+            border-color: #34d399;
+        }
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+    </head>
+
+    <body class="pb-20 min-h-screen flex flex-col pt-[70px] sm:pt-[90px]">
+
+        <!-- HEADER -->
+        <div class="fixed top-0 left-0 w-full z-50">
+            <header class="bg-[#020617]/95 backdrop-blur-md shadow-2xl border-b border-slate-800 relative z-50">
+                <div class="w-full max-w-[98%] mx-auto px-3 py-2 sm:px-6 sm:py-3 flex justify-between items-center gap-2 sm:gap-4 flex-nowrap">
+
+                    <!-- Title Section -->
+                    <div class="flex items-stretch gap-2 sm:gap-4 self-center min-w-0">
+                        <div class="w-1 sm:w-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] self-stretch shrink-0"></div>
+                        <div class="flex flex-col justify-center min-w-0">
+                            <h1 class="text-sm xs:text-base sm:text-xl md:text-2xl font-black tracking-wide text-white uppercase leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+                                SYNTAX <span class="text-blue-400 hidden xs:inline">PRACTICE</span>
+                            </h1>
+                            <p class="text-[9px] xs:text-[10px] sm:text-xs md:text-sm font-bold text-slate-400 tracking-[0.15em] mt-0.5 sm:mt-1 uppercase leading-tight truncate">
+                                By Chiranjibi Sir
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Controls -->
+                    <div class="flex items-center gap-1.5 xs:gap-2 sm:gap-3 shrink-0">
+                        <button onclick="toggleEffect('sound')" id="btn-sound" class="effect-btn group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-200" title="Toggle Sound">
+                            <span class="text-base xs:text-lg sm:text-xl">🔊</span>
+                            <div class="slash-line"></div>
+                        </button>
+                        <button onclick="toggleEffect('confetti')" id="btn-confetti" class="effect-btn group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-200" title="Toggle Confetti">
+                            <span class="text-base xs:text-lg sm:text-xl">🎉</span>
+                            <div class="slash-line"></div>
+                        </button>
+                        <div class="w-px h-6 sm:h-8 bg-slate-700 mx-0.5 sm:mx-1"></div>
+                        <a href="index.html" onclick="window.location.reload()" class="group flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shadow-lg text-slate-400 hover:text-white" title="Go to Home">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </a>
+                        <button onclick="toggleMenu()" id="menu-toggle-btn" class="group flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 xs:px-3 xs:py-2 sm:px-5 sm:py-2.5 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shrink-0 shadow-lg cursor-pointer">
+                            <span class="text-[10px] xs:text-xs sm:text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">TOOLS</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 sm:h-5 sm:w-5 text-slate-400 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SLIDING MENU -->
+            <div id="teacher-menu" class="absolute top-[100%] left-0 w-full bg-[#0f172a] border-b border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-40 py-4 px-3 md:py-8 md:px-6">
+                <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
+                    
+                    <!-- SECTION 1: Standard Sets -->
+                    <div class="col-span-2 md:col-span-1 space-y-2 md:space-y-4">
+                        <h3 class="text-purple-400 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">Select Set</h3>
+                        <div id="set-grid" class="grid grid-cols-5 gap-2 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar"></div>
+                    </div>
+
+                    <!-- SECTION 2: Filters -->
+                    <div class="col-span-1 space-y-2 md:space-y-4">
+                        <h3 class="text-yellow-400 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">View Filter</h3>
+                        <div class="flex md:grid md:grid-cols-2 gap-2 md:gap-4 h-10 md:h-auto">
+                            <button onclick="setFilter('odd')" id="btn-odd" class="flex-1 md:py-8 bg-slate-800 border border-slate-700 text-slate-400 font-black rounded-lg md:rounded-xl hover:text-white hover:bg-slate-700 hover:border-indigo-500 flex items-center justify-center transition-all text-sm md:text-5xl">O</button>
+                            <button onclick="setFilter('even')" id="btn-even" class="flex-1 md:py-8 bg-slate-800 border border-slate-700 text-slate-400 font-black rounded-lg md:rounded-xl hover:text-white hover:bg-slate-700 hover:border-indigo-500 flex items-center justify-center transition-all text-sm md:text-5xl">E</button>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Random -->
+                    <div class="col-span-1 space-y-2 md:space-y-4">
+                        <h3 class="text-indigo-500 text-xs font-black uppercase tracking-widest border-b border-slate-800 pb-2">Random</h3>
+                        <div class="flex flex-col gap-2 md:gap-3">
+                            <div class="flex gap-2 h-10 md:h-auto">
+                                <div class="relative w-12 md:w-24 shrink-0">
+                                    <input type="number" id="random-count" placeholder="10" value="10" class="w-full h-full bg-slate-800 border border-slate-700 rounded-lg pl-1 pr-1 md:pl-3 md:pr-2 text-white font-bold focus:border-emerald-500 focus:outline-none text-center text-xs md:text-base">
+                                </div>
+                                <button onclick="generateRandom()" id="btn-random" class="flex-1 md:py-3 bg-emerald-900/10 hover:bg-emerald-600 border border-emerald-900 hover:border-emerald-500 text-emerald-500 hover:text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 text-xs md:text-base px-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    <span>GENERATE</span>
+                                </button>
+                            </div>
+                            <p class="hidden md:block text-slate-500 text-[11px] leading-relaxed">
+                                Generates a unique test from the entire pool of questions. Options are automatically shuffled.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main id="quiz-container" class="w-full max-w-[1920px] mx-auto px-4 flex-grow quiz-columns pt-6">
+            <!-- Questions injected here -->
+        </main>
+
+        <div class="fixed bottom-3 w-full text-center pointer-events-none select-none z-0">
+            <p class="text-slate-600 opacity-40 text-[10px] font-bold tracking-[0.2em] uppercase">Designed by Subham Kumar Mallick</p>
+        </div>
+
+        <script>
+        // --- MASTER DATA POOL ---
+        const RAW_QUESTIONS = [
+            { q: "The jury ________ divided in their opinions.", options: ["was", "were"], answer: 1 },
+            { q: "Either he or I ________ mistaken.", options: ["is", "am"], answer: 1 },
+            { q: "The magistrate and collector ________ there.", options: ["was", "were"], answer: 0 },
+            { q: "Ram as well as his friends ________ coming today.", options: ["are", "is"], answer: 1 },
+            { q: "You and I ________ friends.", options: ["am", "are"], answer: 1 },
+            { q: "Truth and honesty ________ the best policy.", options: ["is", "are"], answer: 0 },
+            { q: "The old man with his three sons ________ going to attend the party.", options: ["is", "are"], answer: 0 },
+            { q: "The price of mangoes ________ gone up.", options: ["has", "have"], answer: 0 },
+            { q: "Bread and butter ________ my usual breakfast.", options: ["is", "are"], answer: 0 },
+            { q: "Fifty kilometers ________ not long distance.", options: ["is", "are"], answer: 0 },
+            { q: "One of my friends ________ a new car.", options: ["have", "has"], answer: 1 },
+            { q: "Rani or Mohan ________ reading.", options: ["is", "are"], answer: 0 },
+            { q: "No news ________ good.", options: ["is", "are"], answer: 0 },
+            { q: "The price of tomatoes ________ gone up.", options: ["has", "have"], answer: 0 },
+            { q: "Each of the boys ________ intelligent.", options: ["is", "are"], answer: 0 },
+            { q: "Where ________ you going?", options: ["are", "is"], answer: 0 },
+            { q: "Where ________ you go?", options: ["do", "did"], answer: 0 },
+            { q: "Either you or he ________ broken this cup.", options: ["has", "have"], answer: 0 },
+            { q: "The number of students in this school ________ very large.", options: ["is", "are"], answer: 0 },
+            { q: "I wish I ________ a rich man.", options: ["was", "were"], answer: 1 },
+            { q: "Each of the boys ________ finished his work.", options: ["have", "has"], answer: 1 },
+            { q: "The cattle ________ seen on the road.", options: ["is", "are"], answer: 1 },
+            { q: "Neither of them ________ come.", options: ["has", "have"], answer: 0 },
+            { q: "He wishes he ________ a rich man.", options: ["was", "were"], answer: 1 },
+            { q: "The people of this village ________ hard working.", options: ["is", "are"], answer: 1 },
+            { q: "Each of the players ________ got a medal.", options: ["has", "have"], answer: 0 },
+            { q: "Each boy and each girl ________ a separate room.", options: ["has", "have"], answer: 0 },
+            { q: "He as well as Moti ________ tired of work.", options: ["is", "are"], answer: 0 },
+            { q: "Either Mohan or I ________ mistaken.", options: ["am", "are"], answer: 0 },
+            { q: "We have two pens which ________ new.", options: ["is", "are"], answer: 1 },
+            { q: "The news he gave ________ true.", options: ["is", "are"], answer: 0 },
+            { q: "He and I ________ friends.", options: ["am", "are"], answer: 1 },
+            { q: "One hundred rupees ________ a big sum.", options: ["is", "are"], answer: 0 },
+            { q: "The voice of the singers ________ sweet.", options: ["is", "are"], answer: 0 },
+            { q: "Neither Tom nor Jack ________ a book.", options: ["has", "have"], answer: 0 },
+            { q: "Physics ________ a very good subject.", options: ["was", "were"], answer: 0 },
+            { q: "Rice and curry ________ his favorite dish.", options: ["is", "were"], answer: 0 },
+            { q: "You he and I ________ friends.", options: ["were", "was"], answer: 0 },
+            { q: "The rich ________ happy.", options: ["was", "were"], answer: 1 },
+            { q: "I wish I ________ a great man.", options: ["was", "were"], answer: 1 },
+            { q: "Slow and steady ________ the race.", options: ["win", "wins"], answer: 1 },
+            { q: "The poet and, singer ________ dead.", options: ["is", "are"], answer: 0 },
+            { q: "Each of them ________ rewarded.", options: ["was", "were"], answer: 0 },
+            { q: "Politics ________ a dirty game.", options: ["are", "is"], answer: 1 },
+            { q: "Every boy ________ a new book.", options: ["has", "have"], answer: 0 },
+            { q: "When ________ you leave for Delhi?", options: ["do", "does"], answer: 0 },
+            { q: "Two and two ________ four.", options: ["is", "are"], answer: 0 },
+            { q: "Mathematics ________ a very good subject.", options: ["is", "are"], answer: 0 },
+            { q: "Which one of three books ________ yours?", options: ["is", "are"], answer: 0 },
+            { q: "Either of these methods ________ good.", options: ["is", "are"], answer: 0 },
+            { q: "The quality of the apples ________ good.", options: ["is", "are"], answer: 0 },
+            { q: "The number of boys in this class ________ fifty.", options: ["are", "is"], answer: 1 },
+            { q: "Each door and each window ________ shut.", options: ["was", "were"], answer: 0 },
+            { q: "Ten miles ________ a long distance.", options: ["is", "has", "are"], answer: 0 },
+            { q: "Time and tide ________ for none.", options: ["wait", "waits"], answer: 1 },
+            { q: "The secretary and the headmaster ________ present.", options: ["am", "is", "are"], answer: 2 },
+            { q: "Not only Ram but also his friends ________ going.", options: ["is", "are"], answer: 1 },
+            { q: "Profit and loss ________ a part of a business.", options: ["is", "are"], answer: 0 },
+            { q: "The team ________ going to buy their uniforms.", options: ["is", "are"], answer: 1 }
+        ];
+
+        // --- GLOBAL STATE ---
+        let currentMode = 'set'; 
+        let currentSetId = 1;
+        let activeFilter = 'all'; 
+        let questionsPerSet = 15; // <--- EDIT THIS NUMBER TO CHANGE SET SIZE (Default: 15)
+        let generatedPapers = {}; 
+        
+        let baseQuestions = []; 
+        let filteredQuestions = []; 
+        
+        let soundEnabled = true;
+        let confettiEnabled = true;
+        
+        // Lazy initialization of AudioContext to avoid console warnings on load
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function init() {
+            reconfigureSets(); // Calculate initial sets
+        }
+
+        function reconfigureSets() {
+            // Configuration is now controlled via the 'questionsPerSet' variable above
+
+            // Clear existing papers logic
+            generatedPapers = {};
+            const totalSets = Math.ceil(RAW_QUESTIONS.length / questionsPerSet);
+            
+            // Chunk questions
+            for (let i = 0; i < totalSets; i++) {
+                const start = i * questionsPerSet;
+                const end = start + questionsPerSet;
+                generatedPapers[i + 1] = RAW_QUESTIONS.slice(start, end);
+            }
+
+            // Re-render buttons
+            const grid = document.getElementById('set-grid');
+            grid.innerHTML = '';
+            
+            Object.keys(generatedPapers).forEach(setId => {
+                const btn = document.createElement('button');
+                btn.id = `btn-set-${setId}`;
+                btn.onclick = () => selectSet(setId);
+                btn.className = "py-2 md:py-3 bg-slate-800 border border-slate-700 text-slate-400 font-bold rounded-lg hover:text-white hover:bg-slate-700 hover:border-slate-400 transition-all text-xs md:text-base";
+                btn.innerHTML = `<span class="md:hidden">${setId}</span><span class="hidden md:inline">Set ${setId}</span>`;
+                grid.appendChild(btn);
+            });
+
+            // If current set ID is now out of bounds, go to 1
+            if (currentSetId > totalSets) currentSetId = 1;
+            selectSet(currentSetId);
+        }
+
+        // Toggles
+        function toggleMenu() { document.getElementById('teacher-menu').classList.toggle('open'); }
+        function closeMenu() { document.getElementById('teacher-menu').classList.remove('open'); }
+        
+        function toggleEffect(type) {
+            if (type === 'sound') {
+                soundEnabled = !soundEnabled;
+                document.getElementById('btn-sound').classList.toggle('effect-disabled', !soundEnabled);
+            } else if (type === 'confetti') {
+                confettiEnabled = !confettiEnabled;
+                document.getElementById('btn-confetti').classList.toggle('effect-disabled', !confettiEnabled);
+            }
+        }
+
+        // Sound Engine
+        function playTone(freq, type, duration) {
+            if (!soundEnabled) return;
+            const ctx = getAudioContext();
+            
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+            osc.stop(ctx.currentTime + duration);
+        }
+        function playCorrectSound() {
+            playTone(800, 'sine', 0.1); 
+            setTimeout(() => playTone(1200, 'sine', 0.2), 100);
+        }
+        function playWrongSound() {
+            playTone(200, 'sawtooth', 0.3);
+        }
+        function triggerConfetti() {
+            if (!confettiEnabled) return;
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        // --- FILTERING LOGIC ---
+        
+        function updateButtonStyles() {
+            document.querySelectorAll('[id^="btn-set-"], #btn-odd, #btn-even, #btn-random').forEach(b => b.classList.remove('btn-active'));
+            
+            if (currentMode === 'set') {
+                const btn = document.getElementById(`btn-set-${currentSetId}`);
+                if(btn) btn.classList.add('btn-active');
+            } else {
+                document.getElementById('btn-random').classList.add('btn-active');
+            }
+
+            if (activeFilter === 'odd') document.getElementById('btn-odd').classList.add('btn-active');
+            if (activeFilter === 'even') document.getElementById('btn-even').classList.add('btn-active');
+        }
+
+        function selectSet(setId) {
+            currentMode = 'set';
+            currentSetId = setId;
+            activeFilter = 'all'; 
+            baseQuestions = [...generatedPapers[setId]];
+            applyView();
+            // Don't close menu immediately to allow config changes
+        }
+
+        function generateRandom() {
+            const countInput = document.getElementById('random-count');
+            let count = parseInt(countInput.value) || 10;
+            if (count > RAW_QUESTIONS.length) count = RAW_QUESTIONS.length;
+            if (count < 1) count = 1;
+
+            const shuffled = [...RAW_QUESTIONS];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            
+            currentMode = 'random';
+            activeFilter = 'all';
+            baseQuestions = shuffled.slice(0, count);
+            applyView();
+            closeMenu();
+        }
+
+        function setFilter(filter) {
+            if (activeFilter === filter) {
+                activeFilter = 'all';
+            } else {
+                activeFilter = filter;
+            }
+            applyView();
+        }
+
+        function applyView() {
+            if (activeFilter === 'odd') {
+                filteredQuestions = baseQuestions.filter((_, i) => (i + 1) % 2 !== 0);
+            } else if (activeFilter === 'even') {
+                filteredQuestions = baseQuestions.filter((_, i) => (i + 1) % 2 === 0);
+            } else {
+                filteredQuestions = [...baseQuestions];
+            }
+            
+            updateButtonStyles();
+            renderQuiz();
+        }
+
+        // --- RENDERER ---
+        
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            filteredQuestions.forEach((item, i) => {
+                const displayNum = i + 1;
+
+                const questionCard = document.createElement('div');
+                questionCard.className = "bg-[#1e293b] rounded-xl border border-slate-700/50 shadow-lg overflow-hidden break-inside-avoid inline-block w-full";
+                questionCard.setAttribute('data-answered', 'false');
+                
+                const qContent = document.createElement('div');
+                qContent.className = "p-4 md:p-5 flex gap-3 md:gap-4 items-baseline";
+                
+                const qNum = document.createElement('span');
+                qNum.className = "font-black text-[#38bdf8] text-xl md:text-2xl min-w-[1.8rem]";
+                qNum.textContent = `${displayNum}.`;
+                
+                const textContainer = document.createElement('div');
+                textContainer.className = "text-white font-bold text-lg md:text-xl leading-snug tracking-wide flex-1";
+                
+                const blankId = `blank-${displayNum}`;
+                let processedText = item.q.replace(/_{2,}|\.{3,}|…/g, `<span id="${blankId}" class="sentence-blank">_______</span>`);
+                textContainer.innerHTML = processedText;
+
+                const btnContainer = document.createElement('span');
+                btnContainer.className = "inline-flex flex-wrap gap-2 ml-3 align-baseline"; 
+
+                const correctText = item.options[item.answer];
+                let optionObjects = item.options.map(opt => ({ text: opt, isCorrect: opt === correctText }));
+                
+                // Shuffle options locally
+                for (let j = optionObjects.length - 1; j > 0; j--) {
+                    const k = Math.floor(Math.random() * (j + 1));
+                    [optionObjects[j], optionObjects[k]] = [optionObjects[k], optionObjects[j]];
+                }
+
+                optionObjects.forEach(optObj => {
+                    const btn = document.createElement('button');
+                    btn.className = "px-3 py-1 rounded-full border border-slate-600 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition-all duration-200 active:scale-95 shadow-sm align-middle";
+                    btn.textContent = optObj.text;
+                    btn.onclick = (e) => handleSelection(e.target, optObj, blankId, btnContainer, questionCard);
+                    btnContainer.appendChild(btn);
+                });
+
+                textContainer.appendChild(btnContainer);
+                qContent.appendChild(qNum);
+                qContent.appendChild(textContainer);
+                questionCard.appendChild(qContent);
+                container.appendChild(questionCard);
+            });
+        }
+
+        function handleSelection(btn, optObj, blankId, container, card) {
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            // Initialize Audio on first interaction
+            getAudioContext();
+
+            if (optObj.isCorrect) {
+                btn.className = "px-3 py-1 rounded-full border border-emerald-500 bg-emerald-500/20 text-emerald-400 font-bold text-sm shadow-[0_0_15px_rgba(16,185,129,0.4)] animate-pop pointer-events-none align-middle";
+                const blank = document.getElementById(blankId);
+                if (blank) {
+                    blank.textContent = optObj.text;
+                    blank.classList.add('filled');
+                }
+                card.setAttribute('data-answered', 'true');
+                const siblings = container.querySelectorAll('button');
+                siblings.forEach(b => {
+                    if (b !== btn) {
+                        b.disabled = true;
+                        b.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                });
+                playCorrectSound();
+                triggerConfetti();
+            } else {
+                btn.className = "px-3 py-1 rounded-full border border-red-500 bg-red-500/20 text-red-400 font-semibold text-sm animate-shake align-middle";
+                btn.disabled = true;
+                playWrongSound();
+            }
+        }
+        
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('teacher-menu');
+            const toggleBtn = document.getElementById('menu-toggle-btn');
+            if (menu.classList.contains('open') && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        init();
+        </script>
+    </body>
+</html>
