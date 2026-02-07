@@ -52,13 +52,6 @@
             color: #ffffff; 
         }
 
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
-        input[type=number] { -moz-appearance: textfield; }
-
         .quiz-columns {
             display: flex;
             flex-direction: column;
@@ -116,7 +109,6 @@
             color: #34d399;
             border-color: #34d399;
         }
-        
         /* Custom Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
@@ -225,7 +217,7 @@
         </div>
 
         <script>
-        // --- MASTER DATA POOL (Combined) ---
+        // --- MASTER DATA POOL ---
         const RAW_QUESTIONS = [
             { q: "One of the pupils in our class ______ a car.", options: ["own", "owns"], answer: 1 },
             { q: "The Lions of the East ______ an interesting book.", options: ["is", "are"], answer: 0 },
@@ -411,14 +403,14 @@
             { q: "Fifty percent of the amount ___ been paid.", options: ["has", "have"], answer: 0 },
             { q: "A lot of pens ___ been purchased.", options: ["has", "have"], answer: 1 },
             { q: "Village after village ___ destroyed.", options: ["was", "were"], answer: 0 },
-            { q: "Words worth’s poetry ___ immortal.", options: ["is", "are"], answer: 0 },
+            { q: "Words worth’s poetry ___ immortal.", options: ["is", "are"], answer: 0 }
         ];
 
         // --- GLOBAL STATE ---
         let currentMode = 'set'; 
         let currentSetId = 1;
         let activeFilter = 'all'; 
-        let questionsPerSet = 10; // Change set size here
+        let questionsPerSet = 15; // <--- EDIT THIS NUMBER TO CHANGE SET SIZE (Default: 15)
         let generatedPapers = {}; 
         
         let baseQuestions = []; 
@@ -427,7 +419,7 @@
         let soundEnabled = true;
         let confettiEnabled = true;
         
-        // Lazy initialization of AudioContext
+        // Lazy initialization of AudioContext to avoid console warnings on load
         let audioCtx = null;
 
         function getAudioContext() {
@@ -441,19 +433,24 @@
         }
 
         function init() {
-            reconfigureSets();
+            reconfigureSets(); // Calculate initial sets
         }
 
         function reconfigureSets() {
+            // Configuration is now controlled via the 'questionsPerSet' variable above
+
+            // Clear existing papers logic
             generatedPapers = {};
             const totalSets = Math.ceil(RAW_QUESTIONS.length / questionsPerSet);
             
+            // Chunk questions
             for (let i = 0; i < totalSets; i++) {
                 const start = i * questionsPerSet;
                 const end = start + questionsPerSet;
                 generatedPapers[i + 1] = RAW_QUESTIONS.slice(start, end);
             }
 
+            // Re-render buttons
             const grid = document.getElementById('set-grid');
             grid.innerHTML = '';
             
@@ -466,17 +463,69 @@
                 grid.appendChild(btn);
             });
 
+            // If current set ID is now out of bounds, go to 1
             if (currentSetId > totalSets) currentSetId = 1;
             selectSet(currentSetId);
         }
 
+        // Toggles
         function toggleMenu(event) {
-            if (event) event.stopPropagation();   
+            if (event) event.stopPropagation();   // prevent immediate re-close
             document.getElementById('teacher-menu').classList.toggle('open');
         }
+        function closeMenu() { document.getElementById('teacher-menu').classList.remove('open'); }
+        
+        function toggleEffect(type) {
+            if (type === 'sound') {
+                soundEnabled = !soundEnabled;
+                document.getElementById('btn-sound').classList.toggle('effect-disabled', !soundEnabled);
+            } else if (type === 'confetti') {
+                confettiEnabled = !confettiEnabled;
+                document.getElementById('btn-confetti').classList.toggle('effect-disabled', !confettiEnabled);
+            }
+        }
 
-        function closeMenu() {
-            document.getElementById('teacher-menu').classList.remove('open');
+        // Sound Engine
+        function playTone(freq, type, duration) {
+            if (!soundEnabled) return;
+            const ctx = getAudioContext();
+            
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+            osc.stop(ctx.currentTime + duration);
+        }
+        function playCorrectSound() {
+            playTone(800, 'sine', 0.1); 
+            setTimeout(() => playTone(1200, 'sine', 0.2), 100);
+        }
+        function playWrongSound() {
+            playTone(200, 'sawtooth', 0.3);
+        }
+        function triggerConfetti() {
+            if (!confettiEnabled) return;
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        // --- FILTERING LOGIC ---
+        
+        function updateButtonStyles() {
+            document.querySelectorAll('[id^="btn-set-"], #btn-odd, #btn-even, #btn-random').forEach(b => b.classList.remove('btn-active'));
+            
+            if (currentMode === 'set') {
+                const btn = document.getElementById(`btn-set-${currentSetId}`);
+                if(btn) btn.classList.add('btn-active');
+            } else {
+                document.getElementById('btn-random').classList.add('btn-active');
+            }
+
+            if (activeFilter === 'odd') document.getElementById('btn-odd').classList.add('btn-active');
+            if (activeFilter === 'even') document.getElementById('btn-even').classList.add('btn-active');
         }
 
         function selectSet(setId) {
@@ -485,7 +534,26 @@
             activeFilter = 'all'; 
             baseQuestions = [...generatedPapers[setId]];
             applyView();
-            // Not closing menu automatically to allow config
+            // Don't close menu immediately to allow config changes
+        }
+
+        function generateRandom() {
+            const countInput = document.getElementById('random-count');
+            let count = parseInt(countInput.value) || 10;
+            if (count > RAW_QUESTIONS.length) count = RAW_QUESTIONS.length;
+            if (count < 1) count = 1;
+
+            const shuffled = [...RAW_QUESTIONS];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            
+            currentMode = 'random';
+            activeFilter = 'all';
+            baseQuestions = shuffled.slice(0, count);
+            applyView();
+            closeMenu();
         }
 
         function setFilter(filter) {
@@ -510,49 +578,8 @@
             renderQuiz();
         }
 
-        function generateRandom() {
-            const countInput = document.getElementById('random-count');
-            let count = parseInt(countInput.value) || 10;
-            if (count > RAW_QUESTIONS.length) count = RAW_QUESTIONS.length;
-            if (count < 1) count = 1;
-
-            const shuffled = [...RAW_QUESTIONS];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            
-            currentMode = 'random';
-            activeFilter = 'all';
-            baseQuestions = shuffled.slice(0, count);
-            applyView();
-            closeMenu();
-        }
-
-        function updateButtonStyles() {
-            document.querySelectorAll('[id^="btn-set-"], #btn-odd, #btn-even, #btn-random').forEach(b => b.classList.remove('btn-active'));
-            
-            if (currentMode === 'set') {
-                const btn = document.getElementById(`btn-set-${currentSetId}`);
-                if(btn) btn.classList.add('btn-active');
-            } else {
-                document.getElementById('btn-random').classList.add('btn-active');
-            }
-
-            if (activeFilter === 'odd') document.getElementById('btn-odd').classList.add('btn-active');
-            if (activeFilter === 'even') document.getElementById('btn-even').classList.add('btn-active');
-        }
-
-        function getShuffledOptionsObj(questionItem) {
-            const correctText = questionItem.options[questionItem.answer];
-            let opts = questionItem.options.map((opt, i) => ({ text: opt, isCorrect: opt === correctText }));
-            for (let i = opts.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [opts[i], opts[j]] = [opts[j], opts[i]];
-            }
-            return opts;
-        }
-
+        // --- RENDERER ---
+        
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
@@ -582,9 +609,16 @@
                 const btnContainer = document.createElement('span');
                 btnContainer.className = "inline-flex flex-wrap gap-2 ml-3 align-baseline"; 
 
-                const shuffledOptions = getShuffledOptionsObj(item);
+                const correctText = item.options[item.answer];
+                let optionObjects = item.options.map(opt => ({ text: opt, isCorrect: opt === correctText }));
                 
-                shuffledOptions.forEach(optObj => {
+                // Shuffle options locally
+                for (let j = optionObjects.length - 1; j > 0; j--) {
+                    const k = Math.floor(Math.random() * (j + 1));
+                    [optionObjects[j], optionObjects[k]] = [optionObjects[k], optionObjects[j]];
+                }
+
+                optionObjects.forEach(optObj => {
                     const btn = document.createElement('button');
                     btn.className = "px-3 py-1 rounded-full border border-slate-600 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition-all duration-200 active:scale-95 shadow-sm align-middle";
                     btn.textContent = optObj.text;
@@ -603,6 +637,7 @@
         function handleSelection(btn, optObj, blankId, container, card) {
             if (card.getAttribute('data-answered') === 'true') return;
 
+            // Initialize Audio on first interaction
             getAudioContext();
 
             if (optObj.isCorrect) {
