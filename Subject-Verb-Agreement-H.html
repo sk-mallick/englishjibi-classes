@@ -200,7 +200,7 @@
                         </a>
 
                         <!-- TOOLS TOGGLE (Responsive Size & Text) -->
-                        <button onclick="toggleMenu()" id="menu-toggle-btn"
+                        <button onclick="toggleMenu(event)" id="menu-toggle-btn"
                             class="group flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 xs:px-3 xs:py-2 sm:px-5 sm:py-2.5 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 hover:bg-slate-700 transition-all shrink-0 shadow-lg cursor-pointer">
                             <span
                                 class="text-[10px] xs:text-xs sm:text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">TOOLS</span>
@@ -679,8 +679,9 @@
             }
         }
 
-        // 2. TOGGLE MENU
-        function toggleMenu() {
+        // 2. TOGGLE MENU (IMPROVED)
+        function toggleMenu(event) {
+            if (event) event.stopPropagation();   // prevent immediate re-close
             document.getElementById('teacher-menu').classList.toggle('open');
         }
 
@@ -837,12 +838,16 @@
             }
         }
 
-        // GLOBAL CLICK LISTENER
+        // GLOBAL CLICK LISTENER (POWERFUL CLOSE)
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('teacher-menu');
             const toggleBtn = document.getElementById('menu-toggle-btn');
-            if (menu.classList.contains('open') && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
-                closeMenu();
+            
+            const clickedInsideMenu = menu.contains(event.target);
+            const clickedToggle = toggleBtn.contains(event.target);
+
+            if (!clickedInsideMenu && !clickedToggle) {
+                menu.classList.remove('open');
             }
         });
 
