@@ -59,13 +59,13 @@ function doGet() {
 /**
  * Validates and saves admission enquiry data.
  *
- * Expected fields: studentName, parentName, phoneNumber, email, currentClass
+ * Expected fields: studentName, parentName, phoneNumber, email, currentClass, school
  *
  * @param {Object} data — Parsed form data
  * @returns {TextOutput} JSON response
  */
 function handleAdmission(data) {
-    var requiredFields = ["studentName", "parentName", "phoneNumber", "currentClass"];
+    var requiredFields = ["studentName", "parentName", "phoneNumber", "currentClass", "school"];
 
     for (var i = 0; i < requiredFields.length; i++) {
         var field = requiredFields[i];
@@ -98,7 +98,8 @@ function handleAdmission(data) {
             String(data.parentName).trim(),
             String(data.phoneNumber).trim(),
             data.email ? String(data.email).trim() : "",
-            String(data.currentClass).trim()
+            String(data.currentClass).trim(),
+            String(data.school).trim()
         ]);
 
         return createResponse("success", "Admission enquiry saved successfully");

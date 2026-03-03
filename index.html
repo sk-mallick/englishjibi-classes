@@ -1949,43 +1949,59 @@
                                                     data-lucide="book-open"
                                                     class="text-indigo-600"></i>
                                                 Academic Details</h3>
-                                            <div class="space-y-2">
-                                                <label
-                                                    for="admission-currentClass"
-                                                    class="block text-sm font-medium text-brand-text-muted">Current
-                                                    Class *</label>
-                                                <select
-                                                    id="admission-currentClass"
-                                                    name="currentClass" required
-                                                    class="w-full p-3 rounded-lg text-[15px] font-normal appearance-none focus:bg-brand-card transition-colors">
-                                                    <option
-                                                        value="Class 2">Class
-                                                        2</option>
-                                                    <option
-                                                        value="Class 3">Class
-                                                        3</option>
-                                                    <option
-                                                        value="Class 4">Class
-                                                        4</option>
-                                                    <option
-                                                        value="Class 5">Class
-                                                        5</option>
-                                                    <option
-                                                        value="Class 6">Class
-                                                        6</option>
-                                                    <option
-                                                        value="Class 7">Class
-                                                        7</option>
-                                                    <option
-                                                        value="Class 8">Class
-                                                        8</option>
-                                                    <option
-                                                        value="Class 9">Class
-                                                        9</option>
-                                                    <option
-                                                        value="Class 10">Class
-                                                        10</option>
-                                                </select>
+                                            <div
+                                                class="grid md:grid-cols-2 gap-6">
+                                                <div class="space-y-2">
+                                                    <label
+                                                        for="admission-currentClass"
+                                                        class="block text-sm font-medium text-brand-text-muted">Current
+                                                        Class *</label>
+                                                    <select
+                                                        id="admission-currentClass"
+                                                        name="currentClass"
+                                                        required
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal appearance-none focus:bg-brand-card transition-colors">
+                                                        <option
+                                                            value="Class 2">Class
+                                                            2</option>
+                                                        <option
+                                                            value="Class 3">Class
+                                                            3</option>
+                                                        <option
+                                                            value="Class 4">Class
+                                                            4</option>
+                                                        <option
+                                                            value="Class 5">Class
+                                                            5</option>
+                                                        <option
+                                                            value="Class 6">Class
+                                                            6</option>
+                                                        <option
+                                                            value="Class 7">Class
+                                                            7</option>
+                                                        <option
+                                                            value="Class 8">Class
+                                                            8</option>
+                                                        <option
+                                                            value="Class 9">Class
+                                                            9</option>
+                                                        <option
+                                                            value="Class 10">Class
+                                                            10</option>
+                                                    </select>
+                                                </div>
+                                                <div class="space-y-2">
+                                                    <label
+                                                        for="admission-school"
+                                                        class="block text-sm font-medium text-brand-text-muted">School
+                                                        Name *</label>
+                                                    <input type="text"
+                                                        id="admission-school"
+                                                        name="school"
+                                                        required
+                                                        placeholder="School Name"
+                                                        class="w-full p-3 rounded-lg text-[15px] font-normal focus:bg-brand-card transition-colors">
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit"
@@ -2764,7 +2780,8 @@
                         parentName: admissionForm.querySelector('[name="parentName"]').value,
                         phoneNumber: admissionForm.querySelector('[name="phoneNumber"]').value,
                         email: admissionForm.querySelector('[name="email"]').value,
-                        currentClass: admissionForm.querySelector('[name="currentClass"]').value
+                        currentClass: admissionForm.querySelector('[name="currentClass"]').value,
+                        school: admissionForm.querySelector('[name="school"]').value
                     };
 
                     try {

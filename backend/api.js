@@ -17,7 +17,7 @@ var EnglishjibiAPI = (function () {
      * Google Apps Script Web App deployment URL.
      * Replace with your own after deploying.
      */
-    var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0Som163DblHoltpnC7xYCWg3t8xDO0CC-i8lDgQidi1vS7WkD9lVMN6x_VrKixw2w/exec";
+    var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx3JfgqG5i_Fgo1K0lGvIzixtpTaB6By_6j42n7pBmpRJOEW2fdKB1iDhVE9EUuUXVk/exec";
 
     /* ── Private Helpers ───────────────────────────────────── */
 
@@ -66,7 +66,7 @@ var EnglishjibiAPI = (function () {
     /**
      * Submit admission enquiry form data.
      *
-     * @param {Object} formData — { studentName, parentName, phoneNumber, email, currentClass }
+     * @param {Object} formData — { studentName, parentName, phoneNumber, email, currentClass, school }
      * @returns {Promise<Object>} { status, message }
      */
     async function submitAdmission(formData) {
@@ -77,6 +77,7 @@ var EnglishjibiAPI = (function () {
             phoneNumber: formData.phoneNumber || "",
             email: formData.email || "",
             currentClass: formData.currentClass || "",
+            school: formData.school || "",
         };
 
         return sendRequest(payload);
