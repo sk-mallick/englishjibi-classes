@@ -1769,8 +1769,8 @@
 
             <!-- Mobile Hamburger -->
             <button class="lg:hidden p-2 rounded-lg" style="color: #FFFFFF;" onclick="toggleMobileMenu()"
-                id="menu-toggle" aria-label="Open menu">
-                <i data-lucide="menu" class="w-6 h-6"></i>
+                id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-6 h-6" id="menu-toggle-icon"></i>
             </button>
         </div>
 
@@ -1797,13 +1797,13 @@
         <div id="mobile-menu" class="lg:hidden overflow-hidden transition-all duration-300" style="max-height: 0;">
             <div class="px-4 pb-4 pt-2 border-t" style="border-color: var(--border-default);">
                 <div class="flex flex-col gap-1">
-                    <a href="#home" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('home')">Home</a>
-                    <a href="#about" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('about')">About</a>
-                    <a href="#gallery" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('gallery')">Gallery</a>
-                    <a href="#courses" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('courses')">Courses</a>
-                    <a href="#admission" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('admission')">Enrollment</a>
+                    <a href="#home" class="nav-link py-3 px-3 rounded-lg" data-page="home" onclick="navigateTo('home')">Home</a>
+                    <a href="#about" class="nav-link py-3 px-3 rounded-lg" data-page="about" onclick="navigateTo('about')">About</a>
+                    <a href="#gallery" class="nav-link py-3 px-3 rounded-lg" data-page="gallery" onclick="navigateTo('gallery')">Gallery</a>
+                    <a href="#courses" class="nav-link py-3 px-3 rounded-lg" data-page="courses" onclick="navigateTo('courses')">Courses</a>
+                    <a href="#admission" class="nav-link py-3 px-3 rounded-lg" data-page="admission" onclick="navigateTo('admission')">Enrollment</a>
                     <a href="practice.html" class="nav-link py-3 px-3 rounded-lg">Practice Set</a>
-                    <a href="#contact" class="nav-link py-3 px-3 rounded-lg" onclick="navigateTo('contact')">Contact</a>
+                    <a href="#contact" class="nav-link py-3 px-3 rounded-lg" data-page="contact" onclick="navigateTo('contact')">Contact</a>
                 </div>
                 <div class="mt-4 flex flex-col gap-3">
                     <a href="tel:+918328922917" class="btn-secondary text-center justify-center">
@@ -3331,16 +3331,39 @@
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            if (menu.style.maxHeight === '0px' || !menu.style.maxHeight) {
+            const toggleBtn = document.getElementById('menu-toggle');
+            if (!menu) return;
+            const isOpen = menu.style.maxHeight && menu.style.maxHeight !== '0px';
+            if (!isOpen) {
                 menu.style.maxHeight = menu.scrollHeight + 'px';
+                if (toggleBtn) {
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                    toggleBtn.setAttribute('aria-label', 'Close menu');
+                }
             } else {
-                menu.style.maxHeight = '0px';
+                closeMobileMenu();
             }
         }
         function closeMobileMenu() {
             const menu = document.getElementById('mobile-menu');
+            const toggleBtn = document.getElementById('menu-toggle');
             if (menu) menu.style.maxHeight = '0px';
+            if (toggleBtn) {
+                toggleBtn.setAttribute('aria-expanded', 'false');
+                toggleBtn.setAttribute('aria-label', 'Open menu');
+            }
         }
+
+        // Close mobile menu on click outside navbar
+        document.addEventListener('click', function (e) {
+            const nav = document.getElementById('main-nav');
+            const menu = document.getElementById('mobile-menu');
+            if (menu && menu.style.maxHeight && menu.style.maxHeight !== '0px') {
+                if (nav && !nav.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            }
+        });
 
         /* ═══════════════════════════════════════════════
            COURSE RENDERING
