@@ -355,6 +355,16 @@
             transition: all 0.4s var(--ease-premium);
         }
 
+        #menu-toggle-icon {
+            width: 2rem !important; /* 32px */
+            height: 2rem !important;
+        }
+
+        #menu-toggle-icon svg,
+        #menu-toggle svg {
+            stroke-width: 2.5px !important;
+        }
+
         .glass-nav.scrolled {
             background: rgba(14, 42, 84, 0.98);
             box-shadow: 0 4px 20px rgba(14, 42, 84, 0.22);
@@ -368,6 +378,22 @@
             padding: 0.5rem 0;
             position: relative;
             transition: color 0.2s ease;
+        }
+
+        /* Prominent Mobile Drawer Links */
+        #mobile-menu .nav-link {
+            font-size: 1.1rem !important; /* Prominent size */
+            font-weight: 700 !important; /* Bolder styling */
+            padding: 0.75rem 1rem !important; /* Generous touch target padding */
+            display: block;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+        }
+
+        #mobile-menu .nav-link:hover,
+        #mobile-menu .nav-link.active {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--gold-rich) !important;
         }
 
         @media (min-width: 1024px) {
@@ -1773,7 +1799,7 @@
             <!-- Mobile Hamburger -->
             <button class="lg:hidden p-2 rounded-lg" style="color: #FFFFFF;" onclick="toggleMobileMenu()"
                 id="menu-toggle" aria-label="Open menu" aria-expanded="false">
-                <i data-lucide="menu" class="w-6 h-6" id="menu-toggle-icon"></i>
+                <i data-lucide="menu" class="w-8 h-8" id="menu-toggle-icon" style="stroke-width: 2.5;"></i>
             </button>
         </div>
 
@@ -1809,7 +1835,7 @@
                     <a href="#contact" class="nav-link py-3 px-3 rounded-lg" data-page="contact" onclick="navigateTo('contact')">Contact</a>
                 </div>
                 <div class="mt-4 flex flex-col gap-3">
-                    <a href="tel:+918328922917" class="btn-secondary text-center justify-center">
+                    <a href="tel:+918328922917" class="btn-ghost-light text-center justify-center">
                         <i data-lucide="phone" class="w-4 h-4"></i> Call Now
                     </a>
                     <a href="#admission" onclick="navigateTo('admission')"
