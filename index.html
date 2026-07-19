@@ -1438,20 +1438,21 @@
         /* ── Extra-small (≤ 480px) — Phones ───── */
         @media (max-width: 480px) {
             .type-hero {
-                font-size: 1.75rem;
-                line-height: 1.2;
+                font-size: 1.85rem;
+                line-height: 1.25;
             }
 
             .type-h2 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
 
             .type-h3 {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             .eyebrow {
-                font-size: 0.6rem;
+                font-size: 0.75rem;
+                letter-spacing: 0.1em;
             }
 
             .section-base,
@@ -1469,10 +1470,11 @@
             .btn-secondary,
             .btn-gold,
             .btn-ghost-light {
-                padding: 0.65rem 1.25rem;
-                font-size: 0.8rem;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.875rem; /* 14px */
                 width: 100%;
                 justify-content: center;
+                min-height: 46px; /* Ensuring optimal touch target */
             }
 
             .stat-card {
@@ -1480,11 +1482,11 @@
             }
 
             .stat-value {
-                font-size: 1.5rem;
+                font-size: 1.85rem;
             }
 
             .stat-label {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
             }
 
             .why-card {
@@ -1496,13 +1498,14 @@
             }
 
             .trust-pill {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.75rem;
+                font-size: 0.75rem;
+                padding: 0.45rem 0.85rem;
             }
 
             .filter-btn {
-                padding: 0.4rem 0.9rem;
-                font-size: 0.7rem;
+                padding: 0.55rem 1.1rem;
+                font-size: 0.8rem;
+                min-height: 40px;
             }
 
             .testimonial-card {
@@ -1526,12 +1529,12 @@
 
             .schedule-table th,
             .schedule-table td {
-                padding: 0.5rem 0.6rem;
-                font-size: 0.7rem;
+                padding: 0.6rem 0.75rem;
+                font-size: 0.8rem;
             }
 
             .schedule-table .batch-name {
-                font-size: 0.7rem;
+                font-size: 0.8rem;
                 white-space: nowrap;
             }
 
@@ -1573,11 +1576,11 @@
 
             .ticker-track {
                 gap: 32px;
-                font-size: 0.65rem;
+                font-size: 0.75rem; /* Raised to 12px for readability */
             }
 
             .nav-link {
-                font-size: 0.8rem;
+                font-size: 0.875rem; /* Raised to 14px */
             }
 
             /* Hero image scales down */
@@ -2644,55 +2647,55 @@
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 2', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Primary</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 2</span>
-                            <span class="text-[0.65rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
+                            <span class="text-[0.75rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
                         </div>
                         <!-- Class 3 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 3', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Primary</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 3</span>
-                            <span class="text-[0.65rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
+                            <span class="text-[0.75rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
                         </div>
                         <!-- Class 4 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 4', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Primary</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 4</span>
-                            <span class="text-[0.65rem] text-amber-600 font-semibold block mt-1">● Fast Filling</span>
+                            <span class="text-[0.75rem] text-amber-600 font-semibold block mt-1">● Fast Filling</span>
                         </div>
                         <!-- Class 5 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 5', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Primary</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 5</span>
-                            <span class="text-[0.65rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
+                            <span class="text-[0.75rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
                         </div>
                         <!-- Class 6 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 6', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Middle</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 6</span>
-                            <span class="text-[0.65rem] text-amber-600 font-semibold block mt-1">● Fast Filling</span>
+                            <span class="text-[0.75rem] text-amber-600 font-semibold block mt-1">● Fast Filling</span>
                         </div>
                         <!-- Class 7 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 7', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Middle</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 7</span>
-                            <span class="text-[0.65rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
+                            <span class="text-[0.75rem] text-emerald-600 font-semibold block mt-1">● Seats Open</span>
                         </div>
                         <!-- Class 8 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 8', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">Middle</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 8</span>
-                            <span class="text-[0.65rem] text-red-600 font-semibold block mt-1">🔥 3 Slots Left</span>
+                            <span class="text-[0.75rem] text-red-600 font-semibold block mt-1">🔥 3 Slots Left</span>
                         </div>
                         <!-- Class 9 -->
                         <div class="class-select-card text-center selected" onclick="selectClassForAdmission('Class 9', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">High</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 9</span>
-                            <span class="text-[0.65rem] text-amber-600 font-semibold block mt-1">● Popular</span>
+                            <span class="text-[0.75rem] text-amber-600 font-semibold block mt-1">● Popular</span>
                         </div>
                         <!-- Class 10 -->
                         <div class="class-select-card text-center" onclick="selectClassForAdmission('Class 10', this)">
                             <span class="block text-xs font-bold uppercase tracking-wider text-muted">High</span>
                             <span class="block text-lg font-bold text-heading mt-0.5">Class 10</span>
-                            <span class="text-[0.65rem] text-red-600 font-semibold block mt-1">🔥 Board Special</span>
+                            <span class="text-[0.75rem] text-red-600 font-semibold block mt-1">🔥 Board Special</span>
                         </div>
                     </div>
                 </div>
@@ -2812,10 +2815,10 @@
                             <div>
                                 <div class="flex items-center justify-between border-b pb-4 mb-5" style="border-color: rgba(255,255,255,0.15);">
                                     <div>
-                                        <span class="text-[0.7rem] font-bold uppercase tracking-wider text-amber-300">Selected Course Summary</span>
+                                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Selected Course Summary</span>
                                         <h3 class="font-heading text-xl font-bold text-white mt-1" id="summary-class-title">Class 9 NCERT & Communicative</h3>
                                     </div>
-                                    <span class="badge text-[0.65rem]" id="summary-class-badge" style="background: rgba(242,175,19,0.2); color: #F2AF13;">Group G</span>
+                                    <span class="badge text-[0.75rem]" id="summary-class-badge" style="background: rgba(242,175,19,0.2); color: #F2AF13;">Group G</span>
                                 </div>
 
                                 <div class="space-y-4 mb-6 text-sm" style="color: var(--text-on-navy-muted);">
@@ -3422,12 +3425,12 @@
                     <div class="w-10 h-10 ${c.bg} rounded-xl flex items-center justify-center">
                         <i data-lucide="${course.icon}" class="w-5 h-5 ${c.text}"></i>
                     </div>
-                    ${course.popular ? '<span class="badge badge-popular text-[0.6rem]">Popular</span>' : ''}
+                    ${course.popular ? '<span class="badge badge-popular text-xs">Popular</span>' : ''}
                 </div>
                 <h3 class="type-h3 text-sm mb-1">${course.name}</h3>
                 <p class="text-xs mb-3" style="color: var(--text-muted);">${course.desc}</p>
                 <div class="flex flex-wrap gap-1">
-                    ${course.subs.slice(0, 3).map(s => `<span class="text-[0.65rem] px-1.5 py-0.5 rounded-full" style="background: var(--brand-pearl); color: var(--brand-navy);">${s}</span>`).join('')}
+                    ${course.subs.slice(0, 3).map(s => `<span class="text-xs px-1.5 py-0.5 rounded-full" style="background: var(--brand-pearl); color: var(--brand-navy);">${s}</span>`).join('')}
                 </div>
             </div>`;
             }).join('');
