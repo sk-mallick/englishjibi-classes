@@ -778,7 +778,7 @@
             // Download Buttons & Meta
             const downloadBtn = document.getElementById('main-download-btn');
             downloadBtn.href = fileUrl;
-            document.getElementById('download-meta-line').textContent = `File Size: ${entry.size || '2.4 MB'}  |  Pages: ${entry.pages || 57}`;
+            document.getElementById('download-meta-line').textContent = `File Size: ${entry.size || 'N/A'}  |  Pages: ${entry.pages || 'N/A'}`;
 
             // View Full Preview Button -> Redirects to view.html for PDF previewing!
             const viewUrl = `view.html?class=common&folder=${folder.slug}&id=${entry.id}`;
@@ -788,37 +788,15 @@
             // Render Sample PDF Pages (Skeleton initially, then PDF.js canvas rendering)
             renderSamplePdfPages(fileUrl, viewUrl);
 
-            // About text override if desc is long
-            if (entry.desc) {
-                document.getElementById('about-text-content').textContent = entry.desc + ' This workbook is specially prepared by ENGLISHJIBI Classes to help students excel in school exams and gain confidence in English language skills.';
-            }
-
-            // Render Related Resources Sidebar List
-            const relatedList = document.getElementById('related-resources-list');
-            try {
-                const relatedItems = [
-                    { title: 'Active & Passive Voice', category: 'Grammar', folder: 'grammar', id: 'super-tense' },
-                    { title: 'Creative Story Writing', category: 'Creative Writing', folder: 'creative-writing', id: 'super-tense' },
-                    { title: 'Reading Comprehension', category: 'Passage', folder: 'passage', id: 'super-tense' },
-                    { title: 'Literature Notes', category: 'Literature', folder: 'literature', id: 'super-tense' },
-                ];
-                relatedList.innerHTML = relatedItems.map(item => `
-                    <a href="resource-details.html?folder=${item.folder}&id=${item.id}" class="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-decoration-none group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-lg bg-blue-100/70 text-blue-800 flex items-center justify-center font-bold text-xs">
-                                <i data-lucide="file-text" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-800 group-hover:text-blue-900 leading-snug">${item.title}</h4>
-                                <span class="text-[0.7rem] text-slate-500 font-medium">${item.category}</span>
-                            </div>
-                        </div>
-                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-700 transition-transform group-hover:translate-x-0.5"></i>
-                    </a>
-                `).join('');
-            } catch(e) {
-                console.error(e);
-            }
+            // Every content block below is sourced from the fetched entry only —
+            // sections hide themselves (see toggleSection) when the entry has
+            // nothing to show, rather than falling back to placeholder content.
+            document.getElementById('about-text-content').textContent = entry.desc || 'No description available for this resource yet.';
+            renderHighlights(entry);
+            renderTopics(entry);
+            renderFaqs(entry);
+            renderTags(entry);
+            renderRelated(entry, folder, items);
 
             // Set Page SEO & JSON-LD
             setPageMeta({
