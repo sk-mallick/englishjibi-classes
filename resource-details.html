@@ -761,13 +761,10 @@
                     <span class="meta-pill"><i data-lucide="globe"></i> Language: English</span>
                 </div>
 
+                ${entry.date ? `
                 <div class="flex flex-wrap items-center gap-5 text-xs font-semibold text-slate-500 border-t border-b border-slate-200/80 py-3">
-                    <span class="flex items-center gap-1 text-amber-600 font-bold">
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 stroke-amber-500"></i> 4.9 (245 Reviews)
-                    </span>
-                    <span class="flex items-center gap-1"><i data-lucide="download" class="w-4 h-4 stroke-slate-400"></i> 12,450+ Downloads</span>
-                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-4 h-4 stroke-slate-400"></i> Last Updated: ${escapeHtml(entry.date || '28 July 2026')}</span>
-                </div>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-4 h-4 stroke-slate-400"></i> Last Updated: ${escapeHtml(formatDate(entry.date))}</span>
+                </div>` : ''}
             `;
 
             // Cover Box Setup
