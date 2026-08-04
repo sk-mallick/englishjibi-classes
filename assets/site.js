@@ -295,9 +295,16 @@ function renderBreadcrumbs(items) {
     spin    — true to spin the icon (loading state)                    */
 function renderStateCard(host, { icon, title, message, actions, hint, spin }) {
     if (!host) return;
+    // Every button site-wide uses the blob-fill hover (four blobs merging via
+    // the page's #goo SVG filter), so these dynamically-built action buttons
+    // need the same markup, not a plain <a>.
+    const blobs = `<span class="blob-fill__inner"><span class="blob-fill__blobs">
+            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+        </span></span>`;
     const actionHtml = (actions && actions.length)
         ? `<div class="state-actions">${actions.map(a =>
-            `<a href="${escapeHtml(a.href)}" class="${a.cls || 'btn-secondary'}">${escapeHtml(a.label)}</a>`
+            `<a href="${escapeHtml(a.href)}" class="${a.cls || 'btn-secondary'} blob-fill"><span class="blob-fill__label">${escapeHtml(a.label)}</span>${blobs}</a>`
           ).join('')}</div>`
         : '';
     const hintHtml = hint

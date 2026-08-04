@@ -597,6 +597,70 @@
             transform: translateY(1px) scale(0.97);
         }
 
+        /* ── Liquid Fill Hover Animation (goo blob merge) ─────
+           Every button on this page uses .blob-fill: four blobs rise from
+           below and merge via the #goo SVG filter (defined at the top of
+           <body>) instead of a plain color-swap hover. */
+        .btn-primary, .btn-secondary, .btn-gold, .btn-ghost-light {
+            position: relative;
+            z-index: 0;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .blob-fill__label {
+            position: relative; z-index: 2;
+            display: inline-flex; align-items: center; gap: 0.35rem;
+        }
+        .blob-fill__inner {
+            position: absolute; inset: 0; z-index: 1;
+            overflow: hidden; pointer-events: none;
+            border-radius: 6px;
+        }
+        .blob-fill__blobs { position: relative; display: block; height: 100%; }
+        .blob-fill__blob {
+            position: absolute; top: 2px;
+            width: 25%; height: 100%;
+            background: var(--blob-fill-color, var(--gold-rich)); border-radius: 100%;
+            transform: translate3d(0, 150%, 0) scale(1.7);
+            transition: transform 0.45s;
+        }
+        .blob-fill__blob:nth-child(1) { left:  0%; transition-delay: 0s;    }
+        .blob-fill__blob:nth-child(2) { left: 30%; transition-delay: 0.08s; }
+        .blob-fill__blob:nth-child(3) { left: 60%; transition-delay: 0.16s; }
+        .blob-fill__blob:nth-child(4) { left: 90%; transition-delay: 0.24s; }
+        .blob-fill:hover .blob-fill__blob { transform: translateZ(0) scale(1.7); }
+        @media (prefers-reduced-motion: reduce) {
+            .blob-fill__blob { transition: none !important; }
+        }
+
+        .btn-primary.blob-fill { --blob-fill-color: var(--gold-rich); }
+        .btn-primary.blob-fill:hover .blob-fill__label,
+        .btn-primary.blob-fill:hover .blob-fill__label i,
+        .btn-primary.blob-fill:hover .blob-fill__label svg { color: var(--brand-red); stroke: var(--brand-red); }
+
+        /* Base .btn-secondary:hover on this page fully swaps the background to
+           navy — a navy blob rising on an already-navy background would be
+           invisible, so cancel that swap and let the blob be the only fill. */
+        .btn-secondary.blob-fill { --blob-fill-color: var(--brand-navy); }
+        .btn-secondary.blob-fill:hover { background: transparent; }
+
+        /* .btn-gold is itself gold, so the default gold blob color would be
+           invisible against it — use navy instead, same fix .btn-gold never
+           had anywhere in the codebase. */
+        .btn-gold.blob-fill { --blob-fill-color: var(--brand-navy); }
+        .btn-gold.blob-fill:hover {
+            background: linear-gradient(145deg, #F2AF13 0%, #C78800 100%);
+            box-shadow: 0 4px 14px rgba(242, 175, 19, 0.30);
+        }
+        .btn-gold.blob-fill:hover .blob-fill__label,
+        .btn-gold.blob-fill:hover .blob-fill__label i,
+        .btn-gold.blob-fill:hover .blob-fill__label svg { color: #FFFFFF; }
+
+        .btn-ghost-light.blob-fill { --blob-fill-color: var(--gold-rich); }
+        .btn-ghost-light.blob-fill:hover .blob-fill__label,
+        .btn-ghost-light.blob-fill:hover .blob-fill__label i,
+        .btn-ghost-light.blob-fill:hover .blob-fill__label svg { color: var(--brand-navy); }
+
         /* ── Video Shielding & Extension Overlay Destruction ── */
         video {
             pointer-events: none !important;
@@ -1801,9 +1865,32 @@
         }
     </style>
 
+    <style>
+        /* MUST stay inline, not in site.css: a relative url() inside an external
+           stylesheet resolves against the STYLESHEET's URL (assets/site.css#goo),
+           not the page's. The goo filter would silently stop working and every
+           .blob-fill button would render as four hard rectangles with no error.
+           The <svg><filter id="goo"> these point at lives at the top of <body>. */
+        .blob-fill__blobs { filter: url('#goo'); }
+        @supports (filter: url('#goo')) {
+            .blob-fill__blob { transform: translate3d(0, 150%, 0) scale(1.4); }
+            .blob-fill:hover .blob-fill__blob { transform: translateZ(0) scale(1.4); }
+        }
+    </style>
+
 </head>
 
 <body>
+    <!-- SVG gooey filter used by .blob-fill buttons; keep hidden, zero size. -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
 
     <nav class="glass-nav" id="main-nav">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -1836,7 +1923,13 @@
                     <i data-lucide="phone" class="w-4 h-4"></i>
                     +91 83289 22917
                 </a>
-                <a href="#admission" onclick="navigateTo('admission')" class="btn-primary text-sm flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                <a href="#admission" onclick="navigateTo('admission')" class="btn-primary blob-fill text-sm">
+                    <span class="blob-fill__label"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
+                </a>
             </div>
 
             <!-- Mobile Hamburger -->
@@ -1878,11 +1971,21 @@
                     <a href="#contact" class="nav-link py-3 px-3 rounded-lg" data-page="contact" onclick="navigateTo('contact')">Contact</a>
                 </div>
                 <div class="mt-4 flex flex-col gap-3">
-                    <a href="tel:+918328922917" class="btn-ghost-light text-center justify-center">
-                        <i data-lucide="phone" class="w-4 h-4"></i> Call Now
+                    <a href="tel:+918328922917" class="btn-ghost-light blob-fill text-center justify-center">
+                        <span class="blob-fill__label"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
                     </a>
                     <a href="#admission" onclick="navigateTo('admission')"
-                        class="btn-primary text-center justify-center flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                        class="btn-primary blob-fill text-center justify-center">
+                        <span class="blob-fill__label"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1911,13 +2014,23 @@
                             in a supportive learning environment. Specialized coaching for Classes 2 to 10.
                         </p>
                         <div class="flex flex-wrap justify-center lg:justify-start gap-3.5 mt-6">
-                            <a href="#admission" onclick="navigateTo('admission')" class="btn-primary text-base py-3 px-6 flex items-center gap-2">
-                                Enroll Now 
+                            <a href="#admission" onclick="navigateTo('admission')" class="btn-primary blob-fill text-base py-3 px-6">
+                                <span class="blob-fill__label">Enroll Now
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 fill-current shrink-0 inline-block align-middle relative -top-[1px]"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                                </span>
+                                <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                </span></span>
                             </a>
                             <a href="#courses" onclick="navigateTo('courses')"
-                                class="btn-secondary flex items-center gap-2 text-base py-3 px-6"><i data-lucide="book-open"
-                                    class="w-5 h-5"></i> View Courses</a>
+                                class="btn-secondary blob-fill text-base py-3 px-6">
+                                <span class="blob-fill__label"><i data-lucide="book-open" class="w-5 h-5"></i> View Courses</span>
+                                <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                </span></span>
+                            </a>
                         </div>
                     </div>
                     <div class="lg:col-span-5 reveal-on-scroll flex justify-center">
@@ -2045,7 +2158,13 @@
                     <!-- JS rendered -->
                 </div>
                 <div class="text-center mt-10 reveal-on-scroll">
-                    <a href="#courses" onclick="navigateTo('courses')" class="btn-primary">View All Classes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></a>
+                    <a href="#courses" onclick="navigateTo('courses')" class="btn-primary blob-fill">
+                        <span class="blob-fill__label">View All Classes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -2176,7 +2295,13 @@
                 </div>
                 <div class="text-center mt-8 reveal-on-scroll">
                     <a href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ" target="_blank" rel="noopener"
-                        class="btn-primary">View Channel <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></a>
+                        class="btn-primary blob-fill">
+                        <span class="blob-fill__label">View Channel <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -2223,10 +2348,20 @@
                 </div>
                 <div class="flex flex-wrap justify-center gap-4 mt-10 reveal-on-scroll">
                     <a href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ" target="_blank" rel="noopener"
-                        class="btn-primary flex items-center gap-2"><i data-lucide="youtube" class="w-4 h-4"></i> Visit
-                        YouTube Channel</a>
-                    <a href="#admission" onclick="navigateTo('admission')" class="btn-secondary">Enroll for Offline
-                        Classes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></a>
+                        class="btn-primary blob-fill">
+                        <span class="blob-fill__label"><i data-lucide="youtube" class="w-4 h-4"></i> Visit YouTube Channel</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
+                    <a href="#admission" onclick="navigateTo('admission')" class="btn-secondary blob-fill">
+                        <span class="blob-fill__label">Enroll for Offline Classes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -2295,11 +2430,22 @@
                     Take the first step towards academic excellence. Enroll now at ENGLISHJIBI Classes.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#admission" onclick="navigateTo('admission')" class="btn-gold flex items-center gap-2">
-                        Enroll Now 
+                    <a href="#admission" onclick="navigateTo('admission')" class="btn-gold blob-fill">
+                        <span class="blob-fill__label">Enroll Now
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 fill-current shrink-0 inline-block align-middle relative -top-[1px]"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                        </span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
                     </a>
-                    <a href="#contact" onclick="navigateTo('contact')" class="btn-ghost-light">Get in Touch</a>
+                    <a href="#contact" onclick="navigateTo('contact')" class="btn-ghost-light blob-fill">
+                        <span class="blob-fill__label">Get in Touch</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -2863,14 +3009,20 @@
 
                                     <!-- Submit Button -->
                                     <div class="mt-6">
-                                        <button type="submit" id="admission-submit-btn" class="btn-primary w-full justify-center py-3.5 text-base">
-                                            <span class="btn-text flex items-center justify-center gap-2">Submit Enrollment Enquiry <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></span>
-                                            <span class="btn-spinner hidden">
-                                                <svg class="animate-spin w-5 h-5 text-white" viewBox="0 0 24 24">
-                                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity="0.3"></circle>
-                                                    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"></path>
-                                                </svg>
+                                        <button type="submit" id="admission-submit-btn" class="btn-primary blob-fill w-full justify-center py-3.5 text-base">
+                                            <span class="blob-fill__label">
+                                                <span class="btn-text flex items-center justify-center gap-2">Submit Enrollment Enquiry <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 inline-block fill-current ml-1 align-baseline"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg></span>
+                                                <span class="btn-spinner hidden">
+                                                    <svg class="animate-spin w-5 h-5 text-white" viewBox="0 0 24 24">
+                                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity="0.3"></circle>
+                                                        <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"></path>
+                                                    </svg>
+                                                </span>
                                             </span>
+                                            <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                            </span></span>
                                         </button>
                                     </div>
                                     <div id="admission-form-feedback" class="mt-3"></div>
@@ -3095,15 +3247,21 @@
                                             placeholder="Write your message..." required></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" id="contact-submit-btn" class="btn-primary w-full justify-center">
-                                    <span class="btn-text">Send Message</span>
-                                    <span class="btn-spinner hidden"><svg class="animate-spin w-4 h-4"
-                                            viewBox="0 0 24 24">
-                                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"
-                                                fill="none" opacity="0.3"></circle>
-                                            <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3"
-                                                fill="none" stroke-linecap="round"></path>
-                                        </svg></span>
+                                <button type="submit" id="contact-submit-btn" class="btn-primary blob-fill w-full justify-center">
+                                    <span class="blob-fill__label">
+                                        <span class="btn-text">Send Message</span>
+                                        <span class="btn-spinner hidden"><svg class="animate-spin w-4 h-4"
+                                                viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"
+                                                    fill="none" opacity="0.3"></circle>
+                                                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3"
+                                                    fill="none" stroke-linecap="round"></path>
+                                            </svg></span>
+                                    </span>
+                                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    </span></span>
                                 </button>
                                 <div id="contact-form-feedback"></div>
                             </form>
@@ -3120,8 +3278,12 @@
                             <!-- Direct Directions Link Overlay -->
                             <div class="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-10">
                                 <a href="https://www.google.com/maps/search/?api=1&query=8RM6%2BFF+Bhubaneswar%2C+Odisha"
-                                    target="_blank" rel="noopener" class="btn-primary text-xs py-2 px-4 shadow-lg flex items-center justify-center gap-2">
-                                    <i data-lucide="navigation" class="w-4 h-4"></i> Get Directions (8RM6+FF) ↗
+                                    target="_blank" rel="noopener" class="btn-primary blob-fill text-xs py-2 px-4 shadow-lg">
+                                    <span class="blob-fill__label"><i data-lucide="navigation" class="w-4 h-4"></i> Get Directions (8RM6+FF) &#8599;</span>
+                                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    </span></span>
                                 </a>
                             </div>
                         </div>
@@ -3268,7 +3430,13 @@
             <h3 class="type-h2 text-2xl mb-2">Message Sent!</h3>
             <p class="mb-6" style="color: var(--text-muted);">Thank you for contacting ENGLISHJIBI Classes! We'll get
                 back to you shortly.</p>
-            <button onclick="closeSuccessModal()" class="btn-primary">Close</button>
+            <button onclick="closeSuccessModal()" class="btn-primary blob-fill">
+                <span class="blob-fill__label">Close</span>
+                <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                </span></span>
+            </button>
         </div>
     </div>
 
@@ -3465,9 +3633,27 @@
                 ${course.subs.map(s => `<span class="text-xs px-2 py-0.5 rounded-full" style="background: var(--brand-pearl); color: var(--brand-navy);">${s}</span>`).join('')}
             </div>
             <div class="flex flex-wrap gap-2">
-                <a href="#admission" onclick="navigateTo('admission')" class="btn-primary text-xs py-2 px-4">Enroll Now</a>
-                <a href="#admission" onclick="navigateTo('admission')" class="btn-secondary text-xs py-2 px-4">Enquire</a>
-                <button onclick="openSyllabusModal(${course.id})" class="btn-secondary text-xs py-2 px-4" style="border-color: var(--gold-rich); color: var(--gold-muted);">Syllabus</button>
+                <a href="#admission" onclick="navigateTo('admission')" class="btn-primary blob-fill text-xs py-2 px-4">
+                    <span class="blob-fill__label">Enroll Now</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
+                </a>
+                <a href="#admission" onclick="navigateTo('admission')" class="btn-secondary blob-fill text-xs py-2 px-4">
+                    <span class="blob-fill__label">Enquire</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
+                </a>
+                <button onclick="openSyllabusModal(${course.id})" class="btn-secondary blob-fill text-xs py-2 px-4" style="border-color: var(--gold-rich); color: var(--gold-muted);">
+                    <span class="blob-fill__label">Syllabus</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
+                </button>
             </div>
         </div>`;
         }
@@ -3621,8 +3807,12 @@
 
             if (pdf) {
                 actionContainer.innerHTML = `
-                <a href="${pdf}" target="_blank" rel="noopener" class="btn-primary mt-4 w-full justify-center">
-                    <i data-lucide="download" class="w-4 h-4"></i> Download Syllabus
+                <a href="${pdf}" target="_blank" rel="noopener" class="btn-primary blob-fill mt-4 w-full justify-center">
+                    <span class="blob-fill__label"><i data-lucide="download" class="w-4 h-4"></i> Download Syllabus</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
                 </a>`;
             } else {
                 const schoolName = school === 'odm' ? 'ODM' : 'DAV';

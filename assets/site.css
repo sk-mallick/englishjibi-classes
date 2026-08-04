@@ -466,6 +466,15 @@
         .btn-secondary.blob-fill { --blob-fill-color: var(--brand-navy); }
         .btn-secondary.blob-fill::before { display: none; }
 
+        /* Gold variant: the default blob color IS gold (see .blob-fill__blob's
+           fallback below), which would be invisible rising on a gold button —
+           use navy instead, and flip the label to white on hover to match. */
+        .btn-gold.blob-fill { --blob-fill-color: var(--brand-navy); }
+        .btn-gold.blob-fill::before { display: none; }
+        .btn-gold.blob-fill:hover .blob-fill__label,
+        .btn-gold.blob-fill:hover .blob-fill__label i,
+        .btn-gold.blob-fill:hover .blob-fill__label svg { color: #FFFFFF; }
+
         /* Join WhatsApp variant: white blobs rise over the green base and the
            label flips to WhatsApp-green on hover so it stays legible against
            the fill. */

@@ -88,6 +88,20 @@
             line-height: 1.3;
         }
 
+        /* Once the PDF's real page 1 renders, it replaces the gradient +
+           icon + title placeholder — page 1 IS the book cover, so the
+           placeholder's own title/tag text would just be a redundant
+           duplicate sitting on top of it. */
+        .showcase-cover.has-cover-image {
+            padding: 0;
+        }
+        .showcase-cover-canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .check-list-item {
             display: flex;
             align-items: center;
@@ -130,11 +144,32 @@
             transition: all 0.25s ease;
             text-decoration: none;
             width: 100%;
+            position: relative;
+            z-index: 0;
+            overflow: hidden;
+            isolation: isolate;
         }
         .download-green-btn:hover {
             background: linear-gradient(145deg, #15803D 0%, #166534 100%);
             box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
             transform: translateY(-2px);
+        }
+
+        /* Blob-fill variant: white blobs rise over the green base (the same
+           pattern .btn-whatsapp.blob-fill uses), and the label flips to
+           green on hover so it stays legible against the white fill. The
+           inner clip radius matches this button's own 12px corners exactly
+           since, unlike btn-primary etc., it has no border to subtract. */
+        .download-green-btn.blob-fill { --blob-fill-color: #FFFFFF; }
+        .download-green-btn.blob-fill .blob-fill__inner { border-radius: 12px; }
+        .download-green-btn.blob-fill:hover {
+            background: linear-gradient(145deg, #16A34A 0%, #15803D 100%);
+            box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
+        }
+        .download-green-btn.blob-fill:hover .blob-fill__label,
+        .download-green-btn.blob-fill:hover .blob-fill__label i,
+        .download-green-btn.blob-fill:hover .blob-fill__label svg {
+            color: #15803D;
         }
 
         .content-card-box {
@@ -354,7 +389,13 @@
                 <a href="tel:+918328922917" class="flex items-center gap-2 text-sm font-semibold" style="color: #FFFFFF;">
                     <i data-lucide="phone" class="w-4 h-4"></i> +91 83289 22917
                 </a>
-                <a href="index.html#admission" class="btn-primary text-sm flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                <a href="index.html#admission" class="btn-primary blob-fill text-sm">
+                    <span class="blob-fill__label"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</span>
+                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    </span></span>
+                </a>
             </div>
 
             <button class="lg:hidden p-2 rounded-lg" style="color: #FFFFFF;" onclick="toggleMobileMenu()" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
@@ -385,8 +426,20 @@
                     <a href="index.html#contact" class="nav-link py-3 px-3 rounded-lg">Contact</a>
                 </div>
                 <div class="mt-4 flex flex-col gap-3">
-                    <a href="tel:+918328922917" class="btn-secondary text-center justify-center"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</a>
-                    <a href="index.html#admission" class="btn-primary text-center justify-center flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                    <a href="tel:+918328922917" class="btn-secondary blob-fill text-center justify-center">
+                        <span class="blob-fill__label"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
+                    <a href="index.html#admission" class="btn-primary blob-fill text-center justify-center">
+                        <span class="blob-fill__label"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                            <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                        </span></span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -435,8 +488,12 @@
                                     <div class="space-y-1.5 mb-6" id="highlights-list"></div>
 
                                     <div>
-                                        <a href="#" id="main-download-btn" target="_blank" rel="noopener" class="download-green-btn">
-                                            <i data-lucide="download" class="w-5 h-5"></i> Download PDF
+                                        <a href="#" id="main-download-btn" target="_blank" rel="noopener" class="download-green-btn blob-fill">
+                                            <span class="blob-fill__label"><i data-lucide="download" class="w-5 h-5"></i> Download PDF</span>
+                                            <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                            </span></span>
                                         </a>
                                         <div class="text-center mt-2 text-xs font-semibold" style="color: var(--text-muted);" id="download-meta-line">
                                             File Size: 2.4 MB &nbsp;|&nbsp; Pages: 57
@@ -466,7 +523,7 @@
                         <!-- Section: Preview (Sample Pages) -->
                         <div class="content-card-box" id="preview">
                             <h2 class="content-card-title">
-                                <i data-lucide="file-spreadsheets"></i> Preview (Sample Pages)
+                                <i data-lucide="file-spreadsheet"></i> Preview (Sample Pages)
                             </h2>
                             <p class="text-xs mb-4" style="color: var(--text-muted);">Take a quick look at the real rendered sample pages of this PDF workbook before downloading.</p>
                             
@@ -533,8 +590,12 @@
                         <div class="course-cta-card">
                             <h4 class="font-bold text-base mb-1" style="color: var(--text-heading);">Want More Study Materials?</h4>
                             <p class="text-xs mb-4" style="color: var(--text-muted);">Join our courses and boost your learning experience with expert guidance.</p>
-                            <a href="index.html#admission" class="btn-primary text-xs w-full justify-center">
-                                Enroll Now <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            <a href="index.html#admission" class="btn-primary blob-fill text-xs w-full justify-center">
+                                <span class="blob-fill__label">Enroll Now <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                                <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                </span></span>
                             </a>
                         </div>
 
@@ -785,8 +846,17 @@
             const previewBtn = document.getElementById('view-full-preview-btn');
             previewBtn.href = viewUrl;
 
-            // Render Sample PDF Pages (Skeleton initially, then PDF.js canvas rendering)
-            renderSamplePdfPages(fileUrl, viewUrl);
+            // Render Sample PDF Pages (Skeleton initially, then PDF.js canvas rendering).
+            // entry.previewStartPage picks which PDF page the 4-thumbnail strip opens
+            // on; defaults to page 2 since page 1 is the cover, already shown in the
+            // showcase-cover box above and redundant to preview again here.
+            const previewStartPage = Number.isInteger(entry.previewStartPage) && entry.previewStartPage > 0
+                ? entry.previewStartPage : 2;
+            renderSamplePdfPages(fileUrl, viewUrl, previewStartPage);
+
+            // Page 1 of the PDF is the book's actual cover — render it into the
+            // showcase box in place of the decorative gradient placeholder.
+            renderCoverFromPdf(fileUrl);
 
             // Every content block below is sourced from the fetched entry only —
             // sections hide themselves (see toggleSection) when the entry has
@@ -808,20 +878,63 @@
             initShell();
         }
 
-        async function renderSamplePdfPages(pdfUrl, viewUrl) {
+        function ensurePdfWorker() {
+            if (window.pdfjsLib) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            }
+        }
+
+        /* Renders the PDF's actual page 1 into the showcase-cover box, replacing
+           the decorative gradient/icon/title placeholder — page 1 IS the book
+           cover. If PDF.js or the fetch fails, the placeholder is left exactly
+           as it was rendered by renderViewer's initial markup (same graceful
+           degradation as the sample-pages fallback below). */
+        async function renderCoverFromPdf(pdfUrl) {
+            const box = document.getElementById('showcase-cover-box');
+            if (!box || !pdfUrl) return;
+
+            ensurePdfWorker();
+
+            try {
+                if (!window.pdfjsLib) throw new Error('PDF.js not loaded');
+
+                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+                const page = await pdf.getPage(1);
+
+                // Render at a fixed target width for a crisp, consistently-sized
+                // cover image regardless of the source PDF's own page size.
+                const baseViewport = page.getViewport({ scale: 1 });
+                const targetWidth = 480;
+                const viewport = page.getViewport({ scale: targetWidth / baseViewport.width });
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'showcase-cover-canvas';
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+
+                box.classList.add('has-cover-image');
+                box.innerHTML = '';
+                box.appendChild(canvas);
+            } catch (err) {
+                console.warn('[PDF.js Cover Render] Keeping placeholder cover:', err.message);
+            }
+        }
+
+        async function renderSamplePdfPages(pdfUrl, viewUrl, startPage) {
             const grid = document.getElementById('sample-pages-grid');
             if (!grid) return;
 
-            const pagesConfig = [
-                { num: 1, label: 'Rules & Formula' },
-                { num: 2, label: 'Examples & Charts' },
-                { num: 3, label: 'Worksheets' },
-                { num: 4, label: 'Answer Keys' }
-            ];
+            // 4 thumbnail slots, walking forward from startPage through the PDF.
+            // `slot` is the fixed card position (1-4); `pdfPage` is the real PDF
+            // page number shown/rendered in that slot.
+            const labels = ['Rules & Formula', 'Examples & Charts', 'Worksheets', 'Answer Keys'];
+            const pagesConfig = labels.map((label, i) => ({ slot: i + 1, pdfPage: startPage + i, label }));
 
             // 1. Render Skeleton Shimmer Cards while loading
             grid.innerHTML = pagesConfig.map(p => `
-                <div class="sample-thumb-card skeleton-card relative overflow-hidden bg-slate-50 border-slate-200/90" id="sample-card-${p.num}">
+                <div class="sample-thumb-card skeleton-card relative overflow-hidden bg-slate-50 border-slate-200/90" id="sample-card-${p.slot}">
                     <div class="skeleton-shimmer-overlay"></div>
                     <div class="flex items-center justify-between mb-2">
                         <div class="h-3 w-10 bg-slate-200 rounded"></div>
@@ -835,7 +948,7 @@
                         <div class="h-2 bg-slate-200 rounded w-2/3"></div>
                     </div>
                     <div class="text-[0.65rem] text-slate-400 font-semibold text-center border-t pt-1.5 flex items-center justify-center gap-1.5">
-                        <i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin text-blue-600"></i> Page ${p.num} rendering…
+                        <i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin text-blue-600"></i> Page ${p.pdfPage} rendering…
                     </div>
                 </div>
             `).join('');
@@ -843,9 +956,7 @@
             if (window.lucide) lucide.createIcons();
 
             // 2. Configure PDF.js Global Worker
-            if (window.pdfjsLib) {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-            }
+            ensurePdfWorker();
 
             try {
                 if (!window.pdfjsLib) throw new Error('PDF.js not loaded');
@@ -853,17 +964,16 @@
                 const loadingTask = pdfjsLib.getDocument(pdfUrl);
                 const pdf = await loadingTask.promise;
 
-                for (let i = 0; i < pagesConfig.length; i++) {
-                    const pageNum = i + 1;
-                    const cardEl = document.getElementById(`sample-card-${pageNum}`);
+                for (const p of pagesConfig) {
+                    const cardEl = document.getElementById(`sample-card-${p.slot}`);
                     if (!cardEl) continue;
 
-                    if (pageNum > pdf.numPages) {
+                    if (p.pdfPage > pdf.numPages) {
                         cardEl.style.display = 'none';
                         continue;
                     }
 
-                    const page = await pdf.getPage(pageNum);
+                    const page = await pdf.getPage(p.pdfPage);
                     const viewport = page.getViewport({ scale: 0.6 });
 
                     const canvas = document.createElement('canvas');
@@ -884,14 +994,14 @@
                     cardEl.innerHTML = `
                         <div class="thumb-zoom-overlay">
                             <i data-lucide="eye" class="w-6 h-6 stroke-white"></i>
-                            <span>View Page ${pageNum}</span>
+                            <span>View Page ${p.pdfPage}</span>
                         </div>
                         <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
                             <!-- canvas element appended below -->
                         </div>
                         <div class="w-full flex items-center justify-between text-[0.62rem] font-bold text-slate-500 border-t pt-1.5 px-1 mt-1">
-                            <span class="text-blue-900 uppercase">Page ${pageNum}</span>
-                            <span class="text-slate-400">${pagesConfig[i].label}</span>
+                            <span class="text-blue-900 uppercase">Page ${p.pdfPage}</span>
+                            <span class="text-slate-400">${p.label}</span>
                         </div>
                     `;
                     cardEl.querySelector('.w-full.flex-1').appendChild(canvas);
@@ -901,14 +1011,14 @@
             } catch (err) {
                 console.warn('[PDF.js Sample Render] Fallback to mock preview layout:', err.message);
                 pagesConfig.forEach(p => {
-                    const cardEl = document.getElementById(`sample-card-${p.num}`);
+                    const cardEl = document.getElementById(`sample-card-${p.slot}`);
                     if (!cardEl) return;
                     cardEl.className = 'sample-thumb-card pdf-canvas-card group';
                     cardEl.onclick = function() { window.location.href = viewUrl; };
                     cardEl.innerHTML = `
                         <div class="thumb-zoom-overlay">
                             <i data-lucide="eye" class="w-6 h-6 stroke-white"></i>
-                            <span>View Page ${p.num}</span>
+                            <span>View Page ${p.pdfPage}</span>
                         </div>
                         <div class="w-full flex-1 flex flex-col justify-between p-2.5 bg-white rounded border border-slate-200">
                             <div>
@@ -923,11 +1033,11 @@
                             </div>
                             <div class="border-t pt-1 text-[0.55rem] text-slate-400 font-semibold flex justify-between">
                                 <span>Rules &amp; Practice</span>
-                                <span>Pg ${p.num}</span>
+                                <span>Pg ${p.pdfPage}</span>
                             </div>
                         </div>
                         <div class="w-full flex items-center justify-between text-[0.62rem] font-bold text-slate-500 border-t pt-1.5 px-1 mt-1">
-                            <span class="text-blue-900 uppercase">Page ${p.num}</span>
+                            <span class="text-blue-900 uppercase">Page ${p.pdfPage}</span>
                             <span class="text-slate-400">${p.label}</span>
                         </div>
                     `;
