@@ -10,6 +10,33 @@
     "featured": true,
     "cover": "cover-cobalt",
     "icon": "spell-check",
-    "tag": "Tenses Book"
+    "tag": "Tenses Book",
+    "highlights": [
+      "Detailed Explanation of All 12 Tenses",
+      "Easy Examples & Formula Summary Tables",
+      "Practice Exercises & Worksheets",
+      "MCQs for Better Practice & Exam Prep",
+      "Answer Key & Solutions Included",
+      "100% Free to Download & Print"
+    ],
+    "topics": [
+      "Present Simple & Present Continuous",
+      "Present Perfect & Perfect Continuous",
+      "Past Simple & Past Continuous",
+      "Past Perfect & Past Perfect Continuous",
+      "Future Simple & Future Continuous",
+      "Future Perfect & Future Perfect Continuous",
+      "Tense Formula & Structure Master Chart",
+      "Sentence Transformation & Error Correction",
+      "Practice Exercises with Answer Keys",
+      "Mixed Tense MCQs & Exam Questions"
+    ],
+    "faqs": [
+      { "q": "Is this workbook completely free?", "a": "Yes! Every page, worksheet, and answer key in this PDF is 100% free to view and download with no sign-up or fee required." },
+      { "q": "Is it applicable for CBSE, ICSE and State Boards?", "a": "Yes. The concepts, formulas, and practice exercises follow the standard NCERT curriculum and cover the English Grammar syllabus for all major educational boards." },
+      { "q": "Does it include answer keys and solutions?", "a": "Yes, comprehensive answer keys and detailed explanations are provided at the end of the workbook for self-assessment." },
+      { "q": "Can I print this workbook for offline study?", "a": "Absolutely. Once downloaded, you can print the PDF or save it on your phone, tablet, or laptop to study anytime offline." }
+    ],
+    "tags": ["All Classes", "English Grammar", "Tenses", "Workbook", "CBSE", "ICSE", "Grammar PDF", "Free PDF", "Practice Set", "English Notes"]
   }
 ]

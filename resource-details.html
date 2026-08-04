@@ -431,32 +431,8 @@
                                     </div>
                                 </div>
                                 <div class="sm:col-span-7 md:col-span-8 flex flex-col justify-between h-full">
-                                    <div class="space-y-1.5 mb-6">
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>Detailed Explanation of All 12 Tenses</span>
-                                        </div>
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>Easy Examples &amp; Formula Summary Tables</span>
-                                        </div>
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>Practice Exercises &amp; Worksheets</span>
-                                        </div>
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>MCQs for Better Practice &amp; Exam Prep</span>
-                                        </div>
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>Answer Key &amp; Solutions Included</span>
-                                        </div>
-                                        <div class="check-list-item">
-                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
-                                            <span>100% Free to Download &amp; Print</span>
-                                        </div>
-                                    </div>
+                                    <!-- Filled by renderHighlights() from entry.highlights; hidden if the entry has none. -->
+                                    <div class="space-y-1.5 mb-6" id="highlights-list"></div>
 
                                     <div>
                                         <a href="#" id="main-download-btn" target="_blank" rel="noopener" class="download-green-btn">
@@ -475,9 +451,7 @@
                             <h2 class="content-card-title">
                                 <i data-lucide="book-open-check"></i> About This Workbook
                             </h2>
-                            <p class="text-sm leading-relaxed" style="color: var(--text-body);" id="about-text-content">
-                                This English Tenses Workbook is specially designed to help students master all 12 tenses in English Grammar with simple explanations, rules, formulas, real-life sentence examples, and extensive practice exercises. Ideal for CBSE, ICSE, and State Board students preparing for school exams and competitive tests.
-                            </p>
+                            <p class="text-sm leading-relaxed" style="color: var(--text-body);" id="about-text-content"></p>
                         </div>
 
                         <!-- Section: Topics Covered -->
@@ -485,18 +459,8 @@
                             <h2 class="content-card-title">
                                 <i data-lucide="list-checks"></i> Topics Covered
                             </h2>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-medium" style="color: var(--text-heading);" id="topics-grid-container">
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Present Simple &amp; Present Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Present Perfect &amp; Perfect Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Past Simple &amp; Past Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Past Perfect &amp; Past Perfect Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Future Simple &amp; Future Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Future Perfect &amp; Future Perfect Continuous</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Tense Formula &amp; Structure Master Chart</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Sentence Transformation &amp; Error Correction</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Practice Exercises with Answer Keys</div>
-                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Mixed Tense MCQs &amp; Exam Questions</div>
-                            </div>
+                            <!-- Filled by renderTopics() from entry.topics -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-medium" style="color: var(--text-heading);" id="topics-grid-container"></div>
                         </div>
 
                         <!-- Section: Preview (Sample Pages) -->
@@ -528,36 +492,8 @@
                                 <i data-lucide="help-circle"></i> Frequently Asked Questions
                             </h2>
                             
-                            <div class="space-y-3" id="detail-faq-container">
-                                <div class="faq-item">
-                                    <button class="faq-q" onclick="toggleFaq(this)">
-                                        <span>Is this workbook completely free?</span>
-                                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                                    </button>
-                                    <div class="faq-a"><p>Yes! Every page, worksheet, and answer key in this PDF is 100% free to view and download with no sign-up or fee required.</p></div>
-                                </div>
-                                <div class="faq-item">
-                                    <button class="faq-q" onclick="toggleFaq(this)">
-                                        <span>Is it applicable for CBSE, ICSE and State Boards?</span>
-                                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                                    </button>
-                                    <div class="faq-a"><p>Yes. The concepts, formulas, and practice exercises follow the standard NCERT curriculum and cover the English Grammar syllabus for all major educational boards.</p></div>
-                                </div>
-                                <div class="faq-item">
-                                    <button class="faq-q" onclick="toggleFaq(this)">
-                                        <span>Does it include answer keys and solutions?</span>
-                                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                                    </button>
-                                    <div class="faq-a"><p>Yes, comprehensive answer keys and detailed explanations are provided at the end of the workbook for self-assessment.</p></div>
-                                </div>
-                                <div class="faq-item">
-                                    <button class="faq-q" onclick="toggleFaq(this)">
-                                        <span>Can I print this workbook for offline study?</span>
-                                        <i data-lucide="chevron-down" class="faq-icon"></i>
-                                    </button>
-                                    <div class="faq-a"><p>Absolutely. Once downloaded, you can print the PDF or save it on your phone, tablet, or laptop to study anytime offline.</p></div>
-                                </div>
-                            </div>
+                            <!-- Filled by renderFaqs() from entry.faqs -->
+                            <div class="space-y-3" id="detail-faq-container"></div>
                         </div>
 
                     </div>
@@ -570,11 +506,11 @@
                             <h3 class="sidebar-widget-title">Table of Contents</h3>
                             <div class="space-y-1">
                                 <a href="#about" class="toc-link"><i data-lucide="book-open"></i> About This Workbook</a>
-                                <a href="#topics" class="toc-link"><i data-lucide="list-checks"></i> Topics Covered</a>
+                                <a href="#topics" class="toc-link" id="toc-link-topics"><i data-lucide="list-checks"></i> Topics Covered</a>
                                 <a href="#preview" class="toc-link"><i data-lucide="eye"></i> Preview (Sample Pages)</a>
-                                <a href="#faq" class="toc-link"><i data-lucide="help-circle"></i> FAQ</a>
-                                <a href="#related" class="toc-link"><i data-lucide="layout-grid"></i> Related Resources</a>
-                                <a href="#tags-section" class="toc-link"><i data-lucide="tag"></i> Tags</a>
+                                <a href="#faq" class="toc-link" id="toc-link-faq"><i data-lucide="help-circle"></i> FAQ</a>
+                                <a href="#related" class="toc-link" id="toc-link-related"><i data-lucide="layout-grid"></i> Related Resources</a>
+                                <a href="#tags-section" class="toc-link" id="toc-link-tags"><i data-lucide="tag"></i> Tags</a>
                             </div>
                         </div>
 
@@ -589,18 +525,8 @@
                         <!-- Widget: Tags -->
                         <div class="sidebar-widget" id="tags-section">
                             <h3 class="sidebar-widget-title">Tags</h3>
-                            <div class="flex flex-wrap" id="tags-container">
-                                <a href="resources.html" class="tag-chip">All Classes</a>
-                                <a href="resources.html" class="tag-chip">English Grammar</a>
-                                <a href="resources.html" class="tag-chip">Tenses</a>
-                                <a href="resources.html" class="tag-chip">Workbook</a>
-                                <a href="resources.html" class="tag-chip">CBSE</a>
-                                <a href="resources.html" class="tag-chip">ICSE</a>
-                                <a href="resources.html" class="tag-chip">Grammar PDF</a>
-                                <a href="resources.html" class="tag-chip">Free PDF</a>
-                                <a href="resources.html" class="tag-chip">Practice Set</a>
-                                <a href="resources.html" class="tag-chip">English Notes</a>
-                            </div>
+                            <!-- Filled by renderTags() from entry.tags (or entry.tag as a single fallback) -->
+                            <div class="flex flex-wrap" id="tags-container"></div>
                         </div>
 
                         <!-- Widget: Want More Study Materials CTA -->
@@ -690,6 +616,85 @@
             if (item) item.classList.toggle('open');
         }
 
+        /* "2026-07-28" -> "28 Jul 2026". Falls back to the raw string for
+           anything that doesn't parse, rather than inventing a date. */
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        /* Hides a content section AND its matching sidebar ToC link when the
+           entry has no data to fill it with, instead of showing an empty or
+           fabricated block. */
+        function toggleSection(sectionId, tocLinkId, visible) {
+            const section = document.getElementById(sectionId);
+            if (section) section.style.display = visible ? '' : 'none';
+            const link = tocLinkId && document.getElementById(tocLinkId);
+            if (link) link.style.display = visible ? '' : 'none';
+        }
+
+        function renderHighlights(entry) {
+            const host = document.getElementById('highlights-list');
+            const items = Array.isArray(entry.highlights) ? entry.highlights : [];
+            host.style.display = items.length ? '' : 'none';
+            host.innerHTML = items.map(text => `
+                <div class="check-list-item">
+                    <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                    <span>${escapeHtml(text)}</span>
+                </div>`).join('');
+        }
+
+        function renderTopics(entry) {
+            const items = Array.isArray(entry.topics) ? entry.topics : [];
+            toggleSection('topics', 'toc-link-topics', items.length > 0);
+            document.getElementById('topics-grid-container').innerHTML = items.map(text => `
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> ${escapeHtml(text)}</div>`).join('');
+        }
+
+        function renderFaqs(entry) {
+            const items = Array.isArray(entry.faqs) ? entry.faqs : [];
+            toggleSection('faq', 'toc-link-faq', items.length > 0);
+            document.getElementById('detail-faq-container').innerHTML = items.map(f => `
+                <div class="faq-item">
+                    <button class="faq-q" onclick="toggleFaq(this)">
+                        <span>${escapeHtml(f.q)}</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-a"><p>${escapeHtml(f.a)}</p></div>
+                </div>`).join('');
+        }
+
+        /* entry.tags (array) wins; otherwise fall back to the single
+           entry.tag string so the widget still has something real to show. */
+        function renderTags(entry) {
+            const items = Array.isArray(entry.tags) && entry.tags.length ? entry.tags : (entry.tag ? [entry.tag] : []);
+            toggleSection('tags-section', 'toc-link-tags', items.length > 0);
+            document.getElementById('tags-container').innerHTML = items.map(tag =>
+                `<a href="resources.html" class="tag-chip">${escapeHtml(tag)}</a>`).join('');
+        }
+
+        /* Related Resources = other real entries from the SAME data/common/<folder>.json
+           list that was just fetched, never invented placeholder titles. */
+        function renderRelated(entry, folder, allItems) {
+            const others = allItems.filter(e => e && e.id !== entry.id);
+            toggleSection('related', 'toc-link-related', others.length > 0);
+            document.getElementById('related-resources-list').innerHTML = others.map(item => `
+                <a href="resource-details.html?folder=${encodeURIComponent(folder.slug)}&id=${encodeURIComponent(item.id)}" class="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-decoration-none group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-blue-100/70 text-blue-800 flex items-center justify-center font-bold text-xs">
+                            <i data-lucide="${escapeHtml(item.icon || folder.icon || 'file-text')}" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-800 group-hover:text-blue-900 leading-snug">${escapeHtml(item.title || item.id)}</h4>
+                            <span class="text-[0.7rem] text-slate-500 font-medium">${escapeHtml(folder.name)}</span>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-700 transition-transform group-hover:translate-x-0.5"></i>
+                </a>`).join('');
+        }
+
         async function loadResourceDetails() {
             const p = getParams();
             const loading = document.getElementById('loading-state');
@@ -730,7 +735,7 @@
 
             const folder = getFolder(p.folderSlug) || { name: p.folderSlug, slug: p.folderSlug, icon: 'book-open' };
             const titleStr = entry.title || entry.id;
-            const fileUrl = entry.file || 'https://englishjibi.github.io/common/super-tense.pdf';
+            const fileUrl = entry.file;
 
             // Render Breadcrumbs
             renderBreadcrumbs([
