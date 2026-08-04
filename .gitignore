@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups
+*.backup.html
+*.bak
+*~
+
+# Node (for future use)
+node_modules/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# Build artifacts (for future)
+dist/
+build/

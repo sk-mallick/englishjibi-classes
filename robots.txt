@@ -1,0 +1,11 @@
+# ENGLISHJIBI CLASSES
+# Everything here is public study material meant to be found.
+
+User-agent: *
+Allow: /
+
+# DO NOT add "Disallow: /*?*" here. The whole resource library is addressed with
+# query strings (class.html?class=9, folder.html?class=9&folder=grammar), so that
+# one line would de-index every class and folder page on the site.
+
+Sitemap: https://sk-mallick.github.io/englishjibi-classes/sitemap.xml

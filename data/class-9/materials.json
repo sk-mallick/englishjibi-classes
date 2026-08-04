@@ -1,0 +1,52 @@
+[
+  {
+    "id": "super-tense-1",
+    "title": "Super Tense — Part 1: Present Tenses",
+    "desc": "Present simple, present continuous, present perfect and present perfect continuous explained with rules and exercises.",
+    "file": "https://englishjibi.github.io/common/super-tense.pdf",
+    "size": "2.4 MB",
+    "pages": 57,
+    "date": "2026-07-28",
+    "featured": true,
+    "cover": "cover-royal",
+    "icon": "book-open",
+    "tag": "Tenses Book"
+  },
+  {
+    "id": "super-tense-2",
+    "title": "Super Tense — Part 2: Past Tenses",
+    "desc": "Past simple, past continuous, past perfect and past perfect continuous with clear examples.",
+    "file": "https://englishjibi.github.io/common/super-tense.pdf",
+    "size": "2.4 MB",
+    "pages": 57,
+    "date": "2026-07-28",
+    "cover": "cover-navy",
+    "icon": "book-open",
+    "tag": "Tenses Book"
+  },
+  {
+    "id": "super-tense-3",
+    "title": "Super Tense — Part 3: Future Tenses",
+    "desc": "Future simple, future continuous, future perfect and future perfect continuous with practice exercises.",
+    "file": "https://englishjibi.github.io/common/super-tense.pdf",
+    "size": "2.4 MB",
+    "pages": 57,
+    "date": "2026-07-28",
+    "cover": "cover-cobalt",
+    "icon": "book-open",
+    "tag": "Tenses Book"
+  },
+  {
+    "id": "super-tense-4",
+    "title": "Super Tense — Complete Edition",
+    "desc": "All 12 tenses in one book — rules, examples and practice exercises for every tense.",
+    "file": "https://englishjibi.github.io/common/super-tense.pdf",
+    "size": "2.4 MB",
+    "pages": 57,
+    "date": "2026-07-28",
+    "featured": true,
+    "cover": "cover-gold",
+    "icon": "book-open",
+    "tag": "Tenses Book"
+  }
+]

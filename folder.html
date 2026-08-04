@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+
+    <!-- title / description / canonical / og:url are rewritten by setPageMeta()
+         in assets/site.js once the URL parameters have been validated. -->
+    <title>Class Resources | ENGLISHJIBI CLASSES</title>
+    <meta name="description" content="Free English worksheets, notes and papers for Classes 2 to 10 from ENGLISHJIBI Classes, Bhubaneswar.">
+    <meta name="author" content="Subham Kumar Mallick">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sk-mallick.github.io/englishjibi-classes/folder.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sk-mallick.github.io/englishjibi-classes/folder.html">
+    <meta property="og:title" content="Class Resources | ENGLISHJIBI CLASSES">
+    <meta property="og:description" content="Free English worksheets, notes and papers for Classes 2 to 10 from ENGLISHJIBI Classes, Bhubaneswar.">
+    <meta property="og:image" content="https://sk-mallick.github.io/englishjibi-classes//img/resources-banner.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/webp" sizes="32x32" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="icon" type="image/webp" sizes="16x16" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="shortcut icon" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Shared config — single source of truth, see tailwind.config.js -->
+    <script src="tailwind.config.js"></script>
+
+    <!-- Royal Ink Design System — shared by resources / class / folder / view -->
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        /* MUST stay inline, not in site.css: a relative url() inside an external
+           stylesheet resolves against the STYLESHEET's URL (assets/site.css#goo),
+           not the page's. The goo filter would silently stop working and every
+           .blob-fill button would render as four hard rectangles with no error.
+           The <svg><filter id="goo"> these point at lives at the top of <body>. */
+        .blob-fill__blobs { filter: url('#goo'); }
+        @supports (filter: url('#goo')) {
+            .blob-fill__blob { transform: translate3d(0, 150%, 0) scale(1.4); }
+            .blob-fill:hover .blob-fill__blob { transform: translateZ(0) scale(1.4); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SVG gooey filter used by .blob-btn-download; keep hidden, zero size. -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+
+    <nav class="glass-nav" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 no-underline">
+                <img src="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp" alt="Englishjibi Logo" class="w-10 h-10 rounded-full">
+                <div class="flex flex-col" style="gap: 1.5px;">
+                    <span class="text-lg font-black tracking-widest leading-none" style="color: #FFFFFF;">ENGLISHJIBI</span>
+                    <span class="text-[0.72rem] font-semibold tracking-[0.2em] leading-none" style="color: var(--text-on-navy-muted);">CLASSES</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-7 desktop-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#gallery" class="nav-link">Gallery</a>
+                <a href="index.html#courses" class="nav-link">Courses</a>
+                <a href="resources.html" class="nav-link active" aria-current="page">Resources</a>
+                <a href="practice.html" class="nav-link">Practice Set</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="tel:+918328922917" class="flex items-center gap-2 text-sm font-semibold" style="color: #FFFFFF;">
+                    <i data-lucide="phone" class="w-4 h-4"></i> +91 83289 22917
+                </a>
+                <a href="index.html#admission" class="btn-primary text-sm flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+            </div>
+
+            <button class="lg:hidden p-2 rounded-lg" style="color: #FFFFFF;" onclick="toggleMobileMenu()" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-8 h-8" id="menu-toggle-icon" style="stroke-width: 2.5;"></i>
+            </button>
+        </div>
+
+        <div class="ticker-bar">
+            <div class="ticker-track">
+                <span><span class="star">★</span> Free Notes, Workbooks &amp; Sample Papers</span>
+                <span><span class="star">★</span> New Resources Added Regularly</span>
+                <span><span class="star">★</span> Classes 2 to 10 · NCERT &amp; CBSE</span>
+                <span><span class="star">★</span> 100% Free — No Sign-up Needed</span>
+                <span><span class="star">★</span> Join Our WhatsApp for Updates</span>
+                <span><span class="star">★</span> Call: +91 83289 22917</span>
+                <span><span class="star">★</span> Free Notes, Workbooks &amp; Sample Papers</span>
+                <span><span class="star">★</span> New Resources Added Regularly</span>
+                <span><span class="star">★</span> Classes 2 to 10 · NCERT &amp; CBSE</span>
+                <span><span class="star">★</span> 100% Free — No Sign-up Needed</span>
+                <span><span class="star">★</span> Join Our WhatsApp for Updates</span>
+                <span><span class="star">★</span> Call: +91 83289 22917</span>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="lg:hidden overflow-hidden transition-all duration-300" style="max-height: 0;">
+            <div class="px-4 pb-4 pt-2 border-t" style="border-color: var(--border-default);">
+                <div class="flex flex-col gap-1">
+                    <a href="index.html" class="nav-link py-3 px-3 rounded-lg">Home</a>
+                    <a href="index.html#about" class="nav-link py-3 px-3 rounded-lg">About</a>
+                    <a href="index.html#gallery" class="nav-link py-3 px-3 rounded-lg">Gallery</a>
+                    <a href="index.html#courses" class="nav-link py-3 px-3 rounded-lg">Courses</a>
+                    <a href="resources.html" class="nav-link py-3 px-3 rounded-lg active" aria-current="page">Resources</a>
+                    <a href="practice.html" class="nav-link py-3 px-3 rounded-lg">Practice Set</a>
+                    <a href="index.html#contact" class="nav-link py-3 px-3 rounded-lg">Contact</a>
+                </div>
+                <div class="mt-4 flex flex-col gap-3">
+                    <a href="tel:+918328922917" class="btn-secondary text-center justify-center"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</a>
+                    <a href="index.html#admission" class="btn-primary text-center justify-center flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="crumb-bar">
+        <div class="max-w-6xl mx-auto px-4">
+            <nav class="crumb-list" id="crumbs" aria-label="Breadcrumb"></nav>
+        </div>
+    </div>
+
+    <main>
+        <!-- ── HEADER ─────────────────────────────── -->
+        <section class="section-warm" style="padding-top: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(1.5rem, 3vw, 2rem);">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <span class="eyebrow" id="folder-eyebrow">Resources</span>
+                        <h1 class="type-hero" id="folder-heading">Files</h1>
+                        <div class="section-divider" style="margin: 1rem 0 0;"></div>
+                    </div>
+                    <a href="class.html" class="btn-secondary text-sm" id="back-link">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+                    </a>
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-2" id="sibling-chips"></div>
+            </div>
+        </section>
+
+        <!-- ── FILE GRID ──────────────────────────── -->
+        <section class="section-base" style="padding-top: clamp(1.5rem, 3vw, 2rem);">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="file-grid"></div>
+            </div>
+        </section>
+
+        <section class="section-warm">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="ink-card p-6 md:p-8 text-center">
+                    <h2 class="type-h3 mb-2">Looking for something specific?</h2>
+                    <p class="text-sm mb-5" style="color: var(--text-muted);">
+                        Message us the chapter or topic and we&rsquo;ll try to add it.
+                    </p>
+                    <a href="https://wa.me/918328922917" target="_blank" rel="noopener"
+                       class="btn-whatsapp blob-fill" style="display:inline-flex;">
+                        <span class="blob-fill__label">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Ask on WhatsApp
+                        </span>
+                        <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                    <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                </span></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="section-navy">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp" alt="Logo" class="w-10 h-10 rounded-full" loading="lazy">
+                        <div class="flex flex-col" style="gap: 1.5px;">
+                            <span class="text-lg font-black tracking-widest leading-none" style="color: var(--text-on-navy);">ENGLISHJIBI</span>
+                            <span class="text-[0.72rem] font-semibold tracking-[0.2em] leading-none" style="color: var(--text-on-navy-muted);">CLASSES</span>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-on-navy-muted);">English & Grammar Coaching Center providing expert guidance for Class 2 to Class 10.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Quick Links</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="index.html" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Home</a>
+                        <a href="index.html#about" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">About</a>
+                        <a href="index.html#courses" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Courses</a>
+                        <a href="resources.html" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Resources</a>
+                        <a href="index.html#admission" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Admission</a>
+                        <a href="index.html#contact" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Contact</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Contact Us</h4>
+                    <div class="flex flex-col gap-3 text-sm" style="color: var(--text-on-navy-muted);">
+                        <p class="flex items-start gap-2 text-xs leading-relaxed">
+                            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                            Duplex 37, Infront of DAV Public School, near Tarini Temple, Phase II, Sailashree Vihar, Chandrasekharpur, Bhubaneswar, Odisha 751021
+                        </p>
+                        <a href="tel:+918328922917" class="no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="phone" class="w-4 h-4"></i> +91 83289 22917</a>
+                        <a href="mailto:rangoclasses@gmail.com" class="no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="mail" class="w-4 h-4"></i> rangoclasses@gmail.com</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Community</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="youtube" class="w-4 h-4"></i> YouTube Channel</a>
+                        <a href="https://t.me/englishwithchiranjibisir" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="send" class="w-4 h-4"></i> Telegram Group</a>
+                        <a href="https://www.facebook.com/Englishwithchiranjibisir" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="facebook" class="w-4 h-4"></i> Facebook Page</a>
+                        <a href="https://www.instagram.com/chiranjibi4848" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-6 text-center text-xs" style="border-top: 1px solid rgba(234,239,250,0.10); color: var(--text-on-navy-muted);">
+                © 2024–2027 ENGLISHJIBI CLASSES. | Website Designed &amp; Developed by <a href="https://sk-mallick.github.io/codemaster-sk" target="_blank" rel="noopener" class="underline" style="color: var(--gold-light);">Subham Kumar Mallick</a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/918328922917" target="_blank" rel="noopener" class="whatsapp-fab group" aria-label="Chat on WhatsApp">
+        <div class="whatsapp-ping"></div>
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+    <!-- Shared constants + helpers. MUST load before the page script below. -->
+    <script src="assets/site.js"></script>
+
+    <script>
+        /* ═══════════════════════════════════════════════
+           folder.html — the list of PDFs in one folder
+           ═══════════════════════════════════════════════ */
+
+        /* Both buttons need the full blob-fill child structure. Dropping any of it
+           is a silent failure: the button still looks right at rest and simply
+           stops animating on hover. */
+        const BLOB_SPANS = `<span class="blob-fill__inner"><span class="blob-fill__blobs">
+                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+            </span></span>`;
+
+        function fileCardHtml(classNum, folder, entry, index) {
+            const title   = escapeHtml(entry.title || entry.id);
+            const viewUrl = `view.html?class=${classNum}&folder=${folder.slug}&id=${escapeHtml(entry.id)}`;
+
+            const badges = [
+                entry.featured      ? '<span class="badge badge-gold">Featured</span>' : '',
+                isNew(entry.date)   ? '<span class="badge badge-new">New</span>'       : ''
+            ].join('');
+
+            const meta = [
+                '<span><i data-lucide="file-text"></i>PDF</span>',
+                entry.size  ? `<span><i data-lucide="hard-drive"></i>${escapeHtml(entry.size)}</span>`  : '',
+                entry.pages ? `<span><i data-lucide="copy"></i>${escapeHtml(entry.pages)} pages</span>` : ''
+            ].join('');
+
+            return `
+                <div class="ink-card overflow-hidden reveal-on-scroll is-visible">
+                    <div class="resource-cover ${coverFor(entry, index)}">
+                        <i data-lucide="${escapeHtml(entry.icon || folder.icon)}" class="cover-bg-icon"></i>
+                        <span class="cover-title">${title}</span>
+                        <span class="cover-tag">${escapeHtml(entry.tag || folder.name)}</span>
+                    </div>
+                    <div class="resource-card-body">
+                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                            <h2 class="type-h3" style="font-size:1rem;">${title}</h2>
+                            ${badges}
+                        </div>
+                        ${entry.desc ? `<p class="text-sm mb-3" style="color: var(--text-muted);">${escapeHtml(entry.desc)}</p>` : ''}
+                        <div class="meta-row mb-4">${meta}</div>
+                        <div class="flex flex-nowrap gap-2">
+                            <a href="${viewUrl}" class="btn-secondary blob-fill text-xs py-2 px-3 flex-1 justify-center whitespace-nowrap">
+                                <span class="blob-fill__label"><i data-lucide="eye" class="w-3.5 h-3.5"></i> Open</span>
+                                ${BLOB_SPANS}
+                            </a>
+                            <a href="${escapeHtml(entry.file)}" download
+                               class="btn-primary blob-fill text-xs py-2 px-3 flex-1 justify-center whitespace-nowrap">
+                                <span class="blob-fill__label"><i data-lucide="download" class="w-3.5 h-3.5"></i> Download</span>
+                                ${BLOB_SPANS}
+                            </a>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function renderSiblingChips(classNum, currentSlug) {
+            document.getElementById('sibling-chips').innerHTML = FOLDERS.map(f =>
+                f.slug === currentSlug
+                    ? `<span class="filter-chip is-current" style="padding-right:0.9rem;">${escapeHtml(f.name)}</span>`
+                    : `<a class="filter-chip" style="padding-right:0.9rem;" href="folder.html?class=${classNum}&folder=${f.slug}">${escapeHtml(f.name)}</a>`
+            ).join('');
+        }
+
+        function setBackLink(classNum) {
+            const back = document.getElementById('back-link');
+            back.setAttribute('href', `class.html?class=${classNum}`);
+            back.innerHTML = `<i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Class ${classNum}`;
+        }
+
+        function renderFolderHeader(classNum, folder, count) {
+            document.getElementById('folder-eyebrow').textContent = `Class ${classNum}`;
+            document.getElementById('folder-heading').textContent = folder.name;
+            setBackLink(classNum);
+            renderSiblingChips(classNum, folder.slug);
+
+            renderBreadcrumbs([
+                { name: 'Home',      url: 'index.html' },
+                { name: 'Resources', url: 'resources.html' },
+                { name: `Class ${classNum}`, url: `class.html?class=${classNum}` },
+                { name: folder.name }
+            ]);
+
+            const countText = count === 0 ? 'material coming soon'
+                            : count === 1 ? '1 file to view or download'
+                            : `${count} files to view or download`;
+            setPageMeta({
+                title: `${folder.name} \u2014 Class ${classNum} English Resources | ENGLISHJIBI CLASSES`,
+                description: `Free Class ${classNum} ${folder.name.toLowerCase()} PDFs \u2014 ${countText}. NCERT & CBSE aligned, from ENGLISHJIBI Classes, Bhubaneswar.`,
+                canonical: `folder.html?class=${classNum}&folder=${folder.slug}`
+            });
+            setJsonLd('ld-org', Object.assign({ '@context': 'https://schema.org' }, orgStub()));
+        }
+
+        async function loadFolder(classNum, folder) {
+            const grid = document.getElementById('file-grid');
+            renderStateCard(grid, { icon: 'loader-2', message: 'Loading files\u2026', spin: true });
+
+            let items;
+            try {
+                items = await fetchJson(dataPathFor(classNum, folder.slug));
+            } catch (err) {
+                renderFolderHeader(classNum, folder, 0);
+                renderFetchError(grid, err, [
+                    { label: 'Try again', href: location.href, cls: 'btn-primary' },
+                    { label: `Back to Class ${classNum}`, href: `class.html?class=${classNum}` }
+                ]);
+                return;
+            }
+
+            renderFolderHeader(classNum, folder, items.length);
+
+            if (items.length === 0) {
+                renderStateCard(grid, {
+                    icon: 'folder-open',
+                    title: `No files in ${folder.name} for Class ${classNum} yet.`,
+                    message: 'New material is added regularly \u2014 please check back soon.',
+                    actions: [
+                        { label: `Back to Class ${classNum}`, href: `class.html?class=${classNum}` },
+                        { label: 'Ask on WhatsApp', href: 'https://wa.me/918328922917', cls: 'btn-whatsapp' }
+                    ]
+                });
+                return;
+            }
+
+            grid.innerHTML = items.map((e, i) => fileCardHtml(classNum, folder, e, i)).join('');
+            if (window.lucide) lucide.createIcons();
+
+            setJsonLd('ld-itemlist', {
+                '@context': 'https://schema.org',
+                '@type': 'ItemList',
+                'name': `Class ${classNum} ${folder.name}`,
+                'itemListElement': items.map((e, i) => ({
+                    '@type': 'ListItem', 'position': i + 1, 'name': e.title || e.id,
+                    'url': `${SITE_ORIGIN}/view.html?class=${classNum}&folder=${folder.slug}&id=${e.id}`
+                }))
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const p = getParams();
+            const grid = document.getElementById('file-grid');
+
+            // Bad or missing ?class= — note we never echo what the visitor typed.
+            if (!p.classOk) {
+                renderStateCard(grid, {
+                    icon: 'help-circle',
+                    title: 'We couldn\u2019t work out which class this is.',
+                    message: 'Pick a class and we\u2019ll take you to the right place.',
+                    actions: [{ label: 'Choose your class', href: 'class.html', cls: 'btn-primary' }]
+                });
+                setNoindex();
+                renderBreadcrumbs([
+                    { name: 'Home', url: 'index.html' },
+                    { name: 'Resources', url: 'resources.html' },
+                    { name: 'Files' }
+                ]);
+                initShell();
+                return;
+            }
+
+            // Valid class, unknown folder — offer the five real ones.
+            if (!p.folderOk) {
+                document.getElementById('folder-eyebrow').textContent = `Class ${p.classNum}`;
+                document.getElementById('folder-heading').textContent = 'Section not found';
+                setBackLink(p.classNum);
+                renderSiblingChips(p.classNum, null);
+                renderStateCard(grid, {
+                    icon: 'search-x',
+                    title: 'That section doesn\u2019t exist.',
+                    message: 'Choose one of the five sections above instead.',
+                    actions: [{ label: `Back to Class ${p.classNum}`, href: `class.html?class=${p.classNum}`, cls: 'btn-primary' }]
+                });
+                setNoindex();
+                renderBreadcrumbs([
+                    { name: 'Home', url: 'index.html' },
+                    { name: 'Resources', url: 'resources.html' },
+                    { name: `Class ${p.classNum}`, url: `class.html?class=${p.classNum}` },
+                    { name: 'Not found' }
+                ]);
+                initShell();
+                return;
+            }
+
+            loadFolder(p.classNum, getFolder(p.folderSlug)).finally(initShell);
+        });
+
+    </script>
+
+</body>
+
+</html>

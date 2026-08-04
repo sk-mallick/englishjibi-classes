@@ -1,0 +1,15 @@
+{
+  "name": "englishjibi-classes",
+  "version": "1.0.0",
+  "description": "Static website for ENGLISHJIBI CLASSES — English & Grammar coaching in Bhubaneswar",
+  "author": "Subham Kumar Mallick",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "python -m http.server 8000"
+  },
+  "dependencies": {
+    "tailwindcss": "cdn (https://cdn.tailwindcss.com)",
+    "lucide": "cdn (0.460.0, https://cdn.jsdelivr.net/npm/lucide@0.460.0)"
+  }
+}

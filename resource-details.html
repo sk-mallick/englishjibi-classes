@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+
+    <title>Resource Details | ENGLISHJIBI CLASSES</title>
+    <meta name="description" content="View details, preview sample pages, and download free English study PDFs for Classes 2 to 10 from ENGLISHJIBI Classes, Bhubaneswar.">
+    <meta name="author" content="Subham Kumar Mallick">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sk-mallick.github.io/englishjibi-classes/resource-details.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sk-mallick.github.io/englishjibi-classes/resource-details.html">
+    <meta property="og:title" content="Resource Details | ENGLISHJIBI CLASSES">
+    <meta property="og:description" content="View details, preview sample pages, and download free English study PDFs from ENGLISHJIBI Classes, Bhubaneswar.">
+    <meta property="og:image" content="https://sk-mallick.github.io/englishjibi-classes/img/resources-banner.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/webp" sizes="32x32" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="icon" type="image/webp" sizes="16x16" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+    <link rel="shortcut icon" href="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- PDF.js CDN for real PDF page rendering in sample thumbnails -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Shared config — single source of truth, see tailwind.config.js -->
+    <script src="tailwind.config.js"></script>
+
+    <!-- Royal Ink Design System -->
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        .blob-fill__blobs { filter: url('#goo'); }
+        @supports (filter: url('#goo')) {
+            .blob-fill__blob { transform: translate3d(0, 150%, 0) scale(1.4); }
+            .blob-fill:hover .blob-fill__blob { transform: translateZ(0) scale(1.4); }
+        }
+
+        /* Detail Page Custom Component Styles */
+        .showcase-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            padding: clamp(1.25rem, 3vw, 2rem);
+        }
+
+        .showcase-cover {
+            aspect-ratio: 3/4;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(14, 42, 84, 0.15);
+        }
+        .showcase-cover .cover-bg-icon {
+            position: absolute;
+            opacity: 0.15;
+            width: 140px;
+            height: 140px;
+            stroke: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -46%);
+        }
+        .showcase-cover .cover-title {
+            position: relative;
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .check-list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            padding: 0.4rem 0;
+        }
+        .check-icon-circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #22C55E;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .check-icon-circle svg {
+            width: 14px;
+            height: 14px;
+            stroke: #FFFFFF;
+            stroke-width: 3;
+        }
+
+        .download-green-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: linear-gradient(145deg, #16A34A 0%, #15803D 100%);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 0.9rem 1.75rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
+            transition: all 0.25s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+        .download-green-btn:hover {
+            background: linear-gradient(145deg, #15803D 0%, #166534 100%);
+            box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .content-card-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: clamp(1.25rem, 3vw, 1.75rem);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.75rem;
+            scroll-margin-top: 100px;
+        }
+        .content-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Lora', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-card);
+        }
+        .content-card-title i, .content-card-title svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--brand-royal);
+        }
+
+        /* Sample Page Thumbnails & Skeleton Shimmer */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .skeleton-shimmer-overlay {
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.7) 20%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0));
+            animation: shimmer 1.5s infinite;
+            pointer-events: none;
+        }
+
+        .sample-thumb-card {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-default);
+            border-radius: 12px;
+            padding: 0.5rem;
+            aspect-ratio: 3/4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 3px 10px rgba(14, 42, 84, 0.05);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .sample-thumb-card:hover {
+            border-color: var(--brand-royal);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(14, 42, 84, 0.14);
+        }
+        .sample-thumb-card canvas {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 6px;
+            display: block;
+            border: 1px solid rgba(14, 42, 84, 0.08);
+        }
+
+        .thumb-zoom-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(14, 42, 84, 0.85);
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            gap: 0.35rem;
+            z-index: 10;
+        }
+        .sample-thumb-card:hover .thumb-zoom-overlay {
+            opacity: 1;
+        }
+
+        /* Sidebar Component Styles */
+        .sidebar-widget {
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: 1.35rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-widget-title {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1.5px solid var(--border-card);
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .toc-link:hover, .toc-link.active {
+            background: var(--brand-pearl);
+            color: var(--brand-royal);
+        }
+        .toc-link i, .toc-link svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--brand-royal);
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #FFFFFF;
+            border: 1px solid var(--border-default);
+            padding: 0.4rem 0.85rem;
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            box-shadow: 0 1px 4px rgba(14, 42, 84, 0.04);
+        }
+        .meta-pill i, .meta-pill svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--brand-royal);
+        }
+
+        .tag-chip {
+            display: inline-block;
+            background: var(--bg-page);
+            border: 1px solid var(--border-default);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin: 0.2rem;
+        }
+        .tag-chip:hover {
+            border-color: var(--brand-royal);
+            color: var(--brand-royal);
+            background: var(--brand-pearl);
+        }
+
+        .course-cta-card {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border: 1px solid #BFDBFE;
+            border-radius: 16px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SVG gooey filter used by .blob-fill buttons -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Navigation Header -->
+    <nav class="glass-nav" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 no-underline">
+                <img src="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp" alt="Englishjibi Logo" class="w-10 h-10 rounded-full">
+                <div class="flex flex-col" style="gap: 1.5px;">
+                    <span class="text-lg font-black tracking-widest leading-none" style="color: #FFFFFF;">ENGLISHJIBI</span>
+                    <span class="text-[0.72rem] font-semibold tracking-[0.2em] leading-none" style="color: var(--text-on-navy-muted);">CLASSES</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-7 desktop-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#gallery" class="nav-link">Gallery</a>
+                <a href="index.html#courses" class="nav-link">Courses</a>
+                <a href="resources.html" class="nav-link active" aria-current="page">Resources</a>
+                <a href="practice.html" class="nav-link">Practice Set</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="tel:+918328922917" class="flex items-center gap-2 text-sm font-semibold" style="color: #FFFFFF;">
+                    <i data-lucide="phone" class="w-4 h-4"></i> +91 83289 22917
+                </a>
+                <a href="index.html#admission" class="btn-primary text-sm flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+            </div>
+
+            <button class="lg:hidden p-2 rounded-lg" style="color: #FFFFFF;" onclick="toggleMobileMenu()" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-8 h-8" id="menu-toggle-icon" style="stroke-width: 2.5;"></i>
+            </button>
+        </div>
+
+        <div class="ticker-bar">
+            <div class="ticker-track">
+                <span><span class="star">★</span> Free Notes, Workbooks &amp; Sample Papers</span>
+                <span><span class="star">★</span> New Resources Added Regularly</span>
+                <span><span class="star">★</span> Classes 2 to 10 · NCERT &amp; CBSE</span>
+                <span><span class="star">★</span> 100% Free — No Sign-up Needed</span>
+                <span><span class="star">★</span> Join Our WhatsApp for Updates</span>
+                <span><span class="star">★</span> Call: +91 83289 22917</span>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="lg:hidden overflow-hidden transition-all duration-300" style="max-height: 0;">
+            <div class="px-4 pb-4 pt-2 border-t" style="border-color: var(--border-default);">
+                <div class="flex flex-col gap-1">
+                    <a href="index.html" class="nav-link py-3 px-3 rounded-lg">Home</a>
+                    <a href="index.html#about" class="nav-link py-3 px-3 rounded-lg">About</a>
+                    <a href="index.html#gallery" class="nav-link py-3 px-3 rounded-lg">Gallery</a>
+                    <a href="index.html#courses" class="nav-link py-3 px-3 rounded-lg">Courses</a>
+                    <a href="resources.html" class="nav-link py-3 px-3 rounded-lg active" aria-current="page">Resources</a>
+                    <a href="practice.html" class="nav-link py-3 px-3 rounded-lg">Practice Set</a>
+                    <a href="index.html#contact" class="nav-link py-3 px-3 rounded-lg">Contact</a>
+                </div>
+                <div class="mt-4 flex flex-col gap-3">
+                    <a href="tel:+918328922917" class="btn-secondary text-center justify-center"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</a>
+                    <a href="index.html#admission" class="btn-primary text-center justify-center flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Enroll Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Bar -->
+    <div class="crumb-bar">
+        <div class="max-w-7xl mx-auto px-4">
+            <nav class="crumb-list" id="crumbs" aria-label="Breadcrumb"></nav>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="section-base" style="padding-top: clamp(1.5rem, 3vw, 2.5rem);">
+        <div class="max-w-7xl mx-auto px-4" id="main-content-container">
+
+            <!-- Loading Skeleton -->
+            <div id="loading-state" class="empty-state">
+                <i data-lucide="loader-2" class="w-8 h-8 mx-auto mb-3 animate-spin" style="stroke: var(--brand-royal);"></i>
+                <p style="font-weight:700; color:var(--text-heading);">Loading resource details…</p>
+            </div>
+
+            <!-- Detail Grid Slot -->
+            <div id="detail-grid-slot" style="display: none;">
+                <!-- Header Banner Info -->
+                <div class="mb-8" id="detail-header"></div>
+
+                <!-- 2-Column Main Layout Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left Column (8 cols) -->
+                    <div class="lg:col-span-8">
+                        
+                        <!-- Showcase Card: Book Cover + Highlights + Download CTA -->
+                        <div class="showcase-card mb-8">
+                            <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+                                <div class="sm:col-span-5 md:col-span-4">
+                                    <div class="showcase-cover" id="showcase-cover-box">
+                                        <i data-lucide="book-open" class="cover-bg-icon" id="showcase-bg-icon"></i>
+                                        <span class="showcase-cover-title" id="showcase-cover-title">Super Tense</span>
+                                        <span class="cover-tag mt-3" id="showcase-cover-tag">All Classes</span>
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-7 md:col-span-8 flex flex-col justify-between h-full">
+                                    <div class="space-y-1.5 mb-6">
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>Detailed Explanation of All 12 Tenses</span>
+                                        </div>
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>Easy Examples &amp; Formula Summary Tables</span>
+                                        </div>
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>Practice Exercises &amp; Worksheets</span>
+                                        </div>
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>MCQs for Better Practice &amp; Exam Prep</span>
+                                        </div>
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>Answer Key &amp; Solutions Included</span>
+                                        </div>
+                                        <div class="check-list-item">
+                                            <span class="check-icon-circle"><i data-lucide="check"></i></span>
+                                            <span>100% Free to Download &amp; Print</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <a href="#" id="main-download-btn" target="_blank" rel="noopener" class="download-green-btn">
+                                            <i data-lucide="download" class="w-5 h-5"></i> Download PDF
+                                        </a>
+                                        <div class="text-center mt-2 text-xs font-semibold" style="color: var(--text-muted);" id="download-meta-line">
+                                            File Size: 2.4 MB &nbsp;|&nbsp; Pages: 57
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: About This Workbook -->
+                        <div class="content-card-box" id="about">
+                            <h2 class="content-card-title">
+                                <i data-lucide="book-open-check"></i> About This Workbook
+                            </h2>
+                            <p class="text-sm leading-relaxed" style="color: var(--text-body);" id="about-text-content">
+                                This English Tenses Workbook is specially designed to help students master all 12 tenses in English Grammar with simple explanations, rules, formulas, real-life sentence examples, and extensive practice exercises. Ideal for CBSE, ICSE, and State Board students preparing for school exams and competitive tests.
+                            </p>
+                        </div>
+
+                        <!-- Section: Topics Covered -->
+                        <div class="content-card-box" id="topics">
+                            <h2 class="content-card-title">
+                                <i data-lucide="list-checks"></i> Topics Covered
+                            </h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-medium" style="color: var(--text-heading);" id="topics-grid-container">
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Present Simple &amp; Present Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Present Perfect &amp; Perfect Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Past Simple &amp; Past Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Past Perfect &amp; Past Perfect Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Future Simple &amp; Future Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Future Perfect &amp; Future Perfect Continuous</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Tense Formula &amp; Structure Master Chart</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Sentence Transformation &amp; Error Correction</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Practice Exercises with Answer Keys</div>
+                                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Mixed Tense MCQs &amp; Exam Questions</div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Preview (Sample Pages) -->
+                        <div class="content-card-box" id="preview">
+                            <h2 class="content-card-title">
+                                <i data-lucide="file-spreadsheets"></i> Preview (Sample Pages)
+                            </h2>
+                            <p class="text-xs mb-4" style="color: var(--text-muted);">Take a quick look at the real rendered sample pages of this PDF workbook before downloading.</p>
+                            
+                            <!-- Sample Pages Container (Skeleton initially, then rendered PDF.js pages) -->
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6" id="sample-pages-grid">
+                                <!-- Rendered dynamically by JS -->
+                            </div>
+
+                            <div class="text-center">
+                                <a href="#" id="view-full-preview-btn" class="btn-secondary blob-fill inline-flex items-center gap-2">
+                                    <span class="blob-fill__label"><i data-lucide="eye" class="w-4 h-4"></i> View Full Preview</span>
+                                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    </span></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Section: Frequently Asked Questions -->
+                        <div class="content-card-box" id="faq">
+                            <h2 class="content-card-title">
+                                <i data-lucide="help-circle"></i> Frequently Asked Questions
+                            </h2>
+                            
+                            <div class="space-y-3" id="detail-faq-container">
+                                <div class="faq-item">
+                                    <button class="faq-q" onclick="toggleFaq(this)">
+                                        <span>Is this workbook completely free?</span>
+                                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                                    </button>
+                                    <div class="faq-a"><p>Yes! Every page, worksheet, and answer key in this PDF is 100% free to view and download with no sign-up or fee required.</p></div>
+                                </div>
+                                <div class="faq-item">
+                                    <button class="faq-q" onclick="toggleFaq(this)">
+                                        <span>Is it applicable for CBSE, ICSE and State Boards?</span>
+                                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                                    </button>
+                                    <div class="faq-a"><p>Yes. The concepts, formulas, and practice exercises follow the standard NCERT curriculum and cover the English Grammar syllabus for all major educational boards.</p></div>
+                                </div>
+                                <div class="faq-item">
+                                    <button class="faq-q" onclick="toggleFaq(this)">
+                                        <span>Does it include answer keys and solutions?</span>
+                                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                                    </button>
+                                    <div class="faq-a"><p>Yes, comprehensive answer keys and detailed explanations are provided at the end of the workbook for self-assessment.</p></div>
+                                </div>
+                                <div class="faq-item">
+                                    <button class="faq-q" onclick="toggleFaq(this)">
+                                        <span>Can I print this workbook for offline study?</span>
+                                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                                    </button>
+                                    <div class="faq-a"><p>Absolutely. Once downloaded, you can print the PDF or save it on your phone, tablet, or laptop to study anytime offline.</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column Sidebar (4 cols) -->
+                    <div class="lg:col-span-4 sticky top-24">
+                        
+                        <!-- Widget: Table of Contents -->
+                        <div class="sidebar-widget" id="toc-widget">
+                            <h3 class="sidebar-widget-title">Table of Contents</h3>
+                            <div class="space-y-1">
+                                <a href="#about" class="toc-link"><i data-lucide="book-open"></i> About This Workbook</a>
+                                <a href="#topics" class="toc-link"><i data-lucide="list-checks"></i> Topics Covered</a>
+                                <a href="#preview" class="toc-link"><i data-lucide="eye"></i> Preview (Sample Pages)</a>
+                                <a href="#faq" class="toc-link"><i data-lucide="help-circle"></i> FAQ</a>
+                                <a href="#related" class="toc-link"><i data-lucide="layout-grid"></i> Related Resources</a>
+                                <a href="#tags-section" class="toc-link"><i data-lucide="tag"></i> Tags</a>
+                            </div>
+                        </div>
+
+                        <!-- Widget: Related Resources -->
+                        <div class="sidebar-widget" id="related">
+                            <h3 class="sidebar-widget-title">Related Resources</h3>
+                            <div class="space-y-3" id="related-resources-list">
+                                <!-- Dynamic items rendered by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Widget: Tags -->
+                        <div class="sidebar-widget" id="tags-section">
+                            <h3 class="sidebar-widget-title">Tags</h3>
+                            <div class="flex flex-wrap" id="tags-container">
+                                <a href="resources.html" class="tag-chip">All Classes</a>
+                                <a href="resources.html" class="tag-chip">English Grammar</a>
+                                <a href="resources.html" class="tag-chip">Tenses</a>
+                                <a href="resources.html" class="tag-chip">Workbook</a>
+                                <a href="resources.html" class="tag-chip">CBSE</a>
+                                <a href="resources.html" class="tag-chip">ICSE</a>
+                                <a href="resources.html" class="tag-chip">Grammar PDF</a>
+                                <a href="resources.html" class="tag-chip">Free PDF</a>
+                                <a href="resources.html" class="tag-chip">Practice Set</a>
+                                <a href="resources.html" class="tag-chip">English Notes</a>
+                            </div>
+                        </div>
+
+                        <!-- Widget: Want More Study Materials CTA -->
+                        <div class="course-cta-card">
+                            <h4 class="font-bold text-base mb-1" style="color: var(--text-heading);">Want More Study Materials?</h4>
+                            <p class="text-xs mb-4" style="color: var(--text-muted);">Join our courses and boost your learning experience with expert guidance.</p>
+                            <a href="index.html#admission" class="btn-primary text-xs w-full justify-center">
+                                Enroll Now <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="section-navy">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://sk-mallick.github.io/englishjibi-classes/img/icon.webp" alt="Logo" class="w-10 h-10 rounded-full" loading="lazy">
+                        <div class="flex flex-col" style="gap: 1.5px;">
+                            <span class="text-lg font-black tracking-widest leading-none" style="color: var(--text-on-navy);">ENGLISHJIBI</span>
+                            <span class="text-[0.72rem] font-semibold tracking-[0.2em] leading-none" style="color: var(--text-on-navy-muted);">CLASSES</span>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-on-navy-muted);">English &amp; Grammar Coaching Center providing expert guidance for Class 2 to Class 10.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Quick Links</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="index.html" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Home</a>
+                        <a href="index.html#about" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">About</a>
+                        <a href="index.html#courses" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Courses</a>
+                        <a href="resources.html" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Resources</a>
+                        <a href="index.html#admission" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Admission</a>
+                        <a href="index.html#contact" class="text-sm no-underline hover:underline" style="color: var(--text-on-navy-muted);">Contact</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Contact Us</h4>
+                    <div class="flex flex-col gap-3 text-sm" style="color: var(--text-on-navy-muted);">
+                        <p class="flex items-start gap-2 text-xs leading-relaxed">
+                            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                            Duplex 37, Infront of DAV Public School, near Tarini Temple, Phase II, Sailashree Vihar, Chandrasekharpur, Bhubaneswar, Odisha 751021
+                        </p>
+                        <a href="tel:+918328922917" class="no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="phone" class="w-4 h-4"></i> +91 83289 22917</a>
+                        <a href="mailto:rangoclasses@gmail.com" class="no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="mail" class="w-4 h-4"></i> rangoclasses@gmail.com</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 tracking-wide uppercase" style="color: var(--gold-light);">Community</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="https://www.youtube.com/channel/UCpPk-QX_mwHGKEyv-WAbHrQ" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="youtube" class="w-4 h-4"></i> YouTube Channel</a>
+                        <a href="https://t.me/englishwithchiranjibisir" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="send" class="w-4 h-4"></i> Telegram Group</a>
+                        <a href="https://www.facebook.com/Englishwithchiranjibisir" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="facebook" class="w-4 h-4"></i> Facebook Page</a>
+                        <a href="https://www.instagram.com/chiranjibi4848" target="_blank" rel="noopener" class="text-sm no-underline hover:underline flex items-center gap-2" style="color: var(--text-on-navy-muted);"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-6 text-center text-xs" style="border-top: 1px solid rgba(234,239,250,0.10); color: var(--text-on-navy-muted);">
+                © 2024–2027 ENGLISHJIBI CLASSES. | Website Designed &amp; Developed by <a href="https://sk-mallick.github.io/codemaster-sk" target="_blank" rel="noopener" class="underline" style="color: var(--gold-light);">Subham Kumar Mallick</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Action Button -->
+    <a href="https://wa.me/918328922917" target="_blank" rel="noopener" class="whatsapp-fab group" aria-label="Chat on WhatsApp">
+        <div class="whatsapp-ping"></div>
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+    <script src="assets/site.js"></script>
+
+    <script>
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            if (item) item.classList.toggle('open');
+        }
+
+        async function loadResourceDetails() {
+            const p = getParams();
+            const loading = document.getElementById('loading-state');
+            const slot = document.getElementById('detail-grid-slot');
+
+            if (!p.folderOk || !p.idOk) {
+                renderStateCard(loading, {
+                    icon: 'file-x',
+                    title: 'Resource Not Found',
+                    message: 'Please select a valid resource from our featured list.',
+                    actions: [{ label: 'Back to Resources', href: 'resources.html', cls: 'btn-primary' }]
+                });
+                return;
+            }
+
+            let items = [];
+            try {
+                items = await fetchJson(`data/common/${p.folderSlug}.json`);
+            } catch (err) {
+                renderFetchError(loading, err, [{ label: 'Back to Resources', href: 'resources.html', cls: 'btn-primary' }]);
+                return;
+            }
+
+            const entry = items.find(e => e && e.id === p.fileId);
+            if (!entry) {
+                renderStateCard(loading, {
+                    icon: 'file-question',
+                    title: 'File Not Found',
+                    message: 'We could not find the requested file in our collection.',
+                    actions: [{ label: 'Back to Resources', href: 'resources.html', cls: 'btn-primary' }]
+                });
+                return;
+            }
+
+            // Hide loading, show detail grid
+            loading.style.display = 'none';
+            slot.style.display = 'block';
+
+            const folder = getFolder(p.folderSlug) || { name: p.folderSlug, slug: p.folderSlug, icon: 'book-open' };
+            const titleStr = entry.title || entry.id;
+            const fileUrl = entry.file || 'https://englishjibi.github.io/common/super-tense.pdf';
+
+            // Render Breadcrumbs
+            renderBreadcrumbs([
+                { name: 'Home', url: 'index.html' },
+                { name: 'Resources', url: 'resources.html' },
+                { name: 'Common', url: 'resources.html' },
+                { name: folder.name, url: 'resources.html' },
+                { name: titleStr }
+            ]);
+
+            // Render Header Information
+            document.getElementById('detail-header').innerHTML = `
+                <div class="mb-3">
+                    <span class="free-badge"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> FREE WORKBOOK</span>
+                </div>
+                <h1 class="type-hero mb-3">${escapeHtml(titleStr)}</h1>
+                ${entry.desc ? `<p class="text-base text-slate-600 mb-5 max-w-3xl">${escapeHtml(entry.desc)}</p>` : ''}
+                
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <span class="meta-pill"><i data-lucide="graduation-cap"></i> Class: All / Common</span>
+                    <span class="meta-pill"><i data-lucide="book-open"></i> Subject: English</span>
+                    <span class="meta-pill"><i data-lucide="folder"></i> Category: ${escapeHtml(folder.name)}</span>
+                    <span class="meta-pill"><i data-lucide="globe"></i> Language: English</span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-5 text-xs font-semibold text-slate-500 border-t border-b border-slate-200/80 py-3">
+                    <span class="flex items-center gap-1 text-amber-600 font-bold">
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 stroke-amber-500"></i> 4.9 (245 Reviews)
+                    </span>
+                    <span class="flex items-center gap-1"><i data-lucide="download" class="w-4 h-4 stroke-slate-400"></i> 12,450+ Downloads</span>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-4 h-4 stroke-slate-400"></i> Last Updated: ${escapeHtml(entry.date || '28 July 2026')}</span>
+                </div>
+            `;
+
+            // Cover Box Setup
+            const coverBox = document.getElementById('showcase-cover-box');
+            coverBox.className = `showcase-cover ${entry.cover || 'cover-royal'}`;
+            document.getElementById('showcase-cover-title').textContent = titleStr;
+            document.getElementById('showcase-cover-tag').textContent = entry.tag || folder.name;
+            const bgIcon = document.getElementById('showcase-bg-icon');
+            if (bgIcon) bgIcon.setAttribute('data-lucide', entry.icon || folder.icon || 'book-open');
+
+            // Download Buttons & Meta
+            const downloadBtn = document.getElementById('main-download-btn');
+            downloadBtn.href = fileUrl;
+            document.getElementById('download-meta-line').textContent = `File Size: ${entry.size || '2.4 MB'}  |  Pages: ${entry.pages || 57}`;
+
+            // View Full Preview Button -> Redirects to view.html for PDF previewing!
+            const viewUrl = `view.html?class=common&folder=${folder.slug}&id=${entry.id}`;
+            const previewBtn = document.getElementById('view-full-preview-btn');
+            previewBtn.href = viewUrl;
+
+            // Render Sample PDF Pages (Skeleton initially, then PDF.js canvas rendering)
+            renderSamplePdfPages(fileUrl, viewUrl);
+
+            // About text override if desc is long
+            if (entry.desc) {
+                document.getElementById('about-text-content').textContent = entry.desc + ' This workbook is specially prepared by ENGLISHJIBI Classes to help students excel in school exams and gain confidence in English language skills.';
+            }
+
+            // Render Related Resources Sidebar List
+            const relatedList = document.getElementById('related-resources-list');
+            try {
+                const relatedItems = [
+                    { title: 'Active & Passive Voice', category: 'Grammar', folder: 'grammar', id: 'super-tense' },
+                    { title: 'Creative Story Writing', category: 'Creative Writing', folder: 'creative-writing', id: 'super-tense' },
+                    { title: 'Reading Comprehension', category: 'Passage', folder: 'passage', id: 'super-tense' },
+                    { title: 'Literature Notes', category: 'Literature', folder: 'literature', id: 'super-tense' },
+                ];
+                relatedList.innerHTML = relatedItems.map(item => `
+                    <a href="resource-details.html?folder=${item.folder}&id=${item.id}" class="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-decoration-none group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-blue-100/70 text-blue-800 flex items-center justify-center font-bold text-xs">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800 group-hover:text-blue-900 leading-snug">${item.title}</h4>
+                                <span class="text-[0.7rem] text-slate-500 font-medium">${item.category}</span>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-700 transition-transform group-hover:translate-x-0.5"></i>
+                    </a>
+                `).join('');
+            } catch(e) {
+                console.error(e);
+            }
+
+            // Set Page SEO & JSON-LD
+            setPageMeta({
+                title: `${titleStr} PDF — Common English Study Material | ENGLISHJIBI CLASSES`,
+                description: entry.desc || `Download ${titleStr} PDF for English learning from ENGLISHJIBI CLASSES. 100% free notes and workbooks.`,
+                canonical: `resource-details.html?folder=${folder.slug}&id=${entry.id}`
+            });
+
+            initShell();
+        }
+
+        async function renderSamplePdfPages(pdfUrl, viewUrl) {
+            const grid = document.getElementById('sample-pages-grid');
+            if (!grid) return;
+
+            const pagesConfig = [
+                { num: 1, label: 'Rules & Formula' },
+                { num: 2, label: 'Examples & Charts' },
+                { num: 3, label: 'Worksheets' },
+                { num: 4, label: 'Answer Keys' }
+            ];
+
+            // 1. Render Skeleton Shimmer Cards while loading
+            grid.innerHTML = pagesConfig.map(p => `
+                <div class="sample-thumb-card skeleton-card relative overflow-hidden bg-slate-50 border-slate-200/90" id="sample-card-${p.num}">
+                    <div class="skeleton-shimmer-overlay"></div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="h-3 w-10 bg-slate-200 rounded"></div>
+                        <div class="h-2 w-4 bg-slate-200 rounded"></div>
+                    </div>
+                    <div class="space-y-2 flex-1 flex flex-col justify-center my-3 px-1">
+                        <div class="h-2.5 bg-slate-200 rounded w-full"></div>
+                        <div class="h-2 bg-slate-200 rounded w-5/6"></div>
+                        <div class="h-2 bg-slate-200 rounded w-4/5"></div>
+                        <div class="h-2 bg-slate-200 rounded w-full"></div>
+                        <div class="h-2 bg-slate-200 rounded w-2/3"></div>
+                    </div>
+                    <div class="text-[0.65rem] text-slate-400 font-semibold text-center border-t pt-1.5 flex items-center justify-center gap-1.5">
+                        <i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin text-blue-600"></i> Page ${p.num} rendering…
+                    </div>
+                </div>
+            `).join('');
+
+            if (window.lucide) lucide.createIcons();
+
+            // 2. Configure PDF.js Global Worker
+            if (window.pdfjsLib) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            }
+
+            try {
+                if (!window.pdfjsLib) throw new Error('PDF.js not loaded');
+
+                const loadingTask = pdfjsLib.getDocument(pdfUrl);
+                const pdf = await loadingTask.promise;
+
+                for (let i = 0; i < pagesConfig.length; i++) {
+                    const pageNum = i + 1;
+                    const cardEl = document.getElementById(`sample-card-${pageNum}`);
+                    if (!cardEl) continue;
+
+                    if (pageNum > pdf.numPages) {
+                        cardEl.style.display = 'none';
+                        continue;
+                    }
+
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 0.6 });
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+
+                    await page.render(renderContext).promise;
+
+                    // Render complete! Replace skeleton with rendered canvas
+                    cardEl.className = 'sample-thumb-card pdf-canvas-card group';
+                    cardEl.onclick = function() { window.location.href = viewUrl; };
+                    cardEl.innerHTML = `
+                        <div class="thumb-zoom-overlay">
+                            <i data-lucide="eye" class="w-6 h-6 stroke-white"></i>
+                            <span>View Page ${pageNum}</span>
+                        </div>
+                        <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
+                            <!-- canvas element appended below -->
+                        </div>
+                        <div class="w-full flex items-center justify-between text-[0.62rem] font-bold text-slate-500 border-t pt-1.5 px-1 mt-1">
+                            <span class="text-blue-900 uppercase">Page ${pageNum}</span>
+                            <span class="text-slate-400">${pagesConfig[i].label}</span>
+                        </div>
+                    `;
+                    cardEl.querySelector('.w-full.flex-1').appendChild(canvas);
+                    if (window.lucide) lucide.createIcons();
+                }
+
+            } catch (err) {
+                console.warn('[PDF.js Sample Render] Fallback to mock preview layout:', err.message);
+                pagesConfig.forEach(p => {
+                    const cardEl = document.getElementById(`sample-card-${p.num}`);
+                    if (!cardEl) return;
+                    cardEl.className = 'sample-thumb-card pdf-canvas-card group';
+                    cardEl.onclick = function() { window.location.href = viewUrl; };
+                    cardEl.innerHTML = `
+                        <div class="thumb-zoom-overlay">
+                            <i data-lucide="eye" class="w-6 h-6 stroke-white"></i>
+                            <span>View Page ${p.num}</span>
+                        </div>
+                        <div class="w-full flex-1 flex flex-col justify-between p-2.5 bg-white rounded border border-slate-200">
+                            <div>
+                                <div class="text-[0.6rem] font-bold text-blue-900 uppercase tracking-wider mb-1.5">ENGLISHJIBI PDF</div>
+                                <div class="h-1.5 bg-slate-800 rounded w-3/4 mb-2"></div>
+                                <div class="space-y-1">
+                                    <div class="h-1 bg-slate-300 rounded w-full"></div>
+                                    <div class="h-1 bg-slate-300 rounded w-5/6"></div>
+                                    <div class="h-1 bg-slate-300 rounded w-4/5"></div>
+                                    <div class="h-1 bg-slate-300 rounded w-full"></div>
+                                </div>
+                            </div>
+                            <div class="border-t pt-1 text-[0.55rem] text-slate-400 font-semibold flex justify-between">
+                                <span>Rules &amp; Practice</span>
+                                <span>Pg ${p.num}</span>
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center justify-between text-[0.62rem] font-bold text-slate-500 border-t pt-1.5 px-1 mt-1">
+                            <span class="text-blue-900 uppercase">Page ${p.num}</span>
+                            <span class="text-slate-400">${p.label}</span>
+                        </div>
+                    `;
+                });
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadResourceDetails();
+        });
+    </script>
+</body>
+
+</html>
