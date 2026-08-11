@@ -107,6 +107,10 @@
             </button>
         </div>
 
+        <!-- Ticker and search dock trade places on scroll — see initSearchDock().
+             The ticker is wrapped so its height can be animated to 0 without
+             touching .ticker-bar's own overflow/border rules. -->
+        <div class="nav-collapsible">
         <div class="ticker-bar">
             <div class="ticker-track">
                 <span><span class="star">★</span> Free Notes, Workbooks &amp; Sample Papers</span>
@@ -121,6 +125,27 @@
                 <span><span class="star">★</span> 100% Free — No Sign-up Needed</span>
                 <span><span class="star">★</span> Join Our WhatsApp for Updates</span>
                 <span><span class="star">★</span> Call: +91 83289 22917</span>
+            </div>
+        </div>
+        </div>
+
+        <!-- Sticky search dock: revealed once the hero search scrolls away, so
+             the query, the result count and the active filters stay reachable
+             from anywhere in the ~3900px page. -->
+        <div class="search-dock" id="search-dock">
+            <div>
+                <div class="search-dock-inner">
+                    <form class="dock-search" id="dock-search-form" role="search">
+                        <i data-lucide="search" aria-hidden="true"></i>
+                        <label for="dock-search-input" class="sr-only">Search resources</label>
+                        <input type="text" id="dock-search-input" placeholder="Search resources…" autocomplete="off">
+                        <button type="button" class="search-clear" id="dock-search-clear" aria-label="Clear search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </button>
+                    </form>
+                    <span class="dock-count" id="dock-count" role="status" aria-live="polite"></span>
+                    <div class="dock-chips" id="dock-chips"></div>
+                </div>
             </div>
         </div>
 
@@ -171,6 +196,9 @@
                     <form class="hero-resources-search mt-6" id="resources-search-form" role="search">
                         <label for="resources-search-input" class="sr-only">Search resources</label>
                         <input type="text" id="resources-search-input" placeholder="Search notes, workbooks, vocabulary…" autocomplete="off">
+                        <button type="button" class="search-clear" id="hero-search-clear" aria-label="Clear search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </button>
                         <button type="submit" aria-label="Search resources"><i data-lucide="search" class="w-5 h-5"></i></button>
                     </form>
                 </div>
@@ -209,8 +237,10 @@
             <div class="max-w-6xl mx-auto px-4">
                 <div class="flex flex-wrap items-end justify-between gap-4 mb-3 reveal-on-scroll">
                     <div>
-                        <span class="eyebrow">Handpicked For You</span>
-                        <h2 class="type-h2">Featured Resources</h2>
+                        <span class="eyebrow" id="featured-eyebrow">Handpicked For You</span>
+                        <h2 class="type-h2">
+                            <span id="featured-heading">Featured Resources</span><span class="result-count-badge" id="featured-count"></span>
+                        </h2>
                     </div>
                     <button type="button" id="view-all-btn" class="text-sm font-semibold inline-flex items-center gap-1.5" style="color: var(--brand-royal);" onclick="clearFilters()">
                         <span>View All Resources</span>
@@ -262,7 +292,7 @@
 
         <!-- ── WHATSAPP UPDATE BAND ────────────────── -->
         <section class="section-warm" style="padding-top: clamp(1.25rem, 3vw, 2rem); padding-bottom: clamp(1.25rem, 3vw, 2rem);">
-            <div class="max-w-5xl mx-auto px-4 reveal-on-scroll">
+            <div class="max-w-6xl mx-auto px-4 reveal-on-scroll">
                 <div class="whatsapp-band">
                     <div class="whatsapp-decor" aria-hidden="true"></div>
                     <div class="whatsapp-band-inner">
@@ -284,7 +314,6 @@
                         </div>
                         <div class="whatsapp-form-card">
                             <label for="whatsapp-phone-input" class="form-label">Your WhatsApp number</label>
-                            <p class="text-xs" style="color:var(--text-muted);margin-bottom:0.75rem;line-height:1.5;">Enter your number and tap <strong>Open WhatsApp</strong> — we'll pre-fill a message for you. Just hit <em>Send</em> to join!</p>
                             <form id="whatsapp-form" novalidate>
                                 <div class="whatsapp-input-group">
                                     <div class="whatsapp-country-badge">🇮🇳 +91</div>
@@ -307,7 +336,7 @@
                                 </button>
                             </form>
                             <p class="whatsapp-form-note">
-                                <i data-lucide="send" aria-hidden="true"></i> Tapping the button opens WhatsApp with a pre-filled message. No data is stored — just tap Send in WhatsApp to join.
+                                <i data-lucide="shield-check" aria-hidden="true"></i> No data stored — just tap Send in WhatsApp.
                             </p>
                             <div id="whatsapp-form-feedback"></div>
                         </div>
@@ -576,7 +605,7 @@
                 const section = document.getElementById('recently-added-track').closest('section');
                 if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                applyFilter({ category: id });
+                applyFilter({ category: id }, { scroll: 'always' });
             }
         }
 
@@ -637,9 +666,32 @@
             return true;
         }
 
+        /* Heading + both result counters. Filtering turns "Featured Resources"
+           into "Search Results" — the old heading was actively misleading once
+           a filter was on, since the list was no longer the handpicked set. */
+        function renderResultMeta(count) {
+            const filtering = hasActiveFilters();
+            const heading = document.getElementById('featured-heading');
+            const eyebrow = document.getElementById('featured-eyebrow');
+            const badge   = document.getElementById('featured-count');
+            const dock    = document.getElementById('dock-count');
+
+            if (heading) heading.textContent = filtering ? 'Search Results' : 'Featured Resources';
+            if (eyebrow) eyebrow.textContent = filtering ? 'Matching Your Filters' : 'Handpicked For You';
+            if (badge)   badge.textContent   = filtering ? `${count} ${count === 1 ? 'result' : 'results'}` : '';
+
+            if (dock) {
+                dock.textContent = filtering
+                    ? `${count} ${count === 1 ? 'result' : 'results'}`
+                    : `${resourcesData.length} ${resourcesData.length === 1 ? 'resource' : 'resources'}`;
+                dock.classList.toggle('is-empty', filtering && count === 0);
+            }
+        }
+
         function renderResourceGrid() {
             const grid = document.getElementById('featured-resources-grid');
             const filtered = resourcesData.filter(matchesFilters);
+            renderResultMeta(filtered.length);
 
             if (filtered.length === 0) {
                 grid.innerHTML = `<div class="empty-state">
@@ -687,32 +739,92 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        function renderActiveFilterRow() {
-            const row = document.getElementById('active-filter-row');
+        /* One description of the active filters, rendered into two places: the
+           in-page row and the sticky dock. Keeping a single source avoids the
+           two drifting apart when a filter type is added later. */
+        function buildFilterParts() {
             const { search, category, classNum } = activeFilters;
             const parts = [];
-            if (search) parts.push({ label: `Search: "${search}"`, clear: () => { activeFilters.search = ''; document.getElementById('resources-search-input').value = ''; } });
+            if (search) parts.push({ label: `Search: "${search}"`, clear: () => setSearchValue('') });
             if (category) {
                 const cat = categoriesData.find(c => c.id === category);
-                parts.push({ label: cat ? cat.name : category, clear: () => { activeFilters.category = null; } });
+                parts.push({
+                    label: cat ? cat.name : category,
+                    clear: () => {
+                        activeFilters.category = null;
+                        document.querySelectorAll('.category-card').forEach(c => {
+                            c.classList.remove('active');
+                            c.setAttribute('aria-pressed', 'false');
+                        });
+                    }
+                });
             }
             if (classNum) parts.push({ label: `Class ${classNum}`, clear: () => { activeFilters.classNum = null; document.querySelectorAll('.class-pill').forEach(p => p.classList.remove('active')); } });
+            return parts;
+        }
 
-            if (parts.length === 0) { row.innerHTML = ''; return; }
+        function chipMarkup(p, i) {
+            return `<span class="filter-chip">${p.label}<button type="button" aria-label="Remove filter: ${p.label}" data-idx="${i}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></span>`;
+        }
 
-            row.innerHTML = `<div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-muted);">Filtering:</span>
-                ${parts.map((p, i) => `<span class="filter-chip">${p.label}<button type="button" aria-label="Remove filter" data-idx="${i}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></span>`).join('')}
-                <button type="button" class="text-xs font-semibold underline" style="color: var(--brand-royal);" onclick="clearFilters()">Clear all</button>
-            </div>`;
-            row.querySelectorAll('button[data-idx]').forEach((btn, i) => {
-                btn.addEventListener('click', () => { parts[i].clear(); refreshFiltering(); });
+        function wireChipButtons(container, parts) {
+            container.querySelectorAll('button[data-idx]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    parts[Number(btn.dataset.idx)].clear();
+                    refreshFiltering();
+                });
             });
         }
 
-        function applyFilter(patch) {
+        function renderActiveFilterRow() {
+            const row   = document.getElementById('active-filter-row');
+            const chips = document.getElementById('dock-chips');
+            const parts = buildFilterParts();
+
+            if (parts.length === 0) {
+                if (row) row.innerHTML = '';
+                if (chips) chips.innerHTML = '';
+                return;
+            }
+
+            if (row) {
+                row.innerHTML = `<div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-muted);">Filtering:</span>
+                    ${parts.map(chipMarkup).join('')}
+                    <button type="button" class="text-xs font-semibold underline" style="color: var(--brand-royal);" onclick="clearFilters()">Clear all</button>
+                </div>`;
+                wireChipButtons(row, parts);
+            }
+
+            if (chips) {
+                chips.innerHTML = parts.map(chipMarkup).join('') +
+                    `<button type="button" class="dock-clear-all" onclick="clearFilters()">Clear all</button>`;
+                wireChipButtons(chips, parts);
+            }
+        }
+
+        /* True when the results section occupies usable viewport space — i.e. the
+           user can already see the effect of a filter change and does not need
+           the page moved under them. */
+        function resultsInView() {
+            const el = document.getElementById('featured-resources');
+            if (!el) return true;
+            const r = el.getBoundingClientRect();
+            const navH = document.getElementById('main-nav')?.getBoundingClientRect().height || 0;
+            return r.top < window.innerHeight - 80 && r.bottom > navH + 80;
+        }
+
+        /* scroll:
+             'auto'   — only travel if the results aren't already on screen. Used
+                        for live typing, so the page glides down once and then
+                        stays put for every keystroke after it.
+             'always' — explicit intent (Enter, category card, class pill).
+             'never'  — the dock, where the user is already looking at results. */
+        function applyFilter(patch, { scroll = 'auto' } = {}) {
             activeFilters = { ...activeFilters, ...patch };
             refreshFiltering();
+            if (scroll === 'never') return;
+            if (scroll === 'auto' && resultsInView()) return;
             document.getElementById('featured-resources').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -723,8 +835,7 @@
                 c.classList.remove('active');
                 c.setAttribute('aria-pressed', 'false');
             });
-            const searchInput = document.getElementById('resources-search-input');
-            if (searchInput) searchInput.value = '';
+            setSearchValue('');
             refreshFiltering();
         }
 
@@ -956,25 +1067,158 @@
         /* ═══════════════════════════════════════════════
            SEARCH
            ═══════════════════════════════════════════════ */
+        /* The hero field and the dock field are two views of one value. Writing
+           through this keeps them identical without an input→input event loop,
+           since the originating field is skipped. */
+        function setSearchValue(value, from) {
+            const hero = document.getElementById('resources-search-input');
+            const dock = document.getElementById('dock-search-input');
+            if (hero && from !== 'hero') hero.value = value;
+            if (dock && from !== 'dock') dock.value = value;
+            activeFilters.search = value.trim();
+            syncClearButtons();
+        }
+
+        function syncClearButtons() {
+            [['resources-search-input', 'hero-search-clear'], ['dock-search-input', 'dock-search-clear']]
+                .forEach(([inputId, btnId]) => {
+                    const input = document.getElementById(inputId);
+                    const btn   = document.getElementById(btnId);
+                    if (input && btn) btn.classList.toggle('is-visible', input.value.length > 0);
+                });
+        }
+
         function initSearch() {
-            const form  = document.getElementById('resources-search-form');
-            const input = document.getElementById('resources-search-input');
+            const fields = [
+                { key: 'hero', form: 'resources-search-form', input: 'resources-search-input', clear: 'hero-search-clear', scroll: 'auto'  },
+                /* The dock only exists below the fold, where the results grid is
+                   already on screen — moving the page there would be disorienting. */
+                { key: 'dock', form: 'dock-search-form',      input: 'dock-search-input',      clear: 'dock-search-clear', scroll: 'never' },
+            ];
 
-            /* Submit: apply immediately (Enter key / button click) */
-            form.addEventListener('submit', (e) => {
+            fields.forEach(f => {
+                const form  = document.getElementById(f.form);
+                const input = document.getElementById(f.input);
+                const clear = document.getElementById(f.clear);
+                if (!form || !input) return;
+
+                /* Enter / search button — apply now, skip the debounce. */
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    clearTimeout(searchDebounceTimer);
+                    setSearchValue(input.value, f.key);
+                    applyFilter({ search: input.value.trim() }, { scroll: f.key === 'dock' ? 'never' : 'always' });
+                });
+
+                /* Live search, debounced so the grid keeps up while typing. */
+                input.addEventListener('input', () => {
+                    setSearchValue(input.value, f.key);
+                    clearTimeout(searchDebounceTimer);
+                    searchDebounceTimer = setTimeout(() => {
+                        applyFilter({ search: input.value.trim() }, { scroll: f.scroll });
+                    }, 350);
+                });
+
+                /* Esc clears the query without leaving the field. */
+                input.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Escape' || !input.value) return;
+                    e.preventDefault();
+                    clearTimeout(searchDebounceTimer);
+                    setSearchValue('');
+                    applyFilter({ search: '' }, { scroll: 'never' });
+                });
+
+                if (clear) clear.addEventListener('click', () => {
+                    clearTimeout(searchDebounceTimer);
+                    setSearchValue('');
+                    applyFilter({ search: '' }, { scroll: 'never' });
+                    input.focus();
+                });
+            });
+
+            /* "/" jumps to whichever field is currently on screen. */
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+                const t = e.target;
+                if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+                const condensed = document.getElementById('main-nav')?.classList.contains('nav-condensed');
+                const target = document.getElementById(condensed ? 'dock-search-input' : 'resources-search-input');
+                if (!target) return;
                 e.preventDefault();
-                clearTimeout(searchDebounceTimer);
-                applyFilter({ search: input.value.trim() });
+                target.focus();
+                target.select();
             });
 
-            /* FIX: live search — debounced so grid updates while typing.
-               Users no longer need to press Enter to trigger a filter. */
-            input.addEventListener('input', () => {
-                clearTimeout(searchDebounceTimer);
-                searchDebounceTimer = setTimeout(() => {
-                    applyFilter({ search: input.value.trim() });
-                }, 350);
+            syncClearButtons();
+        }
+
+        /* ═══════════════════════════════════════════════
+           STICKY SEARCH DOCK
+           ═══════════════════════════════════════════════ */
+        function initSearchDock() {
+            const nav      = document.getElementById('main-nav');
+            const heroForm = document.getElementById('resources-search-form');
+            if (!nav || !heroForm) return;
+
+            /* Trigger is a DOCUMENT offset compared against scrollY, never a
+               live rect. The nav is sticky-but-in-flow, so opening the dock
+               nudges every element below it down a few pixels; measuring rects
+               each frame would let that nudge move the trigger past the
+               scroll position and oscillate. Capturing once, plus the
+               hysteresis band below, makes the toggle one-way stable. */
+            let trigger = 0;
+            let condensed = false;
+            let settleTimer = null;
+            const HYSTERESIS = 64;
+
+            function syncStickyHeight() {
+                document.documentElement.style.setProperty(
+                    '--sticky-h', Math.round(nav.getBoundingClientRect().height) + 'px');
+            }
+
+            function measure() {
+                const wasCondensed = condensed;
+                nav.classList.add('nav-no-anim');
+                nav.classList.remove('nav-condensed');
+                trigger = heroForm.getBoundingClientRect().bottom + window.scrollY;
+                if (wasCondensed) nav.classList.add('nav-condensed');
+                void nav.offsetHeight;              /* flush before re-enabling transitions */
+                nav.classList.remove('nav-no-anim');
+                syncStickyHeight();
+            }
+
+            function setCondensed(on) {
+                condensed = on;
+                nav.classList.toggle('nav-condensed', on);
+                /* Height settles after the 0.38s grid transition — re-read then
+                   so scroll-margin-top stays correct for anchor jumps. */
+                clearTimeout(settleTimer);
+                settleTimer = setTimeout(syncStickyHeight, 420);
+            }
+
+            /* Runs synchronously rather than inside requestAnimationFrame: the
+               only read is window.scrollY, which doesn't force layout, and
+               setCondensed just toggles a class. rAF coalescing would buy
+               nothing here and would wedge the dock shut if a frame never
+               arrives (rAF is paused while the tab is hidden). */
+            function onScroll() {
+                const y = window.scrollY;
+                if (!condensed && y > trigger) setCondensed(true);
+                else if (condensed && y < trigger - HYSTERESIS) setCondensed(false);
+            }
+
+            measure();
+            onScroll();                              /* handle a restored scroll position */
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => { measure(); onScroll(); }, 150);
             });
+
+            /* The mobile menu opening changes nav height; keep the offset honest. */
+            if (window.ResizeObserver) new ResizeObserver(syncStickyHeight).observe(nav);
         }
 
         /* ═══════════════════════════════════════════════
@@ -1012,6 +1256,7 @@
             renderClassPills();
             renderFaq();
             initSearch();
+            initSearchDock();
             initWhatsAppForm();
             syncViewAllButton(); /* hide "View All" until a filter is active */
 

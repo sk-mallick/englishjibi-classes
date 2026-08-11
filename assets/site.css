@@ -8,6 +8,9 @@
             --brand-cobalt: #1B3A9A;
             --brand-silver: #B8C8E4;
             --brand-pearl: #E1EBF7;
+            /* Deepest ink in the system — was hardcoded as the ticker's bottom
+               border. Named so inset wells on navy can share the same value. */
+            --brand-ink: #081426;
 
             --gold-rich: #F2AF13;
             --gold-light: #FFFBF5;
@@ -15,6 +18,9 @@
 
             --brand-red: #E21D38;
             --brand-red-deep: #B31026;
+            /* --brand-red manages only 3.02:1 on navy — below AA. Same hue,
+               lightened to 5.4:1 for text sitting on --brand-navy. */
+            --red-on-navy: #F27B8C;
 
             --bg-page: #F4F7FB;
             --bg-section-alt: #EDF2FC;
@@ -153,7 +159,7 @@
         .ticker-bar {
             background: linear-gradient(90deg, var(--brand-red) 0%, var(--brand-red-deep) 100%);
             color: #FFFFFF; overflow: hidden; white-space: nowrap;
-            border-top: 3px solid var(--gold-rich); border-bottom: 3px solid #081426;
+            border-top: 3px solid var(--gold-rich); border-bottom: 3px solid var(--brand-ink);
             box-shadow: 0 4px 20px rgba(226, 29, 56, 0.15);
         }
         .ticker-track {
@@ -164,6 +170,195 @@
         .ticker-track .star { color: var(--gold-rich); }
         .ticker-bar:hover .ticker-track { animation-play-state: paused; }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ── Sticky Search Dock ───────────────────────────────
+           Lives INSIDE .glass-nav, so it inherits the nav's own
+           position:sticky — no second sticky context, no offset math.
+
+           Scrolling past the hero search swaps the ticker for the dock:
+           the ticker collapses (~49px) as the dock expands (~60px), so
+           the nav's total height barely moves and the page doesn't jump.
+
+           Both wrappers animate grid-template-rows 0fr↔1fr rather than
+           max-height — that eases to the element's true auto height, so
+           the dock can grow a second row for filter chips without a
+           hardcoded pixel cap. Browsers without fr interpolation snap
+           instantly instead of easing; nothing breaks. */
+        .nav-collapsible {
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: grid-template-rows 0.38s var(--ease-premium);
+        }
+        .nav-collapsible > * { overflow: hidden; min-height: 0; }
+        .glass-nav.nav-condensed .nav-collapsible { grid-template-rows: 0fr; }
+        /* box-sizing:border-box floors the ticker at its own border height, so a
+           0fr row still leaves a 6px sliver. Collapse the borders with it. */
+        .ticker-bar { transition: border-width 0.38s var(--ease-premium); }
+        .glass-nav.nav-condensed .ticker-bar { border-top-width: 0; border-bottom-width: 0; }
+
+        /* Applied for one frame while initSearchDock() re-measures, so forcing
+           the nav open to read its natural height never animates on screen. */
+        .glass-nav.nav-no-anim,
+        .glass-nav.nav-no-anim * { transition: none !important; }
+
+        .search-dock {
+            display: grid;
+            grid-template-rows: 0fr;
+            /* Deep, slightly cool shelf that sits UNDER the nav in the visual
+               stack — descending into ink rather than rising toward royal, so
+               the nav row above stays the brightest band and the eye is drawn
+               down to the field instead of to the background.
+               The soft cobalt glow behind the field keeps the centre from
+               going dead flat across a 1280px span. */
+            background:
+                radial-gradient(120% 180% at 22% 0%, rgba(27, 58, 154, 0.30) 0%, rgba(27, 58, 154, 0) 62%),
+                linear-gradient(180deg, #12305C 0%, #0C2449 58%, #081C3A 100%);
+            /* Borders are zero-width until the dock opens — a static border
+               would leave a stray hairline under the ticker at the top of the
+               page, where the dock is meant to be invisible. The gold underline
+               echoes the ticker's own gold top border. */
+            border-top: 0 solid rgba(184, 200, 228, 0.16);
+            border-bottom: 0 solid rgba(242, 175, 19, 0.55);
+            transition: grid-template-rows 0.38s var(--ease-premium),
+                        border-width 0.38s var(--ease-premium),
+                        box-shadow 0.38s ease;
+        }
+        .glass-nav.nav-condensed .search-dock {
+            border-top-width: 1px;
+            border-bottom-width: 2px;
+            box-shadow: 0 10px 26px rgba(8, 20, 38, 0.28);
+        }
+        .search-dock > div { overflow: hidden; min-height: 0; }
+        .glass-nav.nav-condensed .search-dock { grid-template-rows: 1fr; }
+
+        .search-dock-inner {
+            display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+            max-width: 80rem; margin: 0 auto; padding: 0.45rem 1rem;
+            opacity: 0; transform: translateY(-8px);
+            transition: opacity 0.28s ease 0.06s, transform 0.28s var(--ease-premium) 0.06s;
+        }
+        .glass-nav.nav-condensed .search-dock-inner { opacity: 1; transform: none; }
+        /* Un-condensed the dock is zero-height but its children still sit in
+           the a11y tree and the tab order. Hide it from both. */
+        .glass-nav:not(.nav-condensed) .search-dock-inner { visibility: hidden; }
+
+        .dock-search {
+            display: flex; align-items: center; gap: 0.5rem; flex: 1 1 240px;
+            min-width: 0; max-width: 440px;
+            /* Recessed well, not a raised panel — a field you type into should
+               read as cut into the surface. Inset shadow does the work; the
+               silver-tinted border keeps it in the Royal Ink family rather
+               than the neutral grey a white-alpha wash produces. */
+            /* A gentle recess, not a black cut-out — at higher opacity the well
+               went near-black against the shelf and read as a hole. */
+            background: rgba(8, 20, 38, 0.34);
+            border: 1.5px solid rgba(184, 200, 228, 0.20);
+            border-radius: 10px; padding: 0.35rem 0.7rem;
+            box-shadow: inset 0 1px 2px rgba(8, 20, 38, 0.32);
+            transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .dock-search:hover { border-color: rgba(184, 200, 228, 0.34); }
+        /* Focus is stated in cool light, deliberately NOT gold. Gold means "a
+           filter is applied" everywhere else on this page; spending it on mere
+           cursor position would make a focused empty field look like state. */
+        .dock-search:focus-within {
+            background: rgba(8, 20, 38, 0.46);
+            border-color: rgba(213, 226, 245, 0.85);
+            box-shadow: inset 0 1px 2px rgba(8, 20, 38, 0.32), 0 0 0 3px rgba(184, 200, 228, 0.15);
+        }
+        .dock-search > svg, .dock-search > i {
+            flex-shrink: 0; width: 17px; height: 17px;
+            color: var(--brand-silver); stroke: var(--brand-silver);
+            transition: color 0.2s ease, stroke 0.2s ease;
+        }
+        .dock-search:focus-within > svg, .dock-search:focus-within > i { color: #FFFFFF; stroke: #FFFFFF; }
+        .dock-search input {
+            flex: 1; min-width: 0; background: transparent; border: none; outline: none;
+            color: #FFFFFF; font-size: 0.9rem; font-weight: 500; padding: 0.15rem 0;
+        }
+        .dock-search input::placeholder { color: rgba(184, 200, 228, 0.62); font-weight: 400; }
+
+        /* Shared reset affordance — one rule serves the hero field and the dock. */
+        .search-clear {
+            display: none; flex-shrink: 0; align-items: center; justify-content: center;
+            width: 22px; height: 22px; border: none; border-radius: 50%; cursor: pointer;
+            background: rgba(17, 50, 100, 0.12); padding: 0;
+            transition: background 0.2s ease;
+        }
+        .search-clear svg { width: 12px; height: 12px; stroke: var(--brand-royal); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+        .search-clear:hover { background: rgba(17, 50, 100, 0.22); }
+        .search-clear.is-visible { display: flex; }
+        .dock-search .search-clear { background: rgba(255, 255, 255, 0.18); }
+        .dock-search .search-clear:hover { background: rgba(255, 255, 255, 0.30); }
+        .dock-search .search-clear svg { stroke: #FFFFFF; }
+
+        /* Live result count. aria-live is on the element, so keep it in the DOM
+           even at zero matches — swapping textContent is what gets announced. */
+        /* Silver, not gold: the count is passive metadata. Reserving gold for
+           the chips keeps one meaning per colour — gold means "a filter is on",
+           exactly as it does on the class pills and category cards. */
+        .dock-count {
+            flex-shrink: 0; font-size: 0.76rem; font-weight: 700;
+            letter-spacing: 0.04em; text-transform: uppercase;
+            color: var(--brand-silver); white-space: nowrap;
+        }
+        .dock-count.is-empty { color: var(--red-on-navy); }
+
+        .dock-chips { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; min-width: 0; }
+        /* With no filters the container is empty but still consumes a flex row
+           plus a gap — on mobile that is ~10px of permanent sticky chrome. */
+        .dock-chips:empty { display: none; }
+        /* Gold-tinted, matching the active states elsewhere on the page, so an
+           applied filter looks the same whether you see it as a chip up here or
+           as a highlighted card down there. */
+        .dock-chips .filter-chip {
+            background: rgba(242, 175, 19, 0.15);
+            border: 1px solid rgba(242, 175, 19, 0.32);
+            color: var(--gold-rich);
+            font-size: 0.75rem; font-weight: 700; padding: 0.28rem 0.38rem 0.28rem 0.68rem;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .dock-chips .filter-chip:hover { background: rgba(242, 175, 19, 0.22); border-color: rgba(242, 175, 19, 0.5); }
+        .dock-chips .filter-chip button { width: 17px; height: 17px; background: rgba(242, 175, 19, 0.26); }
+        .dock-chips .filter-chip button:hover { background: rgba(242, 175, 19, 0.45); }
+        .dock-chips .filter-chip button svg { width: 10px; height: 10px; stroke: var(--gold-rich); }
+        .dock-clear-all {
+            flex-shrink: 0; background: none; border: none; cursor: pointer;
+            padding: 0.25rem 0.1rem;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
+            text-transform: uppercase; color: var(--brand-silver);
+            text-decoration: underline; text-underline-offset: 3px;
+            text-decoration-color: rgba(184, 200, 228, 0.4);
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+        .dock-clear-all:hover { color: #FFFFFF; text-decoration-color: #FFFFFF; }
+
+        /* Buttons only. The text input must be excluded: .dock-search already
+           renders focus on the wrapper, and a second outline on the input
+           inside it stacks into a double ring. */
+        .search-dock button:focus-visible { outline: 2px solid var(--brand-silver); outline-offset: 2px; }
+        .dock-search input:focus-visible { outline: none; }
+
+        @media (max-width: 640px) {
+            .search-dock-inner { padding: 0.45rem 0.85rem; gap: 0.5rem; }
+            /* flex-basis:auto, not 100% — at 100% the count is pushed onto a
+               second row and the dock costs ~96px of an 812px screen even with
+               no filters applied. Field + count share row one; chips get their
+               own row only when there is something to show. */
+            .dock-search { flex: 1 1 auto; max-width: none; }
+            .dock-count { font-size: 0.72rem; }
+            /* 16px is the iOS Safari threshold — below it, focusing the field
+               zooms the whole viewport and the user has to pinch back out. */
+            .dock-search input { font-size: 16px; }
+            .dock-chips { width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+            .dock-chips::-webkit-scrollbar { display: none; }
+            .dock-chips .filter-chip { flex-shrink: 0; font-size: 0.72rem; padding: 0.25rem 0.35rem 0.25rem 0.6rem; }
+            .dock-clear-all { flex-shrink: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .nav-collapsible, .search-dock, .search-dock-inner { transition: none; }
+        }
 
         /* ── Buttons (reused) ────────────────────── */
         .btn-primary {
@@ -374,18 +569,55 @@
         }
         .hero-resources-search {
             display: flex; align-items: stretch; gap: 0.6rem; background: #fff; padding: 0.4rem;
-            border-radius: 12px; border: 1.5px solid var(--border-default); box-shadow: var(--card-shadow);
+            border-radius: 12px; border: 1.5px solid var(--border-default);
+            box-shadow: 0 6px 22px rgba(14, 42, 84, .10);
             transition: border-color .2s ease, box-shadow .2s ease; max-width: 520px;
         }
-        .hero-resources-search:focus-within { border-color: var(--brand-royal); box-shadow: 0 0 0 4px rgba(27,58,154,.10); }
+        /* Cool-light focus, mirroring .dock-search so the hero field and the
+           docked field behave identically. Gold stays reserved for filter state. */
+        .hero-resources-search:focus-within {
+            border-color: var(--brand-cobalt);
+            box-shadow: 0 0 0 4px rgba(27, 58, 154, .12), 0 6px 22px rgba(14, 42, 84, .10);
+        }
+        .hero-resources-search input:focus-visible { outline: none; }
         .hero-resources-search input {
-            flex: 1; border: none; outline: none; background: transparent; font-size: 0.9rem; padding: 0.6rem 0.75rem; color: var(--text-body);
+            flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 0.9rem; padding: 0.6rem 0.75rem; color: var(--text-body);
         }
-        .hero-resources-search button {
+        /* 16px minimum on touch widths — anything smaller makes iOS Safari
+           zoom the viewport the moment the field takes focus. */
+        @media (max-width: 640px) { .hero-resources-search input { font-size: 16px; } }
+        .hero-resources-search .search-clear { align-self: center; margin-right: 0.15rem; }
+        .hero-resources-search button[type="submit"] {
             display: flex; align-items: center; justify-content: center; width: 44px; flex-shrink: 0;
-            background: var(--brand-royal); color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background .2s ease;
+            /* Gradient depth to match .btn-primary's treatment — a flat fill
+               looked unfinished beside the gradient buttons on the same page. */
+            background: linear-gradient(145deg, var(--brand-cobalt) 0%, var(--brand-royal) 100%);
+            color: #fff; border: none; border-radius: 8px; cursor: pointer;
+            transition: background .2s ease, box-shadow .2s ease;
         }
-        .hero-resources-search button:hover { background: var(--brand-navy); }
+        .hero-resources-search button[type="submit"]:hover {
+            background: linear-gradient(145deg, var(--brand-royal) 0%, var(--brand-navy) 100%);
+            box-shadow: 0 3px 10px rgba(17, 50, 100, .3);
+        }
+
+        /* Every scrollIntoView({block:'start'}) target on this page parks its
+           heading at viewport y=0 — directly behind the sticky nav. --sticky-h
+           is measured and written by initSearchDock() on load and resize. */
+        :root { --sticky-h: 120px; }
+        main section[id], #featured-resources, #browse-class-grid { scroll-margin-top: calc(var(--sticky-h) + 1rem); }
+
+        /* Contextual result count beside the section heading. */
+        /* A pill, not loose grey text — it sits beside a Lora serif h2, where
+           an unstyled run of Inter just looked like the heading had frayed. */
+        .result-count-badge {
+            display: inline-flex; align-items: center; vertical-align: middle;
+            margin-left: 0.7rem; padding: 0.22rem 0.65rem;
+            background: var(--brand-pearl); color: var(--brand-royal);
+            border-radius: 100px;
+            font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 800;
+            letter-spacing: 0.06em; text-transform: uppercase;
+        }
+        .result-count-badge:empty { display: none; }
 
         /* ── Quick Categories ─────────────────────── */
         .category-card {
@@ -711,17 +943,23 @@
             position: relative; z-index: 1; display: grid;
             grid-template-columns: 1fr; gap: 1.2rem; align-items: stretch;
         }
-        /* Tablet and up: side-by-side layout with proper alignment */
-        @media (min-width: 640px) {
+        /* Tablet and up: side-by-side. The form column is capped with minmax()
+           rather than given an fr share — a phone-number field gains nothing
+           from being 500px wide, so as the band widens the extra space goes to
+           the copy column instead of stretching the input. */
+        /* Split at 768, not 640: at 640 the copy column collapsed to ~230px and
+           ended up NARROWER than the form beside it, which reads as the form
+           leading and the message trailing. Stacked is better down there. */
+        @media (min-width: 768px) {
             .whatsapp-band-inner {
-                grid-template-columns: 1.15fr 1fr;
+                grid-template-columns: 1fr minmax(260px, 300px);
                 align-items: center; gap: 1.75rem;
             }
         }
         @media (min-width: 1024px) {
             .whatsapp-band-inner {
-                grid-template-columns: 1.25fr 1fr;
-                gap: 2rem;
+                grid-template-columns: 1fr minmax(300px, 380px);
+                gap: 2.5rem;
             }
         }
         .whatsapp-head-row {
@@ -756,14 +994,18 @@
             padding: clamp(0.85rem, 4vw, 1.15rem); box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
         }
         .whatsapp-form-card .form-label {
-            margin-bottom: 0.6rem; font-size: clamp(0.8rem, 2.5vw, 0.9rem); font-weight: 700;
+            display: block;
+            margin-bottom: 0.45rem; font-size: clamp(0.8rem, 2.5vw, 0.88rem); font-weight: 700;
             color: var(--text-heading); letter-spacing: 0.01em;
         }
         .whatsapp-input-group {
             display: flex; align-items: center; border: 1.5px solid #E5E7EB;
             border-radius: 10px; background: #FAFBFC; overflow: hidden;
             transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.2s ease;
-            min-height: clamp(40px, 8vw, 48px);
+            /* Floor is 44px, not 40 — 8vw only reaches 44px at a 550px viewport,
+               so every phone was landing on the clamp minimum and shipping a
+               sub-44px tap target for the two controls that matter most here. */
+            min-height: clamp(44px, 8vw, 48px);
         }
         .whatsapp-input-group:hover {
             border-color: #D1D5DB; background-color: #FFFFFF;
@@ -794,18 +1036,23 @@
             width: 100%; margin-top: clamp(0.65rem, 2vw, 0.8rem);
             padding: clamp(0.65rem, 2vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
             font-size: clamp(0.75rem, 1.8vw, 0.86rem);
-            min-height: clamp(40px, 8vw, 48px);
+            /* Floor is 44px, not 40 — 8vw only reaches 44px at a 550px viewport,
+               so every phone was landing on the clamp minimum and shipping a
+               sub-44px tap target for the two controls that matter most here. */
+            min-height: clamp(44px, 8vw, 48px);
             font-weight: 600; letter-spacing: 0.02em;
         }
+        /* Now one short line — centre the icon against it instead of top-aligning
+           for a wrapped paragraph, and drop word-break, which only mattered when
+           this held a long sentence. */
         .whatsapp-form-note {
-            font-size: clamp(0.7rem, 1.8vw, 0.75rem); color: var(--text-muted);
-            margin-top: clamp(0.6rem, 2vw, 0.75rem);
-            display: flex; align-items: flex-start; gap: clamp(0.3rem, 1.5vw, 0.4rem);
-            line-height: 1.5; word-break: break-word;
+            font-size: clamp(0.7rem, 1.8vw, 0.74rem); color: var(--text-muted);
+            margin-top: clamp(0.5rem, 1.6vw, 0.62rem);
+            display: flex; align-items: center; gap: 0.35rem;
+            line-height: 1.45;
         }
         .whatsapp-form-note i {
-            width: clamp(11px, 2vw, 13px); height: clamp(11px, 2vw, 13px);
-            flex-shrink: 0; margin-top: clamp(0.1rem, 0.5vw, 0.15rem);
+            width: 12px; height: 12px; flex-shrink: 0; color: #1a7a34;
         }
 
         /* ── Toast ─────────────────────────────────── */
