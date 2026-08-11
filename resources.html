@@ -212,12 +212,12 @@
                         <span class="eyebrow">Handpicked For You</span>
                         <h2 class="type-h2">Featured Resources</h2>
                     </div>
-                    <button type="button" class="text-sm font-semibold inline-flex items-center gap-1.5" style="color: var(--brand-royal);" onclick="clearFilters()">
+                    <button type="button" id="view-all-btn" class="text-sm font-semibold inline-flex items-center gap-1.5" style="color: var(--brand-royal);" onclick="clearFilters()">
                         <span>View All Resources</span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-3.5 h-3.5 fill-current"><path d="M439.1 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L371.2 256 233.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L179.2 256 41.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
                     </button>
                 </div>
-                <div id="active-filter-row" class="mb-6 reveal-on-scroll" style="min-height: 1px;"></div>
+                <div id="active-filter-row" class="mb-6 reveal-on-scroll" style="min-height: 2.5rem;"></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll" id="featured-resources-grid"></div>
             </div>
         </section>
@@ -236,6 +236,7 @@
                     </div>
                 </div>
                 <div class="recently-added-track reveal-on-scroll" id="recently-added-track"></div>
+                <div id="recently-dots" class="carousel-dots" role="tablist" aria-label="Recently added items navigation"></div>
             </div>
         </section>
 
@@ -283,6 +284,7 @@
                         </div>
                         <div class="whatsapp-form-card">
                             <label for="whatsapp-phone-input" class="form-label">Your WhatsApp number</label>
+                            <p class="text-xs" style="color:var(--text-muted);margin-bottom:0.75rem;line-height:1.5;">Enter your number and tap <strong>Open WhatsApp</strong> — we'll pre-fill a message for you. Just hit <em>Send</em> to join!</p>
                             <form id="whatsapp-form" novalidate>
                                 <div class="whatsapp-input-group">
                                     <div class="whatsapp-country-badge">🇮🇳 +91</div>
@@ -305,7 +307,7 @@
                                 </button>
                             </form>
                             <p class="whatsapp-form-note">
-                                <i data-lucide="lock"></i> Your number is only used to add you to the update list.
+                                <i data-lucide="send" aria-hidden="true"></i> Tapping the button opens WhatsApp with a pre-filled message. No data is stored — just tap Send in WhatsApp to join.
                             </p>
                             <div id="whatsapp-form-feedback"></div>
                         </div>
@@ -393,7 +395,7 @@
             { id: 'classes',        name: 'Classes',         desc: 'Study materials by class',        icon: 'book-open',        tone: 'navy',   action: 'scroll-class' },
             { id: 'workbooks',      name: 'Workbooks',       desc: 'Practice and improve',             icon: 'notebook-pen',     tone: 'royal',  action: 'filter-category' },
             { id: 'sample-papers',  name: 'Sample Papers',   desc: 'Previous year papers',              icon: 'file-text',        tone: 'cobalt', action: 'filter-category' },
-            { id: 'answer-sheets',  name: 'Answer Sheets',   desc: 'Model answers & solutions',         icon: 'clipboard-check',  tone: 'navy',   action: 'filter-category' },
+            { id: 'answer-sheets',  name: 'Answer Sheets',   desc: 'Model answers &amp; solutions',       icon: 'clipboard-check',  tone: 'navy',   action: 'filter-category' },
             { id: 'vocabulary',     name: 'Vocabulary',      desc: 'Build your word power',             icon: 'languages',        tone: 'gold',   action: 'filter-category' },
             { id: 'syllabus',       name: 'Syllabus',        desc: 'Complete syllabus',                 icon: 'list-checks',      tone: 'royal',  action: 'filter-category' },
             { id: 'recent',         name: 'Recently Added',  desc: 'Latest resources for you',          icon: 'flame',             tone: 'red',    action: 'scroll-recent' },
@@ -419,8 +421,10 @@
             const allEntries = [];
             let idCounter = 1;
 
+            /* FIX: removed { cache: 'no-cache' } — static JSON files should use normal
+               browser caching. cache: 'no-cache' was forcing a round-trip on every load. */
             const results = await Promise.allSettled(
-                folders.map(f => fetch(`data/common/${f}.json`, { cache: 'no-cache' }).then(r => r.ok ? r.json() : []))
+                folders.map(f => fetch(`data/common/${f}.json`).then(r => r.ok ? r.json() : []))
             );
 
             results.forEach((result, fi) => {
@@ -449,7 +453,8 @@
 
             resourcesData = allEntries;
 
-            /* Derive Recently Added: entries with a date, newest first, max 8. */
+            /* Derive Recently Added: entries with a date, newest first, max 8.
+               FIX: now passes `date` through so the "New" badge can be conditional. */
             recentlyAddedData = allEntries
                 .filter(r => r.date)
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -458,12 +463,14 @@
                     title: r.title,
                     subtitle: FOLDER_LABELS[r.folder] || r.folder,
                     size: r.size || '',
-                    file: r.file
+                    file: r.file,
+                    date: r.date      /* needed for conditional "New" badge */
                 }));
 
             renderResourceGrid();
             renderRecentlyAdded();
             initCarousel();
+            initCarouselDots(); /* FIX: generate indicator dots after real data loads */
             if (window.lucide) lucide.createIcons();
         }
 
@@ -476,6 +483,57 @@
         ];
 
         let activeFilters = { search: '', category: null, classNum: null };
+        let searchDebounceTimer = null;
+
+        /* ═══════════════════════════════════════════════
+           HELPERS
+           ═══════════════════════════════════════════════ */
+
+        /* FIX: conditional "New" badge — only show if resource is within `days` days old */
+        function isRecent(dateStr, days = 30) {
+            if (!dateStr) return false;
+            return (Date.now() - new Date(dateStr).getTime()) / 86400000 <= days;
+        }
+
+        function hasActiveFilters() {
+            return !!(activeFilters.search || activeFilters.category || activeFilters.classNum);
+        }
+
+        /* FIX: hide "View All Resources" button when no filter is active — it's purposeless then */
+        function syncViewAllButton() {
+            const btn = document.getElementById('view-all-btn');
+            if (!btn) return;
+            btn.style.display = hasActiveFilters() ? '' : 'none';
+        }
+
+        /* ── Skeleton card templates ─────────────────
+           FIX: replaced spinner-in-empty-state with proper shimmer skeletons that
+           match the final card dimensions, eliminating layout shift on load. */
+        function skeletonResourceCard() {
+            return `<div class="ink-card overflow-hidden">
+                <div class="skeleton-cover"></div>
+                <div class="resource-card-body">
+                    <div class="skeleton-line" style="width:80%;height:18px;"></div>
+                    <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:0.3rem;"></div>
+                    <div class="skeleton-line" style="width:60%;height:10px;margin-bottom:1.25rem;"></div>
+                    <div style="display:flex;gap:0.5rem;">
+                        <div class="skeleton-line" style="flex:1;height:36px;border-radius:8px;margin:0;"></div>
+                        <div class="skeleton-line" style="flex:1;height:36px;border-radius:8px;margin:0;"></div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function skeletonRecentCard() {
+            return `<div class="recently-added-card">
+                <div class="recently-added-icon" style="background:var(--bg-section-alt);"></div>
+                <div class="flex-1 min-w-0" style="display:flex;flex-direction:column;gap:0.4rem;">
+                    <div class="skeleton-line" style="width:72%;height:13px;margin:0;"></div>
+                    <div class="skeleton-line" style="width:45%;height:10px;margin:0;"></div>
+                </div>
+                <div class="skeleton-line" style="width:34px;height:34px;border-radius:8px;flex-shrink:0;margin:0;"></div>
+            </div>`;
+        }
 
         /* ═══════════════════════════════════════════════
            RENDER: QUICK CATEGORIES
@@ -484,9 +542,11 @@
             const grid = document.getElementById('quick-categories-grid');
             grid.innerHTML = categoriesData.map(c => `
                 <div class="category-card reveal-on-scroll is-visible" role="button" tabindex="0"
+                     data-cat-id="${c.id}"
+                     aria-pressed="false"
                      onclick="handleCategoryClick('${c.id}','${c.action}')"
                      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleCategoryClick('${c.id}','${c.action}');}">
-                    <div class="category-icon-badge tone-${c.tone}"><i data-lucide="${c.icon}"></i></div>
+                    <div class="category-icon-badge tone-${c.tone}"><i data-lucide="${c.icon}" aria-hidden="true"></i></div>
                     <h3 class="text-sm font-semibold mb-1" style="color: var(--text-heading);">${c.name}</h3>
                     <p class="text-xs" style="color: var(--text-muted); line-height:1.4;">${c.desc}</p>
                 </div>
@@ -495,10 +555,26 @@
         }
 
         function handleCategoryClick(id, action) {
+            /* FIX: update active visual state on category cards (like class pills have .active) */
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+                card.setAttribute('aria-pressed', 'false');
+            });
+            if (action === 'filter-category') {
+                const clickedCard = document.querySelector(`.category-card[data-cat-id="${id}"]`);
+                if (clickedCard) {
+                    clickedCard.classList.add('active');
+                    clickedCard.setAttribute('aria-pressed', 'true');
+                }
+            }
+
             if (action === 'scroll-class') {
                 document.getElementById('browse-class-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (action === 'scroll-recent') {
-                document.getElementById('recently-added-track').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                /* FIX: scroll to the section wrapper, not the inner track element, so the
+                   section heading is visible at the top rather than cut off */
+                const section = document.getElementById('recently-added-track').closest('section');
+                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
                 applyFilter({ category: id });
             }
@@ -526,11 +602,36 @@
            ═══════════════════════════════════════════════ */
         function matchesFilters(r) {
             const { search, category, classNum } = activeFilters;
-            if (category && r.category !== category) return false;
+            if (category) {
+                const cat = category.toLowerCase();
+                const rCat = (r.category || '').toLowerCase();
+                const rFolder = (r.folder || '').toLowerCase();
+                const rTag = (r.tag || '').toLowerCase();
+                const rTags = Array.isArray(r.tags) ? r.tags.map(t => t.toLowerCase()) : [];
+                const rTitle = (r.title || '').toLowerCase();
+                const rDesc = (r.desc || '').toLowerCase();
+
+                let matchesCat = (rCat === cat || rFolder === cat || rTag === cat || rTags.includes(cat));
+
+                if (!matchesCat) {
+                    if (cat === 'workbooks') {
+                        matchesCat = rTag.includes('workbook') || rTags.some(t => t.includes('workbook')) || rFolder === 'materials' || rTitle.includes('workbook') || rDesc.includes('workbook');
+                    } else if (cat === 'sample-papers') {
+                        matchesCat = rTag.includes('paper') || rTags.some(t => t.includes('paper')) || rTitle.includes('paper') || rTitle.includes('sample') || rDesc.includes('paper');
+                    } else if (cat === 'answer-sheets') {
+                        matchesCat = rTag.includes('answer') || rTag.includes('solution') || rTitle.includes('answer') || rTitle.includes('solution') || rDesc.includes('solution');
+                    } else if (cat === 'vocabulary') {
+                        matchesCat = rTag.includes('vocab') || rTags.some(t => t.includes('vocab')) || rTitle.includes('vocab') || rDesc.includes('vocab') || rTitle.includes('word');
+                    } else if (cat === 'syllabus') {
+                        matchesCat = rTag.includes('syllabus') || rTags.some(t => t.includes('syllabus')) || rTitle.includes('syllabus') || rDesc.includes('syllabus');
+                    }
+                }
+                if (!matchesCat) return false;
+            }
             if (classNum && r.classNum !== null && r.classNum !== classNum) return false;
             if (classNum && r.classNum === null) return true;
             if (search) {
-                const hay = (r.title + ' ' + r.desc + ' ' + r.category).toLowerCase();
+                const hay = (r.title + ' ' + r.desc + ' ' + r.category + ' ' + (r.tag || '')).toLowerCase();
                 if (!hay.includes(search.toLowerCase())) return false;
             }
             return true;
@@ -542,7 +643,7 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML = `<div class="empty-state">
-                    <i data-lucide="search-x" class="w-6 h-6 mx-auto mb-2" style="stroke: var(--text-muted);"></i>
+                    <i data-lucide="search-x" class="w-6 h-6 mx-auto mb-2" style="stroke: var(--text-muted);" aria-hidden="true"></i>
                     No matching resources yet — we're adding new material all the time. Check back soon, or
                     <button type="button" onclick="clearFilters()" style="color:var(--brand-royal); font-weight:600; text-decoration:underline; background:none; border:none; cursor:pointer; font-size:inherit;">view everything</button>.
                 </div>`;
@@ -555,7 +656,7 @@
                     return `
                     <div class="ink-card overflow-hidden">
                         <div class="resource-cover ${r.cover}">
-                            <i data-lucide="${r.icon}" class="cover-bg-icon"></i>
+                            <i data-lucide="${r.icon}" class="cover-bg-icon" aria-hidden="true"></i>
                             <span class="cover-title">${r.title}</span>
                             <span class="cover-tag">${r.classNum ? 'Class ' + r.classNum : 'All Classes'}</span>
                         </div>
@@ -565,25 +666,18 @@
                             <div class="flex flex-nowrap gap-2">
                                 <a href="${viewHref || '#'}" class="btn-secondary blob-fill text-xs py-2 px-3 flex-1 justify-center whitespace-nowrap"${viewHref ? '' : ` onclick="event.preventDefault(); showToast('More detail on this resource is coming soon.')"`}>
                                     <span class="blob-fill__label">View Details</span>
-                                    <span class="blob-fill__inner">
-                                        <span class="blob-fill__blobs">
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                        </span>
-                                    </span>
+                                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    </span></span>
                                 </a>
-                                <button type="button" class="btn-primary blob-fill text-xs py-2 px-3 flex-1 justify-center whitespace-nowrap" onclick="handleDownloadClick(${r.id})">
-                                    <span class="blob-fill__label"><i data-lucide="download" class="w-3.5 h-3.5"></i> Download</span>
-                                    <span class="blob-fill__inner">
-                                        <span class="blob-fill__blobs">
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                            <span class="blob-fill__blob"></span>
-                                        </span>
-                                    </span>
+                                <button type="button" class="btn-primary blob-fill text-xs py-2 px-3 flex-1 justify-center whitespace-nowrap"
+                                    aria-label="Download ${r.title}" onclick="handleDownloadClick(${r.id})">
+                                    <span class="blob-fill__label"><i data-lucide="download" class="w-3.5 h-3.5" aria-hidden="true"></i> Download</span>
+                                    <span class="blob-fill__inner"><span class="blob-fill__blobs">
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                        <span class="blob-fill__blob"></span><span class="blob-fill__blob"></span>
+                                    </span></span>
                                 </button>
                             </div>
                         </div>
@@ -608,7 +702,7 @@
 
             row.innerHTML = `<div class="flex flex-wrap items-center gap-2">
                 <span class="text-xs font-semibold uppercase tracking-wide" style="color: var(--text-muted);">Filtering:</span>
-                ${parts.map((p, i) => `<span class="filter-chip">${p.label}<button type="button" aria-label="Remove filter" data-idx="${i}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></span>`).join('')}
+                ${parts.map((p, i) => `<span class="filter-chip">${p.label}<button type="button" aria-label="Remove filter" data-idx="${i}"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></span>`).join('')}
                 <button type="button" class="text-xs font-semibold underline" style="color: var(--brand-royal);" onclick="clearFilters()">Clear all</button>
             </div>`;
             row.querySelectorAll('button[data-idx]').forEach((btn, i) => {
@@ -624,6 +718,11 @@
 
         function clearFilters() {
             activeFilters = { search: '', category: null, classNum: null };
+            /* FIX: also clear active state from category cards */
+            document.querySelectorAll('.category-card').forEach(c => {
+                c.classList.remove('active');
+                c.setAttribute('aria-pressed', 'false');
+            });
             const searchInput = document.getElementById('resources-search-input');
             if (searchInput) searchInput.value = '';
             refreshFiltering();
@@ -637,6 +736,7 @@
             }
             renderResourceGrid();
             renderActiveFilterRow();
+            syncViewAllButton(); /* FIX: keep "View All" button visibility in sync */
         }
 
         function handleDownloadClick(id) {
@@ -653,18 +753,26 @@
            ═══════════════════════════════════════════════ */
         function renderRecentlyAdded() {
             const track = document.getElementById('recently-added-track');
+
+            if (!recentlyAddedData.length) {
+                track.innerHTML = '<div class="recently-added-card" style="justify-content:center;color:var(--text-muted);font-size:0.85rem;min-width:100%;">No recent additions yet — check back soon!</div>';
+                return;
+            }
+
             track.innerHTML = recentlyAddedData.map((item, i) => `
                 <div class="recently-added-card">
-                    <div class="recently-added-icon"><i data-lucide="file-text"></i></div>
+                    <div class="recently-added-icon"><i data-lucide="file-text" aria-hidden="true"></i></div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 mb-0.5">
                             <h4 class="text-sm font-semibold truncate" style="color: var(--text-heading);">${item.title}</h4>
-                            <span class="badge badge-new" style="font-size:0.6rem; padding:0.15rem 0.5rem;">New</span>
+                            ${isRecent(item.date) ? '<span class="badge badge-new" style="font-size:0.6rem; padding:0.15rem 0.5rem; flex-shrink:0;">New</span>' : ''}
                         </div>
                         <p class="text-xs truncate" style="color: var(--text-muted);">${item.subtitle}</p>
                         <p class="text-xs mt-0.5" style="color: var(--text-muted);">PDF · ${item.size}</p>
                     </div>
-                    <button type="button" class="recently-download-btn" aria-label="Download ${item.title}" onclick="handleRecentDownload(${i})"><i data-lucide="download"></i></button>
+                    <button type="button" class="recently-download-btn" aria-label="Download ${item.title}" onclick="handleRecentDownload(${i})">
+                        <i data-lucide="download" aria-hidden="true"></i>
+                    </button>
                 </div>
             `).join('');
             if (window.lucide) lucide.createIcons();
@@ -676,6 +784,9 @@
             else { showToast(`"${item.title}" will be uploaded soon.`); }
         }
 
+        /* ═══════════════════════════════════════════════
+           CAROUSEL (Recently Added)
+           ═══════════════════════════════════════════════ */
         function initCarousel() {
             const track = document.getElementById('recently-added-track');
             const prevBtn = document.getElementById('recently-prev');
@@ -753,6 +864,56 @@
             syncArrows();
         }
 
+        /* FIX: carousel dot indicators so mobile users have navigation feedback
+           even when arrows are hidden (no overflow = arrows hidden). */
+        function initCarouselDots() {
+            const track   = document.getElementById('recently-added-track');
+            const dotsWrap = document.getElementById('recently-dots');
+            if (!track || !dotsWrap) return;
+
+            const cards = Array.from(track.querySelectorAll('.recently-added-card'));
+            if (cards.length <= 1) { dotsWrap.style.display = 'none'; return; }
+            dotsWrap.style.display = 'flex';
+
+            /* Build dot buttons */
+            dotsWrap.innerHTML = cards.map((_, i) =>
+                `<button class="carousel-dot${i === 0 ? ' active' : ''}" role="tab"
+                    aria-label="Go to slide ${i + 1}" aria-selected="${i === 0 ? 'true' : 'false'}"
+                    data-dot="${i}"></button>`
+            ).join('');
+
+            const dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
+
+            /* Click a dot → scroll to corresponding card */
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const i = parseInt(dot.dataset.dot, 10);
+                    const card = cards[i];
+                    if (!card) return;
+                    const trackRect = track.getBoundingClientRect();
+                    const cardRect  = card.getBoundingClientRect();
+                    track.scrollBy({ left: cardRect.left - trackRect.left, behavior: 'smooth' });
+                });
+            });
+
+            /* Sync active dot on scroll */
+            const updateDots = () => {
+                const trackRect = track.getBoundingClientRect();
+                let closestIdx = 0, closestDist = Infinity;
+                cards.forEach((card, i) => {
+                    const dist = Math.abs(card.getBoundingClientRect().left - trackRect.left);
+                    if (dist < closestDist) { closestDist = dist; closestIdx = i; }
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === closestIdx);
+                    dot.setAttribute('aria-selected', i === closestIdx ? 'true' : 'false');
+                });
+            };
+
+            track.addEventListener('scroll', updateDots, { passive: true });
+            window.addEventListener('resize', () => setTimeout(updateDots, 150));
+        }
+
         /* ═══════════════════════════════════════════════
            RENDER: FAQ ACCORDION
            ═══════════════════════════════════════════════ */
@@ -762,11 +923,17 @@
                 <div class="faq-item" id="faq-item-${i}">
                     <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-${i}" onclick="toggleFaq(${i})">
                         <span>${item.q}</span>
-                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                        <i data-lucide="chevron-down" class="faq-icon" aria-hidden="true"></i>
                     </button>
                     <div class="faq-a" id="faq-a-${i}"><p>${item.a}</p></div>
                 </div>
             `).join('');
+            /* FIX: add "Still have questions?" CTA after the accordion */
+            wrap.insertAdjacentHTML('beforeend', `
+                <div style="text-align:center; margin-top:1.25rem; font-size:0.875rem; color:var(--text-muted);">
+                    Still have a question?
+                    <a href="index.html#contact" style="color:var(--brand-royal); font-weight:700; text-decoration:underline;">Contact us →</a>
+                </div>`);
             if (window.lucide) lucide.createIcons();
         }
 
@@ -790,11 +957,23 @@
            SEARCH
            ═══════════════════════════════════════════════ */
         function initSearch() {
-            const form = document.getElementById('resources-search-form');
+            const form  = document.getElementById('resources-search-form');
+            const input = document.getElementById('resources-search-input');
+
+            /* Submit: apply immediately (Enter key / button click) */
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const val = document.getElementById('resources-search-input').value.trim();
-                applyFilter({ search: val });
+                clearTimeout(searchDebounceTimer);
+                applyFilter({ search: input.value.trim() });
+            });
+
+            /* FIX: live search — debounced so grid updates while typing.
+               Users no longer need to press Enter to trigger a filter. */
+            input.addEventListener('input', () => {
+                clearTimeout(searchDebounceTimer);
+                searchDebounceTimer = setTimeout(() => {
+                    applyFilter({ search: input.value.trim() });
+                }, 350);
             });
         }
 
@@ -818,7 +997,8 @@
                 const message = `Hi! Please add me to ENGLISHJIBI Classes' WhatsApp updates (notes, workbooks, sample papers & exam alerts). My number: ${fullNumber}`;
                 window.open(`https://wa.me/918328922917?text=${encodeURIComponent(message)}`, '_blank');
 
-                feedback.innerHTML = `<div class="form-success-inline" style="background: rgba(49, 162, 76, 0.08); border: 1px solid rgba(49, 162, 76, 0.3); color: #1a7a34; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 500; margin-top: 0.75rem;">WhatsApp is opening with your request pre-filled — just hit send!</div>`;
+                feedback.innerHTML = `<div style="background: rgba(49, 162, 76, 0.08); border: 1px solid rgba(49, 162, 76, 0.3); color: #1a7a34; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 500; margin-top: 0.75rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="check-circle" style="width:15px;height:15px;stroke:#1a7a34;flex-shrink:0;" aria-hidden="true"></i> WhatsApp is opening — just tap <strong>Send</strong> to complete your request!</div>`;
+                if (window.lucide) lucide.createIcons();
                 form.reset();
                 setTimeout(() => { feedback.innerHTML = ''; }, 7000);
             });
@@ -833,19 +1013,26 @@
             renderFaq();
             initSearch();
             initWhatsAppForm();
+            syncViewAllButton(); /* hide "View All" until a filter is active */
 
-            // Show a loading state while common data is fetched
+            /* FIX: skeleton loading states for both grids — replaces the spinner-in-
+               dashed-box which looked identical to an empty/error state. Skeleton cards
+               match the final card dimensions so there's zero layout shift when data loads. */
             document.getElementById('featured-resources-grid').innerHTML =
-                '<div class="empty-state"><i data-lucide="loader-2" class="w-6 h-6 mx-auto mb-2 animate-spin" style="stroke: var(--text-muted);"></i>Loading resources…</div>';
+                Array(4).fill(skeletonResourceCard()).join('');
+            document.getElementById('recently-added-track').innerHTML =
+                Array(4).fill(skeletonRecentCard()).join('');
 
             // Fetch common folder data, then render Featured + Recently Added
             loadCommonResources().catch(() => {
                 document.getElementById('featured-resources-grid').innerHTML =
                     '<div class="empty-state">We couldn\'t load resources right now. Please refresh the page.</div>';
+                document.getElementById('recently-added-track').innerHTML = '';
             });
 
             // Lucide icon init + scroll reveal — both live in assets/site.js
             initShell();
+
         });
     </script>
 

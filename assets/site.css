@@ -394,6 +394,14 @@
             cursor: pointer; transition: transform 0.3s var(--ease-premium), box-shadow 0.3s ease, border-color .3s ease;
         }
         .category-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); border-color: var(--border-gold); }
+        /* Active/selected state — mirrors .class-pill.active */
+        .category-card.active {
+            border-color: var(--gold-rich);
+            background: rgba(242, 175, 19, 0.07);
+            box-shadow: 0 0 0 3px rgba(242,175,19,.18), var(--card-shadow);
+            transform: translateY(-2px);
+        }
+        .category-card.active .category-icon-badge { box-shadow: 0 0 0 3px rgba(242,175,19,.22); }
         .category-icon-badge {
             width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
             margin: 0 auto 0.9rem;
@@ -413,6 +421,8 @@
             background: var(--bg-card); cursor: pointer; transition: all 0.2s ease; user-select: none;
         }
         .class-pill:hover { border-color: var(--brand-royal); transform: translateY(-2px); box-shadow: var(--card-shadow); }
+        /* Guarantee 44 px+ touch target on all breakpoints */
+        .class-pill { min-height: 60px; }
         .class-pill.active { border-color: var(--gold-rich); background: rgba(242, 175, 19, 0.08); box-shadow: 0 0 0 3px rgba(242,175,19,.18); }
         .class-pill .num { font-family: 'Lora', serif; font-weight: 700; font-size: 1.05rem; color: var(--text-heading); }
         .class-pill .lbl { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
@@ -606,6 +616,68 @@
         .empty-state {
             grid-column: 1 / -1; text-align: center; padding: 2.5rem 1.5rem; border: 1.5px dashed var(--border-default);
             border-radius: 16px; color: var(--text-muted); font-size: 0.9rem;
+        }
+
+        /* ── Skeleton Shimmer Loader ──────────────── */
+        @keyframes shimmer {
+            0%   { background-position: -200% 0; }
+            100% { background-position:  200% 0; }
+        }
+        .skeleton-cover {
+            aspect-ratio: 16 / 10;
+            background: linear-gradient(90deg, #dde7f3 25%, #ecf1f9 50%, #dde7f3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s ease-in-out infinite;
+        }
+        .skeleton-line {
+            border-radius: 6px;
+            background: linear-gradient(90deg, #dde7f3 25%, #ecf1f9 50%, #dde7f3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s ease-in-out infinite;
+            margin-bottom: 0.6rem;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .skeleton-cover, .skeleton-line { animation: none; background: #dde7f3; }
+        }
+
+        /* ── Carousel Indicator Dots ──────────────── */
+        .carousel-dots {
+            display: flex; justify-content: center; align-items: center; gap: 6px;
+            margin-top: 0.9rem; min-height: 16px;
+        }
+        .carousel-dot {
+            width: 7px; height: 7px; border-radius: 50%; border: none; padding: 0;
+            background: var(--border-strong); cursor: pointer;
+            transition: width 0.3s var(--ease-premium), border-radius 0.3s var(--ease-premium),
+                        background 0.3s ease, transform 0.2s ease;
+        }
+        .carousel-dot:hover { background: var(--brand-silver); transform: scale(1.2); }
+        .carousel-dot.active {
+            width: 22px; border-radius: 4px; background: var(--brand-royal);
+        }
+        @media (min-width: 1024px) {
+            /* Dots still shown on desktop but subtler */
+            .carousel-dots { margin-top: 0.5rem; }
+        }
+
+        /* ── Sticky Sidebar & Scroll Target Offset System ── */
+        .sticky-sidebar-col {
+            position: sticky;
+            top: 144px; /* 120px header+ticker + 24px clean padding gap */
+            align-self: start;
+        }
+
+        /* Scroll Target Offset: Ensures Table of Contents targets & Tags card land with clean padding */
+        .content-card-box,
+        .sidebar-widget,
+        #toc-widget,
+        #tags-section,
+        #about,
+        #topics,
+        #preview,
+        #faq,
+        #related {
+            scroll-margin-top: 144px;
         }
 
         /* ── FAQ split panel (full-bleed image, founder-section style) ── */

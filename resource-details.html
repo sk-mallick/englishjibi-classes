@@ -293,10 +293,17 @@
             color: var(--text-muted);
             transition: all 0.2s ease;
             text-decoration: none;
+            border-left: 3px solid transparent;
         }
-        .toc-link:hover, .toc-link.active {
+        .toc-link:hover {
             background: var(--brand-pearl);
             color: var(--brand-royal);
+        }
+        .toc-link.active {
+            background: rgba(27, 58, 154, 0.08);
+            color: var(--brand-royal);
+            font-weight: 700;
+            border-left: 3px solid var(--gold-rich);
         }
         .toc-link i, .toc-link svg {
             width: 16px;
@@ -324,22 +331,26 @@
         }
 
         .tag-chip {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
             background: var(--bg-page);
             border: 1px solid var(--border-default);
-            color: var(--text-muted);
+            color: var(--text-heading);
             font-size: 0.78rem;
             font-weight: 600;
-            padding: 0.35rem 0.75rem;
-            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 100px;
             transition: all 0.2s ease;
             text-decoration: none;
-            margin: 0.2rem;
+            margin: 0.25rem;
         }
         .tag-chip:hover {
-            border-color: var(--brand-royal);
+            border-color: var(--gold-rich);
             color: var(--brand-royal);
-            background: var(--brand-pearl);
+            background: rgba(242, 175, 19, 0.09);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(14, 42, 84, 0.06);
         }
 
         .course-cta-card {
@@ -556,7 +567,7 @@
                     </div>
 
                     <!-- Right Column Sidebar (4 cols) -->
-                    <div class="lg:col-span-4 sticky top-24">
+                    <div class="lg:col-span-4 sticky-sidebar-col">
                         
                         <!-- Widget: Table of Contents -->
                         <div class="sidebar-widget" id="toc-widget">
@@ -875,7 +886,47 @@
                 canonical: `resource-details.html?folder=${folder.slug}&id=${entry.id}`
             });
 
+            initTocScrollSpy();
             initShell();
+        }
+
+        function initTocScrollSpy() {
+            const sectionIds = ['about', 'topics', 'preview', 'faq', 'related', 'tags-section'];
+            const onScroll = () => {
+                const headerOffset = 160;
+                let activeId = '';
+
+                // When at top of page, default to first visible main section (e.g. 'about')
+                if (window.scrollY < 120) {
+                    const firstVisible = sectionIds.find(id => {
+                        const el = document.getElementById(id);
+                        return el && el.style.display !== 'none' && el.offsetHeight > 0;
+                    });
+                    activeId = firstVisible || 'about';
+                } else {
+                    for (const id of sectionIds) {
+                        const el = document.getElementById(id);
+                        if (el && el.style.display !== 'none' && el.offsetHeight > 0) {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top <= headerOffset + 60 && rect.bottom > headerOffset) {
+                                activeId = id;
+                            }
+                        }
+                    }
+                }
+
+                document.querySelectorAll('.toc-link').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href && activeId && href === '#' + activeId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
         }
 
         function ensurePdfWorker() {
